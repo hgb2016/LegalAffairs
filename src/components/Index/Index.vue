@@ -13,10 +13,10 @@
 			<span>工商查询</span>
 		</div>
 		<div>
-			<img src="../../assets/img/icon_lsf.png" alt="">
+			<img src="../../assets/img/lvshifei.png" alt="">
 			<span>律师费计算</span>
 		</div>
-		<div>
+		<div @click="goToolBar">
 			<img src="../../assets/img/icon_more.png" alt="">
 			<span>更多</span>
 		</div>
@@ -53,6 +53,11 @@ export default {
 					time:'16：35-17：35'
 				}
 			]
+		}
+	},
+	methods:{
+		goToolBar () {
+			this.$router.push('/ToolBar')
 		}
 	}
 }
