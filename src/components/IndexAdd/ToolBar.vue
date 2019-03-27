@@ -144,7 +144,8 @@ export default {
     height: 90px;
     padding: 0 10px;
     .f-d-f;
-    .f-ai-c;
+	.f-ai-c;
+	background-color:#fff;
     .left {
       font-size: 14px;
       color: #333;
