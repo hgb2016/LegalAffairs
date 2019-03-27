@@ -9,19 +9,19 @@
 		<div class="list">
 			<div>
 				<span>姓名</span>
-				<input type="text" placeholder="请输入姓名">
+				<input type="text" placeholder="请输入姓名" v-model="username">
 			</div>
 			<div>
 				<span>职务</span>
-				<input type="text" placeholder="请输入职务">
+				<input type="text" placeholder="请输入职务" v-model="userwork">
 			</div>
 			<div>
 				<span>电话</span>
-				<input type="text" placeholder="请输入电话">
+				<input type="text" placeholder="请输入电话" v-model="userphone">
 			</div>
 			<div>
 				<span>邮箱</span>
-				<input type="text" placeholder="请输入邮箱">
+				<input type="text" placeholder="请输入邮箱" v-model="useremail">
 			</div>
 		</div>
 	</div>
@@ -32,7 +32,11 @@
 export default {
 	methods:{
 		saveAdd () {
-			this.$emit('SaveAdd')
+			let newObj={}
+			newObj['name'] = this.username+'-'+this.userwork
+			newObj['phone'] = this.userphone
+			newObj['email'] = this.useremail
+			this.$emit('SaveAdd',newObj)
 		}
 	}
 }
@@ -77,7 +81,7 @@ export default {
 			.f-d-f;
 			.f-fd-c;
 			div {
-				height:50px;
+				height:42px;
 				width:100%;
 				.f-d-f;
 				.f-jc-sb;
@@ -87,6 +91,7 @@ export default {
 				padding:0 20px;
 				span {
 					color:#666;
+					font-size:14px;
 				}
 				input {
 					text-align: right;
