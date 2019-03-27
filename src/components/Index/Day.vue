@@ -1,7 +1,10 @@
 <template>
-<div class="Day">
+<div class="day">
 	<can-demo :infomationList="infomationList"></can-demo>
 	<index-list :infomationList="infomationList"></index-list>
+	<div class="day-add" @click="$router.push('/AddDay')">
+		<img src="../../assets/img/icon_add.png" alt="">
+	</div>
 </div>
 </template>
 
@@ -34,5 +37,18 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/css/flex.less';
-
+.day {
+	&-add{
+		position: fixed;
+		bottom:80px;
+		right:20px;
+		width:28px;
+		height:28px;
+		img {
+			width:100%;
+			height:100%;
+		}
+	}
+}
+	
 </style>
