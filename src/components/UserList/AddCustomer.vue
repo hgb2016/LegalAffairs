@@ -32,12 +32,12 @@
 					</div>
 				</div>
 			</transition>
-			<div class="info" @click="showContact=true">
+			<div class="info" @click="openContact">
 				<span>联系人信息</span>
 				<img src="../../assets/img/contact_add.png" alt="">
 			</div>
 			<div class="cist" v-for="(item,index) in contactLists" :key="index">
-				<img class="jian" src="../../assets/img/icon_dele.png" alt="">
+				<img class="jian" src="../../assets/img/icon_dele.png" @click="deletecus(index)" alt="">
 				<div>
 					<span>{{item.name}}</span>
 					<span>{{item.phone}}</span>
@@ -51,7 +51,7 @@
 			</div>
 		</div>
 		<transition name="fade">
-			<add-contact v-if="showContact" @SaveAdd="SaveAdd"></add-contact>
+			<add-contact v-if="showContact" @SaveAdd="SaveAdd" :name="updatename" :phone="updatephone" :email="updateemail"></add-contact>
 		</transition>
 	</div>
 </template>
@@ -73,10 +73,16 @@ export default {
 					email:'13513335747@16.com'
 				}
 				
-			]
+			],
+			updatename:'',
+			updatephone:'',
+			updateemail:'',
 		}
 	},
 	methods:{
+		deletecus (index) {
+			this.contactLists.splice(index,i)
+		},
 		twoScale () {
 			if (this.scaleInfo === false) {
 				this.scaleInfo = true
@@ -91,7 +97,16 @@ export default {
 			this.showContact = false
 		},
 		goDetails (name,phone,email) {
-			this.$router.push(`/CustomerDetails?name=${name}&phone=${phone}}&email=${email}`)
+			this.updatename = name
+			this.updatephone = phone
+			this.updateemail =email
+			this.showContact = true
+		},
+		openContact () {
+			this.updatename = ''
+			this.updatephone = ''
+			this.updateemail = ''
+			this.showContact = true
 		}
 	}
 }

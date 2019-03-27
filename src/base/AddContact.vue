@@ -30,6 +30,45 @@
 
 <script>
 export default {
+	props:['name','phone','email'],
+	data () {
+		return {
+			username:'',
+			userwork:'',
+			userphone:'',
+			useremail:'',
+		}
+	},
+	watch:{
+		name:{
+			handler (val) {
+				console.log(val)
+				if (val !== '') {
+					this.username = val.split('-')[0]
+					this.userwork = val.split('-')[1]
+				}
+			},
+			immediate:true
+		},
+		phone:{
+			handler (val) {
+				console.log(val)
+				if (val !== '') {
+					this.userphone = val
+				}
+			},
+			immediate:true
+		},
+		email:{
+			handler (val) {
+				console.log(val)
+				if (val !== '') {
+					this.useremail = val
+				}
+			},
+			immediate:true
+		}
+	},
 	methods:{
 		saveAdd () {
 			let newObj={}
