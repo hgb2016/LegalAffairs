@@ -13,18 +13,14 @@
 			<span>工商查询</span>
 		</div>
 		<div>
-			<img src="../../assets/img/icon_lsf.png" alt="">
+			<img src="../../assets/img/lvshifei.png" alt="">
 			<span>律师费计算</span>
 		</div>
-		<div>
+		<div @click="goToolBar">
 			<img src="../../assets/img/icon_more.png" alt="">
 			<span>更多</span>
 		</div>
 	</div>
-	<div class="index-time">
-		<can-demo :infomationList="infomationList"></can-demo>
-	</div>
-	<index-list :infomationList="infomationList"></index-list>
 	<div class="index-add" @click="$router.push('/AddDay')">
 		<img src="../../assets/img/icon_add.png" alt="">
 	</div>
@@ -41,18 +37,12 @@ export default {
 	},
 	data () {
 		return {
-			infomationList:[
-				{
-					year:'2019年3月18',
-					title:'哈哈镜',
-					time:'16：35-17：35'
-				},
-				{
-					year:'2019年3月19',
-					title:'哈哈镜',
-					time:'16：35-17：35'
-				}
-			]
+			
+		}
+	},
+	methods:{
+		goToolBar () {
+			this.$router.push('/ToolBar')
 		}
 	}
 }

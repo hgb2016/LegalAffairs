@@ -11,7 +11,11 @@ import UserPhone from '@/components/User/UserPhone'
 import UserPwd from '@/components/User/UserPwd'
 import MyCustomer from '@/components/UserList/MyCustomer'
 import AddCustomer from '@/components/UserList/AddCustomer'
+import CustomerDetails from '@/components/UserList/CustomerDetails'
+
 import AddDay from '@/components/IndexAdd/AddDay'
+import RemindTime from '@/components/IndexAdd/RemindTime'
+import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
 
 Vue.use(Router)
@@ -36,7 +40,30 @@ const router = new Router({
         title:''
       }
     },
-    
+    {
+      path: '/CustomerDetails',
+      name: 'CustomerDetails',
+      component: CustomerDetails,
+      meta: {
+        title:'客户详情'
+      }
+    },
+    {
+      path: '/RemindTime',
+      name: 'RemindTime',
+      component: RemindTime,
+      meta: {
+        title:'准点提醒'
+      }
+    },
+    {
+      path: '/ToolBar',
+      name: 'ToolBar',
+      component: ToolBar,
+      meta: {
+        title:'工具'
+      }
+    },
     {
       path: '/AddDay',
       name: 'AddDay',

@@ -32,9 +32,18 @@
 					</div>
 				</div>
 			</transition>
-			<div class="info">
+			<div class="info" @click="openContact">
 				<span>联系人信息</span>
 				<img src="../../assets/img/contact_add.png" alt="">
+			</div>
+			<div class="cist" v-for="(item,index) in contactLists" :key="index">
+				<img class="jian" src="../../assets/img/icon_dele.png" @click="deletecus(index)" alt="">
+				<div>
+					<span>{{item.name}}</span>
+					<span>{{item.phone}}</span>
+					<span>{{item.email}}</span>
+				</div>
+				<img class="update" src="../../assets/img/pen.png" @click="goDetails(item.name,item.phone,item.email)" alt="">
 			</div>
 			<div class="info">
 				<span>谁可见</span>
@@ -42,7 +51,7 @@
 			</div>
 		</div>
 		<transition name="fade">
-			<add-contact v-if="showContact" @SaveAdd="SaveAdd"></add-contact>
+			<add-contact v-if="showContact" @SaveAdd="SaveAdd" :name="updatename" :phone="updatephone" :email="updateemail"></add-contact>
 		</transition>
 	</div>
 </template>
@@ -56,10 +65,24 @@ export default {
 	data () {
 		return {
 			scaleInfo: false,
-			showContact:false
+			showContact:false,
+			contactLists:[
+				{
+					name:'李艳彪-前端',
+					phone:'18618377474',
+					email:'13513335747@16.com'
+				}
+				
+			],
+			updatename:'',
+			updatephone:'',
+			updateemail:'',
 		}
 	},
 	methods:{
+		deletecus (index) {
+			this.contactLists.splice(index,i)
+		},
 		twoScale () {
 			if (this.scaleInfo === false) {
 				this.scaleInfo = true
@@ -67,8 +90,23 @@ export default {
 				this.scaleInfo = false
 			}
 		},
-		SaveAdd () {
+		SaveAdd (val) {
+			if (val) {
+				this.contactLists.push(val)
+			}
 			this.showContact = false
+		},
+		goDetails (name,phone,email) {
+			this.updatename = name
+			this.updatephone = phone
+			this.updateemail =email
+			this.showContact = true
+		},
+		openContact () {
+			this.updatename = ''
+			this.updatephone = ''
+			this.updateemail = ''
+			this.showContact = true
 		}
 	}
 }
@@ -84,7 +122,7 @@ export default {
 			.f-f-1;
 			text-align: center;
 			background-color: #ccc;
-			font-size:18px;
+			font-size:16px;
 			color:#000;
 		}
 		::-webkit-input-placeholder{
@@ -122,12 +160,40 @@ export default {
 				padding:0 0px 0 8px;
 				p {
 					color:#666;
+					font-size:14px;
 				}
 				input {
 					text-align: right;
 					font-size:14px;
 					color:#333;
 				}
+			}
+		}
+		.cist {
+			.f-d-f;
+			border-bottom:1px solid #e5e5e5;
+			.f-jc-sb;
+			.f-ai-c;
+			padding:8px 20px;
+			div {
+				.f-f-1;
+				.f-d-f;
+				.f-fd-c;
+				padding-left:20px;
+				span {
+					color: #2D75EE;
+					font-size:14px;
+					margin-top:6px;
+				}
+				span:first-child {
+					margin-top:0;
+				}
+			}
+			.jian {
+				width:16px;
+			}
+			.update {
+				width:20px;
 			}
 		}
 	}
