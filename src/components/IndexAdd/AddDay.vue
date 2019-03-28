@@ -5,10 +5,10 @@
 		</div>	
 		<div class="add-day-twoTime">
 			<div class="during">
-				<div class="during-start">
+				<div class="during-start" @click="getStart">
 					<span>开始</span>
-					<p>22：23</p>
-					<span>2019年03月23(周六)</span>
+					<p>{{startTime}}</p>
+					<span>{{startDate}}</span>
 				</div>
 				<div class="during-hour">
 					<hr>
@@ -16,9 +16,9 @@
 					<hr>
 				</div>
 				<div class="during-end">
-					<span>开始</span>
-					<p>22：23</p>
-					<span>2019年03月23(周六)</span>
+					<span>结束</span>
+					<p>{{endTime}}</p>
+					<span>{{endDate}}</span>
 				</div>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 				<li>
 					<div class="w-l">
 						<span class="tit">提醒</span>
-						<p @click="showLis=true">
+						<p @click="showLis=!showLis">
 							<span class="ccColor">地址、备注、附件</span>
 							<img class="down" src="../../assets/img/down.png" alt="">
 						</p>
@@ -103,6 +103,12 @@
 				</li>
 			</ul>
 		</div>
+		<mt-datetime-picker
+			v-model="pickerVisible"
+			type="datetime"
+			ref="picker"
+			@confirm="closeTimePicker">
+		</mt-datetime-picker>
 	</div>
 </template>
 
@@ -129,10 +135,51 @@ export default {
 			idx:-1,
 			Remarks:'',
 			address:'',
-			showLis:false
+			showLis:false,
+			pickerVisible:new Date(),
+			startTime:this.defaultDate().split(' ')[1],
+			startDate:this.defaultDate().split(' ')[0],
+			endTime: '',
+			endDate200: '',
 		}
 	},
 	methods:{
+		// 起始的默认时间
+    defaultDate() {
+			var y = new Date().getFullYear();
+			var m =
+				new Date().getMonth() + 1 <= 9
+					? "0" + (new Date().getMonth() + 1)
+					: new Date().getMonth() + 1;
+			var d = new Date().getDate();
+			let hour = new Date().getHours();
+			let min = new Date().getMinutes();
+			let sec = new Date().getSeconds();
+			return y + "-" + m + "-" + d + " " + hour + ":" + min;
+    },
+		getStart () {
+			this.$refs.picker.open()
+		},
+		formatDatetime(time) {
+      if (time === "" || time === null) {
+        return;
+      } else {
+        var y = new Date(time).getFullYear();
+        var m =
+          new Date(time).getMonth() + 1 <= 9
+            ? "0" + (new Date(time).getMonth() + 1)
+            : new Date(time).getMonth() + 1;
+        var d = new Date(time).getDate();
+        let hour = new Date(time).getHours();
+        let min = new Date(time).getMinutes();
+        let sec = new Date(time).getSeconds();
+        return y + "-" + m + "-" + d + " " + hour + ":" + min;
+      }
+    },
+		closeTimePicker() {
+      this.startTime = this.formatDatetime(this.pickerVisible).split(' ')[1]
+      this.startDate = this.formatDatetime(this.pickerVisible).split(' ')[0]
+    },
 		choiceLists (index) {
 			if (this.idx !== index) {
 				this.idx = index
