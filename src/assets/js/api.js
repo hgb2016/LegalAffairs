@@ -1,4 +1,4 @@
-export const baseUrl = 'https://api.jk.rongecloud.com/'
+export const baseUrl = 'http://api-robot.niuer.cn/'
 export const shareUrl = 'https://uc.jk.rongecloud.com/tjs/'
 export const appId = 2001
 export const appSecret = 'cTENq4kFcGsUYgZ7x4vnWpTPog3E3sidk7WxPCNPkz29kDuj7VaHdXKZqnxWHG8b'
