@@ -114,8 +114,8 @@ export default {
           img: MailList,
           clickImg: MailList1,
           name: '通讯录',
-          url: '/MailList',
-          english: 'MailList'
+          url: '/ContactList',
+          english: 'ContactList'
         }
       ],
       showColor: false,

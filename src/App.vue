@@ -2,7 +2,7 @@
   <div id="app">
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
-    <tab v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/MailList'" :navName="navName"></tab>
+    <tab v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'" :navName="navName"></tab>
   </div>
 </template>
 

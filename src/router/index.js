@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index/Index'
 import Day from '@/components/Index/Day'
-import MailList from '@/components/Index/MailList'
+import ContactList from '@/components/Index/ContactList'
 import Project from '@/components/Index/Project'
 import User from '@/components/User/User'
 import UserSet from '@/components/User/UserSet'
@@ -137,9 +137,9 @@ const router = new Router({
       }
     },
     {
-      path: '/MailList',
-      name: 'MailList',
-      component: MailList,
+      path: '/ContactList',
+      name: 'ContactList',
+      component: ContactList,
       meta: {
         title: '通讯录'
       }
