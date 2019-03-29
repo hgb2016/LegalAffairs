@@ -5,20 +5,20 @@
 		</div>	
 		<div class="add-day-twoTime">
 			<div class="during">
-				<div class="during-start">
+				<div class="during-start" @click="getStart">
 					<span>开始</span>
-					<p>22：23</p>
-					<span>2019年03月23(周六)</span>
+					<p>{{startTime.split(' ')[1]}}</p>
+					<span>{{startTime.split(' ')[0]}}</span>
 				</div>
 				<div class="during-hour">
 					<hr>
 					<span>100小时</span>
 					<hr>
 				</div>
-				<div class="during-end">
-					<span>开始</span>
-					<p>22：23</p>
-					<span>2019年03月23(周六)</span>
+				<div class="during-end" @click="getEnd">
+					<span>结束</span>
+					<p>{{endTime.split(' ')[1]}}</p>
+					<span>{{endTime.split(' ')[0]}}</span>
 				</div>
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 				</li>
-				<li>
+				<!-- <li>
 					<div class="w-l">
 						<span class="tit">参与人</span>
 						<p>
@@ -48,7 +48,7 @@
 							<img src="../../assets/img/contact_add.png" alt="">
 						</p>
 					</div>
-				</li>
+				</li> -->
 				<li>
 					<div class="w-l">
 						<span class="tit">项目</span>
@@ -70,7 +70,7 @@
 				<li>
 					<div class="w-l">
 						<span class="tit">提醒</span>
-						<p @click="showLis=true">
+						<p @click="showLis=!showLis">
 							<span class="ccColor">地址、备注、附件</span>
 							<img class="down" src="../../assets/img/down.png" alt="">
 						</p>
@@ -103,13 +103,25 @@
 				</li>
 			</ul>
 		</div>
+		<mt-datetime-picker
+			v-model="pickerVisible"
+			type="datetime"
+			ref="picker"
+			@confirm="closeTimePicker">
+		</mt-datetime-picker>
+		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
 	</div>
 </template>
 
 <script>
 import icon_checkempty from '@/assets/img/icon_checkempty.png'
 import check_green from '@/assets/img/check_green.png'
+import ErrorRemind from "base/ErrorRemind.vue";
+
 export default {
+	components:{
+		ErrorRemind
+	},
 	data () {
 		return {
 			peopleList:[
@@ -129,10 +141,78 @@ export default {
 			idx:-1,
 			Remarks:'',
 			address:'',
-			showLis:false
+			showLis:false,
+			pickerVisible:new Date(),
+			startTime:this.defaultDate(),
+			endTime: '',
+			timeMark:'start',
+			showRemind:false,
+			errorRemind:''
 		}
 	},
 	methods:{
+		// 起始的默认时间
+    defaultDate() {
+			var y = new Date().getFullYear();
+			var m =
+				new Date().getMonth() + 1 <= 9
+					? "0" + (new Date().getMonth() + 1)
+					: new Date().getMonth() + 1;
+			var d = new Date().getDate()<= 9?'0'+new Date().getDate():new Date().getDate();
+			let hour = new Date().getHours()<=9?'0'+new Date().getHours():new Date().getHours();
+			let min = new Date().getMinutes()<=9?'0'+new Date().getMinutes():new Date().getMinutes();
+			let sec = new Date().getSeconds()<=9?'0'+new Date().getSeconds():new Date().getSeconds();
+			return y + "-" + m + "-" + d + " " + hour + ":" + min;
+    },
+		getStart () {
+			this.timeMark = 'start'
+			this.$refs.picker.open()
+		},
+		getEnd () {
+			this.timeMark = 'end'
+			this.pickerVisible = new Date(new Date(this.pickerVisible).getTime() + 1 * 60 * 60 * 1000)
+			this.$refs.picker.open()
+		},
+		formatDatetime(time) {
+      if (time === "" || time === null) {
+        return;
+      } else {
+        var y = new Date(time).getFullYear();
+        var m =
+          new Date(time).getMonth() + 1 <= 9
+            ? "0" + (new Date(time).getMonth() + 1)
+            : new Date(time).getMonth() + 1;
+        var d = new Date(time).getDate()<= 9?'0'+new Date().getDate():new Date().getDate();
+			let hour = new Date(time).getHours()<=9?'0'+new Date().getHours():new Date().getHours();
+			let min = new Date(time).getMinutes()<=9?'0'+new Date().getMinutes():new Date().getMinutes();
+			let sec = new Date(time).getSeconds()<=9?'0'+new Date().getSeconds():new Date().getSeconds();
+        return y + "-" + m + "-" + d + " " + hour + ":" + min;
+      }
+		},
+		formatEnd (time) {
+			return time.getFullYear() + '-' + (time.getMonth() + 1 <= 9 ? '0'+time.getMonth() + 1:time.getMonth() + 1) + '-' + (time.getDate()<=9?'0'+time.getDate():time.getDate()) + ' ' + (time.getHours()<=9?'0'+time.getHours():time.getHours()) + ':' + (time.getMinutes()<=9?'0'+time.getMinutes():time.getMinutes())
+		},
+		closeTimePicker() {
+			console.log(this.pickerVisible)
+			if (this.timeMark === 'start') {
+				this.startTime = this.formatDatetime(this.pickerVisible)
+				let dateAfter = new Date(new Date(this.pickerVisible).getTime() + 1 * 60 * 60 * 1000)
+				this.endTime = this.formatEnd(dateAfter)
+			} else if (this.timeMark === 'end') {
+				if (new Date(this.pickerVisible).getTime() < new Date(this.startTime).getTime()) {
+					this.showRemind = true
+					this.errorRemind = '结束时间不能小于开始时间'
+					this.$refs.picker.open()
+					setTimeout(()=>{
+						this.showRemind = false
+						this.errorRemind = ''
+					},2000)
+				} else {
+					console.log(this.pickerVisible)
+					this.endTime = this.formatDatetime(this.pickerVisible)
+				}
+			}
+    },
 		choiceLists (index) {
 			if (this.idx !== index) {
 				this.idx = index
@@ -141,6 +221,10 @@ export default {
 		goTime () {
 			this.$router.push('/RemindTime')
 		}
+	},
+	created () {
+		let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000)
+		this.endTime = this.formatEnd(dateAfter)
 	}
 }
 </script>
@@ -169,7 +253,7 @@ export default {
 			box-shadow: 3px 3px 3px #f3f3f3, 3px -3px 3px #f3f3f3,
 				-3px 3px 3px #f3f3f3, -3px -3px 3px #f3f3f3;
 				margin-top:10px;
-				padding: 14px 0;
+				padding: 14px 6px;
 				.f-d-f;
 				.f-jc-sb;
 				&-start,
@@ -183,8 +267,8 @@ export default {
 						font-size:12px;
 					}
 					p {
-						color:#333;
-						font-size:12px;
+						color:#000;
+						font-size:16px;
 						margin:4px 0;
 					}
 				}

@@ -16,7 +16,6 @@
             </span>
           </div>
           <div class="Project-list-childItem">
-            
             <div>
               <img src="../../assets/img/niu.png" alt>
               <p>阿彪</p>
