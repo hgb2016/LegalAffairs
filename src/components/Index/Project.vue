@@ -17,7 +17,7 @@
           </div>
           <div class="Project-list-childItem">
             <div>
-              <!-- <img src="../../assets/img/niu.png" alt> -->
+              <img src="../../assets/img/niu.png" alt>
               <p>阿彪</p>
               <p>2019-01-23 07:00 - 08:00</p>
             </div>
@@ -58,7 +58,7 @@ export default {};
       .f-ai-c;
       padding: 0 10px;
       i {
-        // background-image: url("../../assets/img/icon_search.png");
+        background-image: url("../../assets/img/icon_search.png");
         width: 26px;
         height: 26px;
         background-size: 100% 100%;
@@ -94,7 +94,7 @@ export default {};
           }
           i {
             margin-left: 10px;
-            // background-image: url("../../assets/img/up_black.png");
+            background-image: url("../../assets/img/up_black.png");
             width: 13px;
             height: 7.5px;
             background-size: 100% 100%;

@@ -23,7 +23,7 @@ export default {
   .f-d-f;
 	.f-ai-c;
 	.f-jc-c;
-  z-index: 1111;
+  z-index: 9999;
   p {
     color: #fff;
     font-size: 14px;
