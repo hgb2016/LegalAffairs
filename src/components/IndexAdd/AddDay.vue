@@ -40,7 +40,7 @@
 						</div>
 					</div>
 				</li>
-				<li>
+				<!-- <li>
 					<div class="w-l">
 						<span class="tit">参与人</span>
 						<p>
@@ -48,7 +48,7 @@
 							<img src="../../assets/img/contact_add.png" alt="">
 						</p>
 					</div>
-				</li>
+				</li> -->
 				<li>
 					<div class="w-l">
 						<span class="tit">项目</span>
