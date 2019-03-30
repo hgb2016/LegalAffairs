@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <title-nav v-if="$route.path !== '/'"></title-nav>
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
     <tab v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'" :navName="navName"></tab>
@@ -7,12 +8,14 @@
 </template>
 
 <script>
-import Tab from "./base/tab";
-import UserImg from "./base/UserImg";
+import TitleNav from "base/TitleNav";
+import Tab from "base/tab";
+import UserImg from "base/UserImg";
 export default {
   components:{
     Tab,
-    UserImg
+    UserImg,
+    TitleNav
   },
   name: 'App',
   data () {
@@ -37,5 +40,6 @@ export default {
   width:100vw;
   min-height:100vh;
   background: #fff;
+  padding-top: 38px;
 }
 </style>

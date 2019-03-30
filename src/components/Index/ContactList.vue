@@ -68,10 +68,11 @@ export default {
 @import '../../assets/css/flex.less';
 .ContactList{
     width: 100%;
+    padding:60px 0;
     &-header{
         background: #fff;
         position: fixed;
-        top: 0px;
+        top:38px;
         width: 100%;
         &-search{
             margin: 20px ;

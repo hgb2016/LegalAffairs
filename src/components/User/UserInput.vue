@@ -60,7 +60,6 @@ export default {
 	.f-d-f;
 	.f-fd-c;
 	background-color: #efeff4;
-	min-height: 100vh;
 	&-info {
 		height:50px;
 		.f-d-f;
