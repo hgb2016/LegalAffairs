@@ -3,7 +3,7 @@
 		
     <div class="addproject-sale">
 			<div class="addproject-sale-twoBtn">
-				<span>添加</span>
+				<span @click="goAddPro">添加</span>
 				<span>确定</span>
 			</div>
 			<ul>
@@ -94,6 +94,9 @@ export default {
 			} else {
 				this.idx = -1
 			}
+		},
+		goAddPro () {
+			this.$router.push('/AddPro')
 		}
 	},
 	watch: {
