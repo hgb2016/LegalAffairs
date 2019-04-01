@@ -11,7 +11,11 @@
 </template>
 
 <script>
-
+import TitleNav from "base/TitleNav";
+import Tab from "base/tab";
+import UserImg from "base/UserImg";
+import HTTP from "./assets/js/postHttp.js";
+import * as API from "./assets/js/api.js";
 export default {
   components: {
     Tab,

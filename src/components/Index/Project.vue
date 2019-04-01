@@ -17,19 +17,14 @@
               <i></i>
             </span>
           </div>
-<<<<<<< HEAD
           <div class="Project-list-childItem" v-for="(childItem, index) in item.calenderList" :key="index">
             <div   >
-=======
-          <div class="Project-list-childItem">
-            <div>
->>>>>>> upstream/master
-              <img src="../../assets/img/niu.png" alt>
-              <p>阿彪</p>
+              <img :src="childItem.headUrl" alt>
+              <p>{{childItem.createUserName  }}</p>
               <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
             </div>
             <h5>{{childItem.title}}</h5>
-            <p>1.00小时</p>
+            <p>{{childItem.hourNum}}小时</p>
             <span></span>
           </div>
         </div>
@@ -72,12 +67,11 @@ export default {
 @import "../../assets/css/flex.less";
 .Project {
   width: 100%;
-  padding:60px 0;
   &-header {
     margin-top: 60px;
     background: #fff;
     position: fixed;
-    top: 0px;
+    top: 40px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -105,7 +99,7 @@ export default {
     }
   }
   &-list {
-    margin-top: 100px;
+    margin-top:100px;
     margin-bottom: 50px;
     width: 100%;
     &-item {
