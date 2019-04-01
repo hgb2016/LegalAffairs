@@ -1,0 +1,33 @@
+<template>
+<div class="title-nav">
+	<img @click="$router.go(-1)" src="../assets/img/back.png" alt="">
+	<span></span>
+</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style lang="less" scoped>
+@import '../assets/css/flex.less';
+.title-nav {
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	height:38px;
+	background-color:#fff;
+	padding:0 10px;
+	.f-d-f;
+	.f-ai-c;
+	.f-jc-sb;
+	z-index:9998;
+	border-bottom:1px solid #e5e5e5;
+	img {
+		width:20px;
+	}
+}
+</style>

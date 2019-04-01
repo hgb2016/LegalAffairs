@@ -96,40 +96,40 @@
 </template>
 
 <script>
-import icon_ssf from '@/assets/img/icon_ssf.png'
-import icon_gs from '@/assets/img/icon_gs.png'
-import lvshifei from '@/assets/img/lvshifei.png'
+import icon_ssf from "@/assets/img/icon_ssf.png";
+import icon_gs from "@/assets/img/icon_gs.png";
+import lvshifei from "@/assets/img/lvshifei.png";
 export default {
-	data () {
-		return {
-			topTitle:[
-				{
-					id:1,
-					img:icon_ssf,
-					name:'诉讼费计算'
-				},
-				{
-					id:2,
-					img:icon_gs,
-					name:'工商查询'
-				},
-				{
-					id:3,
-					img:lvshifei,
-					name:'律师费计算'
-				},
-			],
-			showI:false
-		}
-	},
-	methods:{
-		updateIcon () {
-			this.showI = true
-		},
-		deleteIcon (index) {
-			this.topTitle.splice(index,1)
-		}
-	}
+  data() {
+    return {
+      topTitle: [
+        {
+          id: 1,
+          img: icon_ssf,
+          name: "诉讼费计算"
+        },
+        {
+          id: 2,
+          img: icon_gs,
+          name: "工商查询"
+        },
+        {
+          id: 3,
+          img: lvshifei,
+          name: "律师费计算"
+        }
+      ],
+      showI: false
+    };
+  },
+  methods: {
+    updateIcon() {
+      this.showI = true;
+    },
+    deleteIcon(index) {
+      this.topTitle.splice(index, 1);
+    }
+  }
 };
 </script>
 
@@ -140,12 +140,12 @@ export default {
     position: fixed;
     left: 0;
     right: 0;
-    top: 0;
+    top: 38px;
     height: 90px;
     padding: 0 10px;
     .f-d-f;
-	.f-ai-c;
-	background-color:#fff;
+    .f-ai-c;
+    background-color: #fff;
     .left {
       font-size: 14px;
       color: #333;
@@ -160,8 +160,8 @@ export default {
         .f-f-1;
         .f-d-f;
         .f-fd-c;
-				.f-ai-c;
-				position: relative;
+        .f-ai-c;
+        position: relative;
         span {
           font-size: 12px;
           color: #333;
@@ -169,55 +169,55 @@ export default {
         }
         img {
           width: 36px;
-				}
-				i{
-					position: absolute;
-					width:16px;
-					height:16px;
-					display: block;
-					top:0;
-					right:0;
-					background:url('../../assets/img/icon_dele.png');
-					background-size: 100%;
-				}
+        }
+        i {
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          display: block;
+          top: 0;
+          right: 0;
+          background: url("../../assets/img/icon_dele.png");
+          background-size: 100%;
+        }
       }
     }
-	}
-	&-list {
-		padding-top:90px;
-		.f-d-f;
-		.f-fd-c;
-		.items {
-			.f-d-f;
-			.f-fd-c;
-			h4 {
-				line-height: 30px;
-				padding-left:10px;
-				font-size:14px;
-				color:#333;
-				background-color: #efeff4;
-			}
-			div {
-				.f-d-f;
-				.f-fw-w;
-				padding-bottom:20px;
-				p {
-					width:25%;
-					.f-d-f;
-					.f-fd-c;
-					.f-ai-c;
-					margin-top:20px;
-					span {
-						font-size: 12px;
-						color: #333;
-						margin-top: 4px;
-					}
-					img {
-						width: 36px;
-					}
-				}
-			}
-		}
-	}
+  }
+  &-list {
+    padding-top: 90px;
+    .f-d-f;
+    .f-fd-c;
+    .items {
+      .f-d-f;
+      .f-fd-c;
+      h4 {
+        line-height: 30px;
+        padding-left: 10px;
+        font-size: 14px;
+        color: #333;
+        background-color: #efeff4;
+      }
+      div {
+        .f-d-f;
+        .f-fw-w;
+        padding-bottom: 20px;
+        p {
+          width: 25%;
+          .f-d-f;
+          .f-fd-c;
+          .f-ai-c;
+          margin-top: 20px;
+          span {
+            font-size: 12px;
+            color: #333;
+            margin-top: 4px;
+          }
+          img {
+            width: 36px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

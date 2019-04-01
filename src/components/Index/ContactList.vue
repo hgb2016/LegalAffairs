@@ -60,6 +60,7 @@ export default {
     position: fixed;
     top: 0px;
     width: 100%;
+<<<<<<< HEAD
     &-search {
       margin: 20px;
       .f-f-1;
@@ -82,6 +83,38 @@ export default {
         font-size: 12px;
         color: #333;
       }
+=======
+    padding:60px 0;
+    &-header{
+        background: #fff;
+        position: fixed;
+        top:38px;
+        width: 100%;
+        &-search{
+            margin: 20px ;
+            .f-f-1;
+			.f-d-f;
+			height:30px;
+			border:1px solid #e5e5e5;
+			border-radius: 30px;
+			background-color: #fff;
+			.f-d-f;
+			.f-jc-sb;
+			.f-ai-c;
+			padding: 0 10px;
+			i {
+				background-image: url("../../assets/img/icon_search.png");
+				width: 26px;
+				height: 26px;
+				background-size: 100% 100%;
+			}
+			input {
+				font-size: 12px;
+                color: #333;
+                
+			}
+        }
+>>>>>>> upstream/master
     }
   }
 

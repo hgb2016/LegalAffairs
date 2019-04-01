@@ -38,6 +38,7 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/flex.less';
 .day {
+	padding:60px 0;
 	&-add{
 		position: fixed;
 		bottom:80px;

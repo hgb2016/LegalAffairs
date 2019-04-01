@@ -59,7 +59,9 @@ export default {
 		goMyCustomer () {
 			this.$router.push('MyCustomer')
 		},
-		goWhoSee () {},
+		goWhoSee () {
+			this.$router.push('WhoSee')
+		},
 		goExportDay () {},
 		goShare () {},
 		goSuggestion () {},

@@ -9,7 +9,7 @@
 		</div>
 		<div class="my-customer-list">
 			<ul> 
-				<li v-for="(item,index) in customerList" :key="index">
+				<li v-for="(item,index) in customerList" :key="index" @click="CustomerDetails(item.name)">
 					<span>{{item.name}}</span>
 					<span>{{item.post}}</span>
 				</li>
@@ -39,6 +39,9 @@ export default {
 		searchBtn() {},
 		goAdd () {
 			this.$router.push('/AddCustomer')
+		},
+		CustomerDetails (name) {
+			this.$router.push(`/CustomerDetails?name=${name}&phone=18618377474&email=13513335747@163.com`)
 		}
   }
 };
@@ -54,10 +57,10 @@ export default {
 		.f-jc-c;
 		border-bottom:1px solid #e5e5e5;
 		position: fixed;
-		top:0;
+		top:38px;
 		left:0;
 		right: 0;
-		padding:0 20px;
+		padding: 20px;
     div {
 			.f-f-1;
 			.f-d-f;

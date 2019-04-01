@@ -17,8 +17,13 @@
               <i></i>
             </span>
           </div>
+<<<<<<< HEAD
           <div class="Project-list-childItem" v-for="(childItem, index) in item.calenderList" :key="index">
             <div   >
+=======
+          <div class="Project-list-childItem">
+            <div>
+>>>>>>> upstream/master
               <img src="../../assets/img/niu.png" alt>
               <p>阿彪</p>
               <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
@@ -67,6 +72,7 @@ export default {
 @import "../../assets/css/flex.less";
 .Project {
   width: 100%;
+  padding:60px 0;
   &-header {
     margin-top: 60px;
     background: #fff;
