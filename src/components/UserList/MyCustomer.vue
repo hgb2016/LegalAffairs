@@ -60,14 +60,14 @@ export default {
 		top:38px;
 		left:0;
 		right: 0;
-		padding: 20px;
+		padding:0 20px;
+		background-color: #fff;
     div {
 			.f-f-1;
 			.f-d-f;
 			height:30px;
 			border:1px solid #e5e5e5;
 			border-radius: 30px;
-			background-color: #fff;
 			.f-d-f;
 			.f-jc-sb;
 			.f-ai-c;
@@ -90,7 +90,7 @@ export default {
 		}
 	}
 	&-list {
-		padding-top:50px;
+		padding-top:88px;
 		ul{
 			width:100%;
 			.f-d-f;

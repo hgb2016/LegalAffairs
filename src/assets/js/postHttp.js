@@ -50,9 +50,9 @@ export default {
       baseURL: API.baseUrl,
       url,
       data: JSON.stringify(data),
-      // timeout: 10000,
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':'NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU='
       }
     }).then(
       (response) => {

@@ -42,6 +42,7 @@ export default {
 	&-info {
 		width: 100%;
 		padding:0 10px;
+		margin-top:38px;
 		&-nav {
 			min-height:100px;
 			box-shadow: 5px 5px 5px #f3f3f3, 5px -5px 5px #f3f3f3,

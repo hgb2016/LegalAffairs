@@ -27,8 +27,10 @@ export default {
       handler(val) {
         let newArr = []
 				val.forEach(v=>{
-					let newObj = {}
-					newObj['date'] = this.format(new Date(), v.year.split('月')[1])
+          let newObj = {}
+          let newDay = new Date(v.beginTime).getDate()
+          console.log(newDay)
+					newObj['date'] = this.format(new Date(), newDay)
 					newObj['className'] = "mark1"
 					newArr.push(newObj)
 				})

@@ -97,6 +97,7 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/flex.less';
 .remind-time{
+	padding-top:38px;
 	.f-d-f;
 	.f-fd-c;
 	.f-jc-sb;

@@ -1,14 +1,14 @@
 <template>
     <div class="index-list">
 		<ul>
-			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails">
+			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails" v-if="infomationList.length>0">
 				<div class="list-time">
 					<div>
-						<span>{{item.year}}</span>
+						<span>{{item.beginTime.split(' ')[0]}}</span>
 					</div>
 					<div>
 						<span>{{item.title}}</span>
-						<span>{{item.time}}</span>
+						<span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
 					</div>
 				</div>
 			</li>
@@ -22,7 +22,7 @@ export default {
   methods:{
     goDayDetails () {
       this.$router.push('/DayDetails')
-    }
+    },
   }
 };
 </script>

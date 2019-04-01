@@ -71,7 +71,7 @@ export default {
     .f-d-f;
     background: #fff;
 		height: 50px;
-		margin-top:10px;
+		margin-top:48px;
     .f-d-f;
 		.f-ai-c;
     padding: 0 20px;
