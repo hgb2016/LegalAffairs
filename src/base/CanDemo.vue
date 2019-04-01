@@ -29,13 +29,11 @@ export default {
 				val.forEach(v=>{
           let newObj = {}
           let newDay = new Date(v.beginTime).getDate()
-          console.log(newDay)
 					newObj['date'] = this.format(new Date(), newDay)
 					newObj['className'] = "mark1"
 					newArr.push(newObj)
 				})
 				this.arr = newArr
-				console.log(this.arr)
       },
       immediate: true
     }
@@ -46,15 +44,12 @@ export default {
   methods: {
     //选中某天
     clickDay(data) {
-      console.log("选中了", data);
     },
     //跳到了本月
     clickToday(data) {
-      console.log("跳到了本月今天", data);
     },
     //左右点击切换月份
     changeDate(data) {
-      console.log("左右点击切换月份", data);
     },
     format(date, index) {
       date = new Date(date);

@@ -185,7 +185,6 @@ const router = new Router({
 })
 
 router.afterEach((transition) => {
-  console.log(transition)
   let title;
   if (transition.meta.title === '') {
     title = '编辑'+ transition.query.title

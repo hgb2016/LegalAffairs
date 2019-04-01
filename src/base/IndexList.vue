@@ -1,7 +1,7 @@
 <template>
     <div class="index-list">
 		<ul>
-			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails" v-if="infomationList.length>0">
+			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)" v-if="infomationList.length>0">
 				<div class="list-time">
 					<div>
 						<span>{{item.beginTime.split(' ')[0]}}</span>
@@ -20,8 +20,8 @@
 export default {
   props: ["infomationList"],
   methods:{
-    goDayDetails () {
-      this.$router.push('/DayDetails')
+    goDayDetails (id) {
+      this.$router.push(`/DayDetails?id=${id}`)
     },
   }
 };

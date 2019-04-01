@@ -1,15 +1,15 @@
 <template>
   <div class="day-details">
 		<div class="day-details-input">
-			<h4>该日程于3-30 11：24创建</h4>
-			<span  @click="$router.push('/UserInput?title=标题&content=我来了')">李艳彪</span>
+			<h4>该日程于{{dayInfo.beginTime}}创建</h4>
+			<span  @click="$router.push('/UserInput?title=标题&content=我来了')">{{dayInfo.title}}</span>
 		</div>	
 		<div class="day-details-twoTime">
 			<div class="during">
 				<div class="during-start" @click="getStart">
 					<span>开始</span>
-					<p>{{startTime.split(' ')[1]}}</p>
-					<span>{{startTime.split(' ')[0]}}</span>
+					<p>{{dayInfo.beginTime.split(' ')[1]}}</p>
+					<span>{{dayInfo.beginTime.split(' ')[0]}}</span>
 				</div>
 				<div class="during-hour">
 					<hr>
@@ -18,8 +18,8 @@
 				</div>
 				<div class="during-end" @click="getEnd">
 					<span>结束</span>
-					<p>{{endTime.split(' ')[1]}}</p>
-					<span>{{endTime.split(' ')[0]}}</span>
+					<p>{{dayInfo.endTime.split(' ')[1]}}</p>
+					<span>{{dayInfo.endTime.split(' ')[0]}}</span>
 				</div>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
 import icon_checkempty from "@/assets/img/icon_checkempty.png";
 import check_green from "@/assets/img/check_green.png";
 import ErrorRemind from "base/ErrorRemind.vue";
-
+import postHttp from "../../assets/js/postHttp.js";
 export default {
   components: {
     ErrorRemind
@@ -114,7 +114,9 @@ export default {
       timeMark: "start",
       showRemind: false,
       errorRemind: "",
-      pickerVisibleEnd: ""
+      pickerVisibleEnd: "",
+      scheduleId:'',
+      dayInfo: {}
     };
   },
   computed: {
@@ -243,12 +245,27 @@ export default {
     },
     goTime() {
       this.$router.push("/RemindTime");
-    }
+    },
+    async getCalendarInfo(id) {
+      const { data } = await postHttp.post("/Calendar/getCalendarInfo", {
+        loginUserId: this.$store.getters.getUserId,
+        logintoken: this.$store.getters.gettoken,
+        scheduleId:id
+      });
+      console.log(data)
+      if (!data.error) {
+        this.dayInfo = data.data;
+      } else {
+        alert(data.message);
+      }
+    },
   },
   created() {
     let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000);
     this.endTime = this.formatEnd(dateAfter);
     this.pickerVisibleEnd = dateAfter;
+    this.scheduleId = this.$route.query.id
+    this.getCalendarInfo(this.scheduleId)
   }
 };
 </script>
