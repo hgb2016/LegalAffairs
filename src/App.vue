@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <title-nav v-if="$route.path !== '/'"></title-nav>
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
     <tab
@@ -10,15 +11,12 @@
 </template>
 
 <script>
-import Tab from "./base/tab";
-import UserImg from "./base/UserImg";
-import HTTP from "./assets/js/postHttp.js";
-import * as API from "./assets/js/api.js";
 
 export default {
   components: {
     Tab,
-    UserImg
+    UserImg,
+    TitleNav
   },
   name: "App",
   data() {
@@ -59,5 +57,6 @@ export default {
   width: 100vw;
   min-height: 100vh;
   background: #fff;
+  padding-top: 38px;
 }
 </style>

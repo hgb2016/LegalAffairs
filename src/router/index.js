@@ -14,6 +14,10 @@ import AddCustomer from '@/components/UserList/AddCustomer'
 import CustomerDetails from '@/components/UserList/CustomerDetails'
 
 import AddDay from '@/components/IndexAdd/AddDay'
+import WhoSee from '@/components/IndexAdd/WhoSee'
+import AddPro from '@/components/IndexAdd/AddPro'
+import MyFriends from '@/components/IndexAdd/MyFriends'
+import DayDetails from '@/components/IndexAdd/DayDetails'
 import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
@@ -33,11 +37,44 @@ const router = new Router({
       }
     },
     {
+      path: '/WhoSee',
+      name: 'WhoSee',
+      component: WhoSee,
+      meta: {
+        title:'水库可以看我的工作'
+      }
+    },
+    {
+      path: '/MyFriends',
+      name: 'MyFriends',
+      component: MyFriends,
+      meta: {
+        title:'我的好友'
+      }
+    },
+    {
+      path: '/AddPro',
+      name: 'AddPro',
+      component: AddPro,
+      meta: {
+        title:'新建项目'
+      }
+    },
+    
+    {
       path: '/UserInput',
       name: 'UserInput',
       component: UserInput,
       meta: {
         title:''
+      }
+    },
+    {
+      path: '/DayDetails',
+      name: 'DayDetails',
+      component: DayDetails,
+      meta: {
+        title:'日程详情'
       }
     },
     {

@@ -39,6 +39,7 @@ export default {};
 @import "../../assets/css/flex.less";
 .Project {
   width: 100%;
+  padding:60px 0;
   &-header {
     margin-top: 60px;
     background: #fff;

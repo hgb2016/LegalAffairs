@@ -1,7 +1,7 @@
 <template>
     <div class="index-list">
 		<ul>
-			<li v-for="(item,index) in infomationList" :key="index">
+			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails">
 				<div class="list-time">
 					<div>
 						<span>{{item.year}}</span>
@@ -18,7 +18,12 @@
 
 <script>
 export default {
-  props: ["infomationList"]
+  props: ["infomationList"],
+  methods:{
+    goDayDetails () {
+      this.$router.push('/DayDetails')
+    }
+  }
 };
 </script>
 

@@ -45,9 +45,20 @@
 				</div>
 				<img class="update" src="../../assets/img/pen.png" @click="goDetails(item.name,item.phone,item.email)" alt="">
 			</div>
-			<div class="info">
-				<span>谁可见</span>
-				<img src="../../assets/img/contact_add.png" alt="">
+			<div class="info-d">
+				<div class="info-d-part">
+					<h3>谁可见</h3>
+					<div class="part-i">
+						<ul>
+							<li v-for="(item,index) in choiceUserLists" :key="index">
+								<delete-img :item="item" @closeDelete="closeDelete"></delete-img>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<p>
+					<img @click="goMyFriends" src="../../assets/img/contact_add.png" alt="">
+				</p>
 			</div>
 		</div>
 		<transition name="fade">
@@ -58,9 +69,13 @@
 
 <script>
 import AddContact from 'base/AddContact'
+import liyan from '@/assets/img/liyan.jpg'
+import DeleteImg from 'base/DeleteImg'
+
 export default {
 	components:{
-		AddContact
+		AddContact,
+		DeleteImg
 	},
 	data () {
 		return {
@@ -77,9 +92,30 @@ export default {
 			updatename:'',
 			updatephone:'',
 			updateemail:'',
+			choiceUserLists:[
+				{
+					name:'李艳彪',
+					id:1,
+					img:liyan
+				},
+				{
+					name:'李艳彪',
+					id:1,
+					img:liyan
+				},
+				{
+					name:'李艳彪',
+					id:1,
+					img:liyan
+				}
+			]
 		}
 	},
 	methods:{
+		goMyFriends () {
+			this.$router.push('/MyFriends')
+		},
+		closeDelete () {},
 		deletecus (index) {
 			this.contactLists.splice(index,i)
 		},
@@ -145,6 +181,41 @@ export default {
 			}
 			img {
 				width:22px;
+			}
+		}
+		.info-d {
+			.f-d-f;
+			.f-ai-c;
+			.f-jc-sb;
+			padding:0 10px;
+			min-height: 50px;
+			border-bottom:1px solid #e5e5e5;
+			.info-d-part {
+				.f-f-1;
+				.f-d-f;
+				.f-ai-c;
+				h3 {
+					color:#333;
+					font-size:14px;
+				}
+				.part-i {
+					.f-f-1;
+					padding:10px 0;
+					ul {
+						.f-d-f;
+						.f-fd-r;
+						.f-fw-w;
+						width:100%;
+						li {
+							border:none;
+						}
+					}
+				}
+			}
+			p {
+				img {
+					width:22px;
+				}
 			}
 		}
 		.hideFive {

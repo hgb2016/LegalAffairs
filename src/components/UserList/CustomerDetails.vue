@@ -1,7 +1,7 @@
 <template>
   <div class="cdetails">
 		<div class="cdetails-title">
-			<p>{{name.split('-')[0]}}</p>
+			<p>{{name}}</p>
 			<span>描述</span> 
 		</div>
 		<div class="cdetails-list">

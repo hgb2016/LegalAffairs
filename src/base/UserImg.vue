@@ -14,7 +14,6 @@ export default {
 @import '../assets/css/flex.less';
 .user-img {
 	position:fixed;
-  z-index:99;
   top:0;
 	left:0;
 	right:0;
@@ -22,6 +21,9 @@ export default {
   height: 60px;
 	background:#fff;
 	padding:0 20px;
+	top:38px;
+	z-index:9999;
+
 	.f-d-f;
 	.f-fd-rr;
 	.f-ai-c;
