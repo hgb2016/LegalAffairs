@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <title-nav v-if="$route.path !== '/'"></title-nav>
+    <title-nav v-if="$route.path !== '/' || $route.path !== '/Project' || $route.path !== '/Day'"></title-nav>
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
     <tab v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'" :navName="navName"></tab>
