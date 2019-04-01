@@ -5,34 +5,67 @@
         <input type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
+    
+    </div>
       <!-- 案件列表-->
       <div class="Project-list">
-        <div class="Project-list-item">
+        <div class="Project-list-item" v-for="(item, index) in projectList " :key="index">
           <div class="Project-list-item-r">
-            <p>法律机器人平板项目</p>
+            <p>{{item.projectName}}</p>
             <span>
               <p>洽谈中</p>
               <i></i>
             </span>
           </div>
+<<<<<<< HEAD
+          <div class="Project-list-childItem" v-for="(childItem, index) in item.calenderList" :key="index">
+            <div   >
+=======
           <div class="Project-list-childItem">
             <div>
+>>>>>>> upstream/master
               <img src="../../assets/img/niu.png" alt>
               <p>阿彪</p>
-              <p>2019-01-23 07:00 - 08:00</p>
+              <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
             </div>
-            <h5>完成第一阶段任务</h5>
+            <h5>{{childItem.title}}</h5>
             <p>1.00小时</p>
             <span></span>
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import HTTP from "../../assets/js/postHttp.js";
+import * as API from "../../assets/js/api.js";
+export default {
+  data() {
+    return {
+      projectList: []
+    };
+  },
+  created() {
+    this.loginUserId = window.localStorage.getItem("loginUserId");
+    this.logintoken = window.localStorage.getItem("logintoken");
+    this.getProjectList();
+  },
+  methods: {
+    async getProjectList() {
+      const { data } = await HTTP.post("/Project/getProjectList", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken
+      });
+      console.log(data);
+      if (!data.error) {
+        this.projectList = data.data;
+      } else {
+        alert(data.message);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -72,6 +105,8 @@ export default {};
     }
   }
   &-list {
+    margin-top: 100px;
+    margin-bottom: 50px;
     width: 100%;
     &-item {
       &-r {
@@ -124,22 +159,22 @@ export default {};
           margin-left: 10px;
         }
       }
-      h5{
-          font-weight: bold;
-          margin-top: 5px;
-          margin-left: 30px;
+      h5 {
+        font-weight: bold;
+        margin-top: 5px;
+        margin-left: 30px;
       }
-      p{
-          color: #0c7dff;
-           margin-top: 5px;
-          font-size: 12px;
-          margin-left: 30px;
+      p {
+        color: #0c7dff;
+        margin-top: 5px;
+        font-size: 12px;
+        margin-left: 30px;
       }
-      span{
-          margin-top: 10px;
-          height: 0.5px;
-          background-color: #ededed;
-          margin-left: 30px;
+      span {
+        margin-top: 10px;
+        height: 0.5px;
+        background-color: #ededed;
+        margin-left: 30px;
       }
     }
   }

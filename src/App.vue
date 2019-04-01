@@ -3,42 +3,59 @@
     <title-nav v-if="$route.path !== '/'"></title-nav>
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
-    <tab v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'" :navName="navName"></tab>
+    <tab
+      v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'"
+      :navName="navName"
+    ></tab>
   </div>
 </template>
 
 <script>
-import TitleNav from "base/TitleNav";
-import Tab from "base/tab";
-import UserImg from "base/UserImg";
+
 export default {
-  components:{
+  components: {
     Tab,
     UserImg,
     TitleNav
   },
-  name: 'App',
-  data () {
+  name: "App",
+  data() {
     return {
-      navName:''
-    }
+      navName: ""
+    };
   },
   watch: {
     $route(val) {
       this.navName = val.path;
     }
   },
-  created () {
-    this.navName = this.$route.path
+  methods: {
+    async login() {
+      const { data } = await HTTP.post("/user/login", {
+        mobile: "17328373151",
+        password: "123456"
+      });
+      console.log(data)
+      if (!data.error) {
+        window.localStorage.setItem('loginUserId',data.data.loginUserId)
+        window.localStorage.setItem('logintoken',data.data.logintoken)
+      } else {
+        alert(data.message);
+      }
+    }
+  },
+  created() {
+    this.navName = this.$route.path;
+    this.login();
   }
-}
+};
 </script>
 
 <style style="less">
 @import "./assets/css/save.css";
 #app {
-  width:100vw;
-  min-height:100vh;
+  width: 100vw;
+  min-height: 100vh;
   background: #fff;
   padding-top: 38px;
 }
