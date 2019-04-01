@@ -1,6 +1,6 @@
 <template>
   <div class="tool-bar">
-		<div class="tool-bar-fix">
+    <!-- <div class="tool-bar-fix">
 			<span class="left">我的常用</span>
 			<div>
 				<p v-for="(item,index) in topTitle" :key="index">
@@ -10,117 +10,67 @@
 				</p>
 			</div>
 			<img class="right" @click="updateIcon" src="../../assets/img/icon_edit.png" alt="">
-		</div>
-		<div class="tool-bar-list">
-			<div class="items">
-				<h4>查询</h4>
-				<div>
-					<p>
-						<img src="../../assets/img/icon_gs.png" alt="">
-						<span>工商查询</span>
-					</p>
-					<p>
-						<img src="../../assets/img/jianding.png" alt="">
-						<span>鉴定机构</span>
-					</p>
-					<p>
-						<img src="../../assets/img/fayuan.png" alt="">
-						<span>法院查询</span>
-					</p>
-					<p>
-						<img src="../../assets/img/hetongmoban.png" alt="">
-						<span>合同模板</span>
-					</p>
-					<p>
-						<img src="../../assets/img/zhongcaiwei.png" alt="">
-						<span>仲裁委查询</span>
-					</p>
-				</div>
-			</div>
-			<div class="items">
-				<h4>计算</h4>
-				<div>
-					<p>
-						<img src="../../assets/img/lvshifei.png" alt="">
-						<span>律师费计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/icon_ssf.png" alt="">
-						<span>诉讼费计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/zhongcaifei.png" alt="">
-						<span>仲裁费计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/weiyuejin.png" alt="">
-						<span>违约金计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/tianshuriqi.png" alt="">
-						<span>天数日期计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/touziguquan.png" alt="">
-						<span>投诉股权计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/jiaotongbuchangjin.png" alt="">
-						<span>交通补偿金</span>
-					</p>
-				</div>
-			</div>
-			<div class="items">
-				<h4>劳动类</h4>
-				<div>
-					<p>
-						<img src="../../assets/img/geshui.png" alt="">
-						<span>个税计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/lizhi.png" alt="">
-						<span>离职补偿金</span>
-					</p>
-					<p>
-						<img src="../../assets/img/chanjia.png" alt="">
-						<span>产假计算</span>
-					</p>
-					<p>
-						<img src="../../assets/img/gongshang.png" alt="">
-						<span>工伤赔偿</span>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>-->
+    <div class="tool-bar-list">
+      <div class="items">
+        <h4>查询</h4>
+        <div>
+          <p v-for="(item, index) in findList" :key="index">
+            <a :href="item.url">
+            <img :src="item.actionNewPic" alt>
+            </a>
+            <span>{{item.actionName}}</span>
+            
+          </p>
+        </div>
+      </div>
+      <div class="items">
+        <h4>计算</h4>
+       <div>
+          <p v-for="(item, index) in countList" :key="index">
+            <a :href="item.url">
+            <img :src="item.actionNewPic" alt>
+              </a>
+            <span>{{item.actionName}}</span>
+          
+          </p>
+        </div>
+      </div>
+      <div class="items">
+        <h4>劳动类</h4>
+      <div>
+          <p v-for="(item, index) in laborList" :key="index">
+            <a :href="item.url">
+            <img :src="item.actionNewPic" alt>
+              </a>
+            <span>{{item.actionName}}</span>
+        
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import icon_ssf from "@/assets/img/icon_ssf.png";
 import icon_gs from "@/assets/img/icon_gs.png";
 import lvshifei from "@/assets/img/lvshifei.png";
+import HTTP from "../../assets/js/postHttp.js";
+import * as API from "../../assets/js/api.js";
+
 export default {
   data() {
     return {
-      topTitle: [
-        {
-          id: 1,
-          img: icon_ssf,
-          name: "诉讼费计算"
-        },
-        {
-          id: 2,
-          img: icon_gs,
-          name: "工商查询"
-        },
-        {
-          id: 3,
-          img: lvshifei,
-          name: "律师费计算"
-        }
-      ],
-      showI: false
+        findList:[],
+        countList:[],
+        laborList:[]
     };
+  },
+  created() {
+    this.loginUserId = window.localStorage.getItem("loginUserId");
+    this.logintoken = window.localStorage.getItem("logintoken");
+    this.getAllTool();
   },
   methods: {
     updateIcon() {
@@ -128,6 +78,19 @@ export default {
     },
     deleteIcon(index) {
       this.topTitle.splice(index, 1);
+    },
+    async getAllTool() {
+      const { data } = await HTTP.post("/Index/getAllTool", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken
+      });
+      if (!data.error) {
+        this.findList = data.data.findList;
+        this.countList = data.data.countList;
+        this.laborList = data.data.laborList;
+      } else {
+        alert(data.message);
+      }
     }
   }
 };
@@ -157,6 +120,9 @@ export default {
       .f-d-f;
       .f-f-1;
       p {
+       
+
+      
         .f-f-1;
         .f-d-f;
         .f-fd-c;
@@ -181,10 +147,10 @@ export default {
           background-size: 100%;
         }
       }
+        
     }
   }
   &-list {
-    padding-top: 90px;
     .f-d-f;
     .f-fd-c;
     .items {
