@@ -2,12 +2,14 @@
   <div class="tool-bar">
     <!-- <div class="tool-bar-fix">
 			<span class="left">我的常用</span>
-			<div>
-				<p v-for="(item,index) in topTitle" :key="index">
-					<img :src="item.img" alt="">
+			<div class="left-b">
+				<div v-for="(item,index) in topTitle" :key="index">
+					<p>
+						<img :src="item.img" alt="">
+						<i v-if="showI" @click="deleteIcon(index)"></i>
+					</p>
 					<span>{{item.name}}</span>
-					<i v-if="showI" @click="deleteIcon(index)"></i>
-				</p>
+				</div>
 			</div>
 			<img class="right" @click="updateIcon" src="../../assets/img/icon_edit.png" alt="">
     </div>-->
@@ -17,10 +19,9 @@
         <div>
           <p v-for="(item, index) in findList" :key="index">
             <a :href="item.url">
-            <img :src="item.actionNewPic" alt>
+            	<img :src="item.actionNewPic" alt>
             </a>
             <span>{{item.actionName}}</span>
-            
           </p>
         </div>
       </div>
@@ -29,22 +30,20 @@
        <div>
           <p v-for="(item, index) in countList" :key="index">
             <a :href="item.url">
-            <img :src="item.actionNewPic" alt>
-              </a>
+            	<img :src="item.actionNewPic" alt>
+						</a>
             <span>{{item.actionName}}</span>
-          
           </p>
         </div>
       </div>
       <div class="items">
         <h4>劳动类</h4>
-      <div>
+      	<div>
           <p v-for="(item, index) in laborList" :key="index">
             <a :href="item.url">
-            <img :src="item.actionNewPic" alt>
-              </a>
+            	<img :src="item.actionNewPic" alt>
+						</a>
             <span>{{item.actionName}}</span>
-        
           </p>
         </div>
       </div>
@@ -57,7 +56,6 @@ import icon_ssf from "@/assets/img/icon_ssf.png";
 import icon_gs from "@/assets/img/icon_gs.png";
 import lvshifei from "@/assets/img/lvshifei.png";
 import HTTP from "../../assets/js/postHttp.js";
-import * as API from "../../assets/js/api.js";
 
 export default {
   data() {
@@ -74,11 +72,11 @@ export default {
   },
   methods: {
     updateIcon() {
-      this.showI = true;
+      this.showI = !this.showI;
     },
     deleteIcon(index) {
       this.topTitle.splice(index, 1);
-    },
+		},
     async getAllTool() {
       const { data } = await HTTP.post("/Index/getAllTool", {
         loginUserId: this.loginUserId,
@@ -116,35 +114,34 @@ export default {
     img {
       width: 24px;
     }
-    div {
+    .left-b {
       .f-d-f;
       .f-f-1;
-      p {
-       
-
-      
+      div {
         .f-f-1;
         .f-d-f;
         .f-fd-c;
         .f-ai-c;
-        position: relative;
         span {
           font-size: 12px;
           color: #333;
           margin-top: 4px;
         }
-        img {
-          width: 36px;
-        }
-        i {
-          position: absolute;
-          width: 16px;
-          height: 16px;
-          display: block;
-          top: 0;
-          right: 0;
-          background: url("../../assets/img/icon_dele.png");
-          background-size: 100%;
+        p {
+          position: relative;
+          img {
+            width: 36px;
+          }
+          i {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            display: block;
+            top: -10px;
+            right: -10px;
+            background: url("../../assets/img/icon_dele.png");
+            background-size: 100%;
+          }
         }
       }
         
@@ -163,25 +160,43 @@ export default {
         color: #333;
         background-color: #efeff4;
       }
-      div {
-        .f-d-f;
-        .f-fw-w;
-        padding-bottom: 20px;
-        p {
-          width: 25%;
-          .f-d-f;
-          .f-fd-c;
-          .f-ai-c;
-          margin-top: 20px;
-          span {
-            font-size: 12px;
-            color: #333;
-            margin-top: 4px;
-          }
-          img {
-            width: 36px;
-          }
-        }
+			div {
+				padding-bottom:20px;
+				width:100%;
+				.f-d-f;
+				.f-fw-w;
+				p {
+					width: 25%;
+					.f-d-f;
+					.f-fd-c;
+					.f-ai-c;
+					margin-top:20px;
+					a {
+						position: relative;
+						img {
+							width: 36px;
+						}
+						i {
+							display: block;
+							background: url('../../assets/img/icon_checkempty.png') no-repeat;
+							background-size: 100% 100%;
+							width:14px;
+							height:14px;
+							position: absolute;
+							right:-10px;
+							top:-10px;
+						}
+						.ichecked {
+							background: url('../../assets/img/icon_checkbox.png') no-repeat; 
+							background-size: 100% 100%;
+						}
+					}
+					span {
+						font-size: 12px;
+						color: #333;
+						margin-top: 4px;
+					}
+				}
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <title-nav v-if="$route.path !== '/'"></title-nav>
+    <title-nav v-if="$route.path !== '/' && $route.path !== '/Project' && $route.path !== '/Day' && $route.path !=='/ContactList'"></title-nav>
     <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
     <router-view></router-view>
     <tab
@@ -14,8 +14,7 @@
 import TitleNav from "base/TitleNav";
 import Tab from "base/tab";
 import UserImg from "base/UserImg";
-import HTTP from "./assets/js/postHttp.js";
-import * as API from "./assets/js/api.js";
+import postHttp from "./assets/js/postHttp.js";
 export default {
   components: {
     Tab,
@@ -35,11 +34,10 @@ export default {
   },
   methods: {
     async login() {
-      const { data } = await HTTP.post("/user/login", {
+      const { data } = await postHttp.post("/user/login", {
         mobile: "17328373151",
         password: "123456"
       });
-      console.log(data)
       if (!data.error) {
         window.localStorage.setItem('loginUserId',data.data.loginUserId)
         window.localStorage.setItem('logintoken',data.data.logintoken)
@@ -61,6 +59,5 @@ export default {
   width: 100vw;
   min-height: 100vh;
   background: #fff;
-  padding-top: 38px;
 }
 </style>

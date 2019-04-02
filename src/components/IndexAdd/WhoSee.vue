@@ -48,6 +48,7 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/flex.less";
 .who-see {
+  padding-top:38px;
   ul {
     width: 100%;
     .f-d-f;

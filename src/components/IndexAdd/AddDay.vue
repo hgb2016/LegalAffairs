@@ -303,6 +303,7 @@ export default {
 		width:100%;
 		.f-d-f;
 		height:80px;
+		margin-top:38px;
 		input {
 			.f-f-1;
 			text-align: center;

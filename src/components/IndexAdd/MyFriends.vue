@@ -133,6 +133,7 @@ export default {
 		}
 	}
 	&-list {
+		padding-top:38px;
 		width:100%;
 		ul {
 			width:100%;

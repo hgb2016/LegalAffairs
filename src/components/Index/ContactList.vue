@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import HTTP from "../../assets/js/postHttp.js";
-import * as API from "../../assets/js/api.js";
+import postHttp from "../../assets/js/postHttp.js";
 
 export default {
   data() {
@@ -36,11 +35,10 @@ export default {
   },
   methods: {
     async getNiuFaUser() {
-      const { data } = await HTTP.post("/Index/getNiuFaUser", {
+      const { data } = await postHttp.post("/Index/getNiuFaUser", {
         loginUserId: this.loginUserId,
         logintoken:this.logintoken
       });
-      console.log(data);
       if (!data.error) {
           this.contactlist=data.data;
       } else {
@@ -58,7 +56,7 @@ export default {
   &-header {
     background: #fff;
     position: fixed;
-    top: 40px;
+    top: 0;
     width: 100%;
     &-search {
       margin: 20px;

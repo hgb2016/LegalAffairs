@@ -86,6 +86,7 @@ export default {
 @import '../../assets/css/flex.less';
 .user-set{
 	&-in{
+    margin-top:38px;
     div{
       .f-d-f;
       .f-ai-c;

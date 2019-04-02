@@ -11,6 +11,14 @@
 <script>
 import CanDemo from 'base/CanDemo'
 import IndexList from 'base/IndexList'
+import postHttp from "../../assets/js/postHttp.js";
+import { formatDatetime } from '../../assets/js/sort.js'
+function currentThird () {
+	let date1 = new Date();
+	let date2 = new Date(date1);
+  date2.setDate(date1.getDate() + 14);
+	return formatDatetime(date2)
+}
 export default {
 	components:{
 		CanDemo,
@@ -18,19 +26,32 @@ export default {
 	},
 	data () {
 		return {
-			infomationList:[
-				{
-					year:'2019年3月18',
-					title:'哈哈镜',
-					time:'16：35-17：35'
-				},
-				{
-					year:'2019年3月19',
-					title:'哈哈镜',
-					time:'16：35-17：35'
-				}
-			]
+			infomationList:[],
+			beginTime:formatDatetime(new Date()-7*24*3600*1000),
+			endTime:currentThird(),
+			loginUserId: "",
+      logintoken: "",
 		}
+	},
+	methods :{
+		async getMyCalendar() {
+      const { data } = await postHttp.post("/Calendar/getMyCalendar", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken,
+        beginTime:this.beginTime,
+        endTime:this.endTime
+      });
+      if (!data.error) {
+        this.infomationList = data.data;
+      } else {
+        alert(data.message);
+      }
+    },
+	},
+	created () {
+		this.loginUserId = window.localStorage.getItem("loginUserId");
+    this.logintoken = window.localStorage.getItem("logintoken");
+		this.getMyCalendar();
 	}
 }
 </script>

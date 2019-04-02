@@ -66,7 +66,7 @@ export default {
 		.f-ai-c;
 		padding:0 10px;
 		background-color: #fff;
-		margin-top:10px;	
+		margin-top:48px;	
 		span {
 			width:70px;
 			color: #333;

@@ -7,9 +7,8 @@
       <div v-for="(item, index) in toolList" :key="index">
         <a :href="item.url">
           <img :src="item.actionNewPic" alt>
-		   </a>
-          <span>{{item.actionName}}</span>
-       
+		    </a>
+        <span>{{item.actionName}}</span>
       </div>
       <div @click="goToolBar">
         <img src="../../assets/img/icon_more.png" alt>
@@ -26,8 +25,15 @@
 <script>
 import CanDemo from "base/CanDemo";
 import IndexList from "base/IndexList";
-import HTTP from "../../assets/js/postHttp.js";
-import * as API from "../../assets/js/api.js";
+import postHttp from "../../assets/js/postHttp.js";
+import { formatDatetime } from '../../assets/js/sort.js'
+function currentThird () {
+	let date1 = new Date();
+	let date2 = new Date(date1);
+  date2.setDate(date1.getDate() + 14);
+  
+	return formatDatetime(date2)
+}
 
 export default {
   components: {
@@ -38,22 +44,40 @@ export default {
     return {
       loginUserId: "",
       logintoken: "",
-	  toolList: [],
-	  bannerList:[]
+      toolList: [],
+      bannerList: [],
+      beginTime:formatDatetime(new Date()-7*24*3600*1000),
+      endTime:currentThird(),
+      infomationList:[]
     };
   },
   created() {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
-	 this.getHotTool();
-	 this.getBannerList();
+    this.getHotTool();
+    this.getBannerList();
+    this.getMyCalendar();
   },
   methods: {
+    async getMyCalendar() {
+      const { data } = await postHttp.post("/Calendar/getMyCalendar", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken,
+        beginTime:this.beginTime,
+        endTime:this.endTime
+      });
+      console.log(data)
+      if (!data.error) {
+        this.infomationList = data.data;
+      } else {
+        alert(data.message);
+      }
+    },
     goToolBar() {
       this.$router.push("/ToolBar");
     },
     async getHotTool() {
-      const { data } = await HTTP.post("/Index/getHotTool", {
+      const { data } = await postHttp.post("/Index/getHotTool", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken
       });
@@ -62,9 +86,9 @@ export default {
       } else {
         alert(data.message);
       }
-	},
-	 async getBannerList() {
-      const { data } = await HTTP.post("/Index/getBannerList", {
+    },
+    async getBannerList() {
+      const { data } = await postHttp.post("/Index/getBannerList", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken
       });
@@ -91,7 +115,7 @@ export default {
   &-nav {
     .f-d-f;
     div {
-		margin-top: 10px;
+      margin-top: 10px;
       .f-f-1;
       .f-d-f;
       .f-fd-c;

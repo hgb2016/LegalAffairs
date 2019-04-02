@@ -117,6 +117,7 @@ export default {
 		.f-fd-c;
 		border-bottom:1px solid #e5e5e5;
 		padding:10px 10px;
+		margin-top:38px;
 		p {
 			color:#333;
 			font-size:14px;

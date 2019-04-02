@@ -33,8 +33,7 @@
 </template>
 
 <script>
-import HTTP from "../../assets/js/postHttp.js";
-import * as API from "../../assets/js/api.js";
+import postHttp from "../../assets/js/postHttp.js";
 export default {
   data() {
     return {
@@ -48,11 +47,10 @@ export default {
   },
   methods: {
     async getProjectList() {
-      const { data } = await HTTP.post("/Project/getProjectList", {
+      const { data } = await postHttp.post("/Project/getProjectList", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken
       });
-      console.log(data);
       if (!data.error) {
         this.projectList = data.data;
       } else {
@@ -71,7 +69,7 @@ export default {
     margin-top: 60px;
     background: #fff;
     position: fixed;
-    top: 40px;
+    top:0px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;

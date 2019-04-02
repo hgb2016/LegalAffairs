@@ -154,6 +154,7 @@ export default {
 	&-input {
 		height:60px;
 		.f-d-f;
+		margin-top:38px;
 		input{
 			.f-f-1;
 			text-align: center;

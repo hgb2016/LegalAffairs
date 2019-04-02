@@ -21,9 +21,8 @@ export default {
   height: 60px;
 	background:#fff;
 	padding:0 20px;
-	top:38px;
+	top:0px;
 	z-index:9999;
-
 	.f-d-f;
 	.f-fd-rr;
 	.f-ai-c;
