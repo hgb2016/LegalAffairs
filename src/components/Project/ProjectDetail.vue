@@ -1,61 +1,58 @@
 <template>
   <div class="Project">
-    <div class="Project-header">
-      <div class="Project-header-search">
-        <input type="text" placeholder="请输入项目名称">
-        <i></i>
-      </div>
-    
-    </div>
-      <!-- 案件列表-->
-      <div class="Project-list">
-        <div class="Project-list-item" v-for="(item, index) in projectList " :key="index" @click="goProjectDetail(item.projectId)">
-          <div class="Project-list-item-r"> 
-            <p>{{item.projectName}}</p>
-            <span>
-              <p>洽谈中</p>
-              <i></i>
-            </span>
-          </div>
-          <div class="Project-list-childItem" v-for="(childItem, index) in item.calenderList" :key="index">
-            <div   >
-              <img :src="childItem.headUrl" alt>
-              <p>{{childItem.createUserName  }}</p>
-              <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
-            </div>
-            <h5>{{childItem.title}}</h5>
-            <p>{{childItem.hourNum}}小时</p>
-            <span></span>
-          </div>
+    <!-- 案件列表-->
+    <div class="Project-list">
+      <div class="Project-list-item">
+        <div class="Project-list-item-r">
+          <p>{{projectInfo.projectName}}</p>
+          <span>
+            <p>洽谈中</p>
+            <i></i>
+          </span>
+        </div>
+        <p class="Project-list-desc">描述：{{projectInfo.description}}</p>
+        <div class="Project-list-client">
+          <span>
+            <img src="../../assets/img/icon_client.png" alt>
+            <p>{{projectInfo.clientName}}</p>
+          </span>
+         <img width="8px" src="../../assets/img/arrow.png" alt="">
         </div>
       </div>
+    </div>
+    <calendar-list :calendarList="projectInfo.timeDataList"></calendar-list>
   </div>
 </template>
 
 <script>
+import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
+
 export default {
+  components: {
+    calendarList
+  },
   data() {
     return {
-      projectList: []
+      projectId: "",
+      projectInfo: []
     };
   },
   created() {
+    this.projectId = this.$route.query.id;
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
-    this.getProjectList();
+    this.getProjectDetail();
   },
   methods: {
-    goProjectDetail(id){
-         this.$router.push(`/ProjectDetail?id=${id}`)
-    },
-    async getProjectList() {
-      const { data } = await postHttp.post("/Project/getProjectList", {
+    async getProjectDetail() {
+      const { data } = await postHttp.post("/Project/getProjectInfo", {
         loginUserId: this.loginUserId,
-        logintoken: this.logintoken
+        logintoken: this.logintoken,
+        projectId: this.projectId
       });
       if (!data.error) {
-        this.projectList = data.data;
+        this.projectInfo = data.data;
       } else {
         alert(data.message);
       }
@@ -69,10 +66,9 @@ export default {
 .Project {
   width: 100%;
   &-header {
-    margin-top: 60px;
     background: #fff;
     position: fixed;
-    top:0px;
+    top: 0px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -100,9 +96,35 @@ export default {
     }
   }
   &-list {
-    margin-top:100px;
-    margin-bottom: 50px;
+    margin-top: 50px;
     width: 100%;
+    &-desc {
+      padding: 10px 20px;
+      color: #ccc;
+      font-size: 12px;
+    }
+    &-client {
+      .f-d-f;
+      .f-fd-r;
+      .f-jc-sb;
+      .f-ai-c;
+      border-bottom: #ededed solid 1px;
+      border-top:  #ededed solid 1px;
+      img{
+        margin-right: 20px;
+      }
+      span {
+        padding: 5px 20px;
+        .f-d-f;
+        .f-fd-r;
+        .f-ai-c;
+        font-size: 14px;
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
     &-item {
       &-r {
         border-bottom: 1px solid #ededed;

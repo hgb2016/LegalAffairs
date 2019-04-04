@@ -21,6 +21,7 @@ import DayDetails from '@/components/IndexAdd/DayDetails'
 import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
+import ProjectDetail from '@/components/Project/ProjectDetail'
 
 Vue.use(Router)
 
@@ -179,6 +180,14 @@ const router = new Router({
       component: ContactList,
       meta: {
         title: '通讯录'
+      }
+    },
+    {
+      path: '/ProjectDetail',
+      name: 'ProjectDetail',
+      component: ProjectDetail,
+      meta: {
+        title: '项目详情'
       }
     }
   ]

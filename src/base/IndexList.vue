@@ -1,7 +1,7 @@
 <template>
     <div class="index-list">
-		<ul>
-			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)" v-if="infomationList.length>0">
+		<ul  v-if="infomationList.length>0">
+			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
 				<div class="list-time">
 					<div>
 						<span>{{item.beginTime.split(' ')[0]}}</span>
@@ -37,13 +37,16 @@ export default {
     .f-d-f;
     .f-fd-c;
     li {
+      margin-left: 20px;
+      margin-right: 20px;
       border-bottom: 1px solid #e5e5e5;
       .list-time {
         .f-d-f;
         .f-fd-c;
-        padding: 10px 20px;
+        padding: 10px 0px;
         div {
           span {
+            margin-top: 5px;
             color: #333;
             font-size: 14px;
           }
@@ -51,7 +54,7 @@ export default {
         div + div {
           .f-d-f;
           .f-fd-c;
-          margin-top: 10px;
+          margin-top:2px;
           span {
             color: #999;
             font-size: 14px;
