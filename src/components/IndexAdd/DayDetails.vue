@@ -35,9 +35,9 @@
 				<li>
 					<div>
 						<img src="../../assets/img/icon__players.png" alt="">
-						<p>	
-							<img src="../../assets/img/liyan.jpg" alt="">
-							<span>Slienttears</span>
+						<p v-for="(item, index) in dayInfo.userList" :key="index">	
+							<img :src="item.headUrl" alt="">
+							<span>{{item.userName}}</span>
 						</p>
 					</div>
 					<img src="../../assets/img/arrow.png" alt="">
@@ -54,12 +54,12 @@
 						备注
 					</p>
 				</li>
-				<li>
+				<!-- <li>
 					<div>
 						<img src="../../assets/img/icon_appendix.png" alt="">
 					</div>
 					<img src="../../assets/img/arrow.png" alt="">
-				</li>
+				</li> -->
 			</ul>
 		</div>
 
@@ -90,6 +90,7 @@ export default {
   },
   data() {
     return {
+
       peopleList: [
         {
           name: "工作",
@@ -248,8 +249,8 @@ export default {
     },
     async getCalendarInfo(id) {
       const { data } = await postHttp.post("/Calendar/getCalendarInfo", {
-        loginUserId: this.$store.getters.getUserId,
-        logintoken: this.$store.getters.gettoken,
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken:window.localStorage.getItem("logintoken"),
         scheduleId:id
       });
       console.log(data)
@@ -371,9 +372,12 @@ export default {
 						margin:0 6px;
 					}
 					p{
+            text-align: center;   
 						padding:4px 0;
 						img {
-							width:36px;
+              width:30px;
+              height: 30px;
+              border-radius: 50%;	
 						}
 					}
 				}
