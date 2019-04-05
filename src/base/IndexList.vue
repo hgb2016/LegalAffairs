@@ -63,13 +63,16 @@ export default {
     .f-d-f;
     .f-fd-c;
     li {
+      margin-left: 20px;
+      margin-right: 20px;
       border-bottom: 1px solid #e5e5e5;
       .list-time {
         .f-d-f;
         .f-fd-c;
-        padding: 10px 20px;
+        padding: 10px 0px;
         div {
           span {
+            margin-top: 5px;
             color: #333;
             font-size: 12px;
           }
