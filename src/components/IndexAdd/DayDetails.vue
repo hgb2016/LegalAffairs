@@ -247,6 +247,7 @@ export default {
       this.$router.push("/RemindTime");
     },
     async getCalendarInfo(id) {
+      console.log(this.$store.getters.getUserId,this.$store.getters.gettoken)
       const { data } = await postHttp.post("/Calendar/getCalendarInfo", {
         loginUserId: this.$store.getters.getUserId,
         logintoken: this.$store.getters.gettoken,

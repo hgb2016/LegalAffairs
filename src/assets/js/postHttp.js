@@ -45,7 +45,6 @@ function checkCode(res) {
 
 export default {
   post(url, data) {
-    console.log(data)
     return axios({
       method: 'post',
       baseURL: API.baseUrl,

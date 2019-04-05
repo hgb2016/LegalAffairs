@@ -1,12 +1,13 @@
 <template>
   <div class="user-img">
+		<p>{{title}}</p>
 		<img @click="$router.push('/User')" src="../assets/img/liyan.jpg" alt="">	
 	</div>  
 </template>
 
 <script>
 export default {
-
+	props:['title']
 }
 </script>
 
@@ -24,11 +25,17 @@ export default {
 	top:0px;
 	z-index:9999;
 	.f-d-f;
-	.f-fd-rr;
+	.f-fd-r;
 	.f-ai-c;
+	.f-jc-sb;
 	img {
 		width:36px;
 		border-radius: 50%;
+	}
+	p {
+		color:#000;
+		font-weight: bold;
+		font-size:20px;
 	}
 }
 </style>

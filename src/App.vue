@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <title-nav v-if="$route.path !== '/' && $route.path !== '/Project' && $route.path !== '/Day' && $route.path !=='/ContactList'"></title-nav>
-    <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'"></user-img>
+    <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'" :title="title"></user-img>
     <router-view></router-view>
     <tab
       v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'"
@@ -24,11 +24,13 @@ export default {
   name: "App",
   data() {
     return {
-      navName: ""
+      navName: "",
+      title:''
     };
   },
   watch: {
     $route(val) {
+      this.title = val.meta.title
       this.navName = val.path;
     }
   },
@@ -47,6 +49,7 @@ export default {
     }
   },
   created() {
+    this.title = this.$route.meta.title
     this.navName = this.$route.path;
     this.login();
   }

@@ -1,16 +1,41 @@
 <template>
     <div class="index-list">
 		<ul>
-			<li v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)" v-if="infomationList.length>0">
-				<div class="list-time">
-					<div>
-						<span>{{item.beginTime.split(' ')[0]}}</span>
-					</div>
-					<div>
-						<span>{{item.title}}</span>
-						<span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
-					</div>
-				</div>
+			<li>
+        <template v-if="mark===true">
+          <div class="list-time">
+            <div>
+              <span>{{infomationList[0].beginTime.split(' ')[0]}}</span>
+            </div>
+            <div v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
+              <template v-if="item.markTime === false">
+                <span>{{item.title}}</span>
+                <span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+              </template>
+              <template v-else>
+                <span style="color:#888">{{item.title}}</span>
+                <span style="color:#999">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+              </template>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="list-time" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
+            <div>
+              <span>{{item.beginTime.split(' ')[0]}}</span>
+            </div>
+            <div>
+              <template v-if="item.markTime === false">
+                <span>{{item.title}}</span>
+                <span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+              </template>
+              <template v-else>
+                <span style="color:#888">{{item.title}}</span>
+                <span style="color:#999">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+              </template>
+            </div>
+          </div>
+        </template>
 			</li>
 		</ul>
 	</div>
@@ -18,7 +43,7 @@
 
 <script>
 export default {
-  props: ["infomationList"],
+  props: ["infomationList",'mark'],
   methods:{
     goDayDetails (id) {
       this.$router.push(`/DayDetails?id=${id}`)
@@ -32,6 +57,7 @@ export default {
 .index-list {
   width: 100%;
   margin-top: 10px;
+  border-top:1px solid #e5e5e5;
   ul {
     width: 100%;
     .f-d-f;
@@ -45,16 +71,19 @@ export default {
         div {
           span {
             color: #333;
-            font-size: 14px;
+            font-size: 12px;
           }
         }
         div + div {
           .f-d-f;
           .f-fd-c;
-          margin-top: 10px;
+          margin-top: 6px;
           span {
-            color: #999;
-            font-size: 14px;
+            color: #333;
+            font-size: 12px;
+          }
+          span + span {
+            color:#666;
           }
         }
       }

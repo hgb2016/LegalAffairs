@@ -15,7 +15,7 @@
         <span>更多</span>
       </div>
     </div>
-    <index-list :infomationList="infomationList"></index-list>
+    <index-list :infomationList="infomationList" v-if="infomationList.length>0" :mark="mark"></index-list>
     <div class="index-add" @click="$router.push('/AddDay')">
       <img src="../../assets/img/icon_add.png" alt>
     </div>
@@ -48,7 +48,8 @@ export default {
       bannerList: [],
       beginTime:formatDatetime(new Date()-7*24*3600*1000),
       endTime:currentThird(),
-      infomationList:[]
+      infomationList:[],
+      mark:false
     };
   },
   created() {
@@ -66,8 +67,16 @@ export default {
         beginTime:this.beginTime,
         endTime:this.endTime
       });
-      console.log(data)
       if (!data.error) {
+        data.data.forEach(v => {
+          let currentdate = new Date()
+          let vDate = new Date(v.endTime.replace("-","/"))
+          if (currentdate>vDate) {
+            v.markTime = true
+          } else {
+            v.markTime = false
+          }
+        });
         this.infomationList = data.data;
       } else {
         alert(data.message);

@@ -1,7 +1,7 @@
 <template>
 <div class="day">
-	<can-demo :infomationList="infomationList"></can-demo>
-	<index-list :infomationList="infomationList"></index-list>
+	<can-demo :infomationList="infomationList" @choiceDayLists="choiceDayLists"></can-demo>
+	<index-list :infomationList="ExhibitionLists" :mark="mark" v-if="ExhibitionLists.length>0"></index-list>
 	<div class="day-add" @click="$router.push('/AddDay')">
 		<img src="../../assets/img/icon_add.png" alt="">
 	</div>
@@ -27,13 +27,35 @@ export default {
 	data () {
 		return {
 			infomationList:[],
+			ExhibitionLists:[],
 			beginTime:formatDatetime(new Date()-7*24*3600*1000),
 			endTime:currentThird(),
 			loginUserId: "",
-      logintoken: "",
+			logintoken: "",
+			mark:true
 		}
 	},
 	methods :{
+		choiceDayLists (data) {
+			// this.ExhibitionLists = []
+			let newArr = []
+			let newData = data.split('/')[0]+'-'+(data.split('/')[1]<10?'0'+data.split('/')[1]:data.split('/')[1]) + '-' + (data.split('/')[2]<10?'0'+data.split('/')[2]:data.split('/')[2])
+			this.infomationList.forEach(m =>{
+				if (m.beginTime.split(' ')[0] === newData) {
+					newArr.push(m)
+				}
+			})
+			this.ExhibitionLists = newArr
+		},
+		defaultDate() {
+			var y = new Date().getFullYear();
+			var m =
+				new Date().getMonth() + 1 <= 9
+					? "0" + (new Date().getMonth() + 1)
+					: new Date().getMonth() + 1;
+			var d = new Date().getDate()<= 9?'0'+new Date().getDate():new Date().getDate();
+			return y + "-" + m + "-" + d
+    },
 		async getMyCalendar() {
       const { data } = await postHttp.post("/Calendar/getMyCalendar", {
         loginUserId: this.loginUserId,
@@ -42,11 +64,28 @@ export default {
         endTime:this.endTime
       });
       if (!data.error) {
-        this.infomationList = data.data;
+				data.data.forEach(v => {
+          let currentdate = new Date()
+					let vDate = new Date(v.endTime.replace(/\//g, '-'))
+					console.log(v.endTime.replace(/\//g, '-'))
+          if (currentdate>vDate) {
+            v.markTime = true
+          } else {
+            v.markTime = false
+          }
+        });
+				this.infomationList = data.data;
+				data.data.forEach(m =>{
+					if (m.beginTime.split(' ')[0] === this.defaultDate()) {
+						this.ExhibitionLists.push(m)
+					}
+				})
+				console.log(this.ExhibitionLists)
       } else {
         alert(data.message);
       }
-    },
+		},
+		
 	},
 	created () {
 		this.loginUserId = window.localStorage.getItem("loginUserId");
