@@ -44,6 +44,7 @@ export default {
   methods: {
     //选中某天
     clickDay(data) {
+      this.$emit('choiceDayLists',data)
     },
     //跳到了本月
     clickToday(data) {
@@ -55,10 +56,10 @@ export default {
       date = new Date(date);
       return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
     },
-    format(date, index) {
-      date = new Date(date);
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
-    }
+    // format(date, index) {
+    //   date = new Date(date);
+    //   return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
+    // }
   }
 };
 </script>
@@ -82,6 +83,12 @@ h3 {
 }
 
 .wh_container >>> .mark1 {
+  position: absolute;
+  bottom:-4px;
+  left:50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height:4px;
 	background-color: rgb(254, 90, 90);
 	border-radius: 50%;
 }

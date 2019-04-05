@@ -26,7 +26,7 @@ li {
   cursor: pointer;
   display: flex;
   color: #333;
-  font-size: 18px;
+  font-size: 14px;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -61,11 +61,12 @@ li {
 
 .wh_content_item,
 wh_content_item_tag {
-  font-size: 15px;
+  font-size: 13px;
   width: 14.2%;
   text-align: center;
   color: #333;
   position: relative;
+  margin-top:5px;
 }
 .wh_content_item {
   height: 40px;
@@ -89,11 +90,12 @@ wh_content_item_tag {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .wh_jiantou1 {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-top: 2px solid #333;
   border-left: 2px solid #333;
   transform: rotate(-45deg);
@@ -105,8 +107,8 @@ wh_content_item_tag {
 }
 
 .wh_jiantou2 {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-top: 2px solid #333;
   border-right: 2px solid #333;
   transform: rotate(45deg);
@@ -128,9 +130,9 @@ wh_content_item_tag {
   border-radius: 100px;
 }
 .wh_content_item .wh_chose_day {
-  background:rgb(74, 74, 250);
+  background: rgb(74, 74, 250);
   border-radius: 100px;
-  color:#fff;
+  color: #fff;
 }
 </style>
 <template>
@@ -154,8 +156,10 @@ wh_content_item_tag {
         <div class="wh_content_item" v-for="(item,index) in list" @click="clickDay(item,index)">
           <div
             class="wh_item_date"
-            v-bind:class="[{ wh_isMark: item.isMark},{wh_other_dayhide:item.otherMonth!=='nowMonth'},{wh_want_dayhide:item.dayHide},{wh_isToday:item.isToday},{wh_chose_day:item.chooseDay},setClass(item)]"
-          >{{item.id}}</div>
+            v-bind:class="[{ wh_isMark: item.isMark},{wh_other_dayhide:item.otherMonth!=='nowMonth'},{wh_want_dayhide:item.dayHide},{wh_isToday:item.isToday},{wh_chose_day:item.chooseDay}]"
+          >{{item.id}}
+            <p :class="setClass(item)"></p>
+          </div>
         </div>
       </div>
     </div>
