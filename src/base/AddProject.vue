@@ -1,20 +1,20 @@
 <template>
-  <div class="addproject" :style="rightTransition" @click.self="$emit('close_Sale')">
+  <div class="addproject" :style="rightTransition" @click.self="closeSale">
 		
     <div class="addproject-sale">
 			<div class="addproject-sale-twoBtn">
-				<span @click="goAddPro">添加</span>
-				<span>确定</span>
+				<span @click="goAddPro">添加项目</span>
+				<!-- <span>确定</span> -->
 			</div>
 			<ul>
-				<li v-for="(item,index) in projectLists" :key="index" @click="choiceProject(index,item.name)">
-					<span v-if="index !== idx">{{item.name}}</span>
-					<span v-if="index === idx" style="color:#2B6FCE">{{item.name}}</span>
-					<template v-if="index === idx">
-						<img :src="item.yeschoice" alt="">
+				<li v-for="(item,index) in projectLists" :key="index" @click="choiceProject(item.projectName,item.projectId)">
+					<span v-if="item.projectId !== proId">{{item.projectName}}</span>
+					<span v-if="item.projectId === proId" style="color:#2B6FCE">{{item.projectName}}</span>
+					<template v-if="item.projectId !== proId">
+						<img src="../assets/img/icon_checkempty.png" alt="">
 					</template>
 					<template v-else>
-						<img :src="item.nochoice" alt="">
+						<img src="../assets/img/check_green.png" alt="">
 					</template>
 				</li>
 			</ul>
@@ -31,53 +31,19 @@ export default {
 		showSale: {
 			type: Boolean
 		},
+		projectLists:{
+			tpe:Array
+		},
+		projectUid: {
+			type:String
+		}
 	},
   data () {
 		return {
 			right:-100,
-			idx:-1,
-			start:1950,
-			end:2030,
 			productValue: '',
-			startRight:'',
-			endRight: '',
-			projectLists:[
-				{
-					name:'我是表格1',
-					status:false,
-					id:2,
-					yeschoice:check_green,
-					nochoice:icon_checkempty
-				},
-				{
-					name:'我是表格2',
-					status:false,
-					id:3,
-					yeschoice:check_green,
-					nochoice:icon_checkempty
-				},
-				{
-					name:'我是表格3',
-					status:false,
-					id:4,
-					yeschoice:check_green,
-					nochoice:icon_checkempty
-				},
-				{
-					name:'我是表格4',
-					status:false,
-					id:5,
-					yeschoice:check_green,
-					nochoice:icon_checkempty
-				},
-				{
-					name:'我是表格5',
-					status:false,
-					id:6,
-					yeschoice:check_green,
-					nochoice:icon_checkempty
-				},
-			]
+			proName:'',
+			proId:''
 		}
 	},
 	computed: {
@@ -88,15 +54,23 @@ export default {
 		},
 	},
 	methods:{
-		choiceProject (index,name) {
-			if (this.idx !== index) {
-				this.idx = index
+		choiceProject (name,id) {
+			if (this.proId !== id) {
+				this.proName = name
+				this.proId = id
 			} else {
-				this.idx = -1
+				this.proName = ''
+				this.proId = ''
 			}
 		},
 		goAddPro () {
 			this.$router.push('/AddPro')
+		},
+		closeSale () {
+			let newObj = {}
+			newObj['name'] = this.proName
+			newObj['id'] = this.proId
+			this.$emit('close_Sale',newObj)
 		}
 	},
 	watch: {
@@ -106,6 +80,12 @@ export default {
 			} else {
 				this.right = -100
 			}
+		},
+		projectUid:{
+			handler (val) {
+				this.proId = val
+			},
+			immediate:true
 		}
 	}
 }
@@ -143,7 +123,7 @@ export default {
 			left:0;
 			right:0;
 			span {
-				width:50%;
+				width:100%;
 				height:38px;
 				color:#fff;
 				.f-d-f;
@@ -151,10 +131,6 @@ export default {
 				.f-jc-c;
 				background-color: #2B6FCE;
 				font-size:14px;
-			}
-			span + span {
-				background: #ccc;
-				color:#333;
 			}
 		}
 		ul {

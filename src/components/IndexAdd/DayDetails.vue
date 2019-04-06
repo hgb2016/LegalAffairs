@@ -1,12 +1,12 @@
 <template>
   <div class="day-details">
 		<div class="day-details-input">
-			<h4>该日程于{{dayInfo.beginTime}}创建</h4>
+			<h4>该日程于{{dayInfo.createTime}}创建</h4>
 			<span  @click="$router.push('/UserInput?title=标题&content=我来了')">{{dayInfo.title}}</span>
 		</div>	
 		<div class="day-details-twoTime">
 			<div class="during">
-				<div class="during-start" @click="getStart">
+				<div class="during-start" @click="getStart" v-if="dayInfo.beginTime">
 					<span>开始</span>
 					<p>{{dayInfo.beginTime.split(' ')[1]}}</p>
 					<span>{{dayInfo.beginTime.split(' ')[0]}}</span>
@@ -16,7 +16,7 @@
 					<span>{{TimeDiff}}小时</span>
 					<hr>
 				</div>
-				<div class="during-end" @click="getEnd">
+				<div class="during-end" @click="getEnd" v-if="dayInfo.beginTime">
 					<span>结束</span>
 					<p>{{dayInfo.endTime.split(' ')[1]}}</p>
 					<span>{{dayInfo.endTime.split(' ')[0]}}</span>
@@ -28,7 +28,7 @@
 				<li>
 					<div @click="goTime">
 						<img src="../../assets/img/icon_notify.png" alt="">
-						<span>准点提醒、提前5分钟</span>
+						<span v-for="(item,index) in dayInfo.remindList" :key="index">{{item.value}},</span>
 					</div>
 					<img src="../../assets/img/arrow.png" alt="">
 				</li>
@@ -42,16 +42,23 @@
 					</div>
 					<img src="../../assets/img/arrow.png" alt="">
 				</li>
-				<li>
-					<div @click="$router.push('/UserInput?title=地址&content=啦啦啦')">
+				<li v-if="dayInfo.projectName">
+					<div>
 						<img class="threeImg" src="../../assets/img/location_2.png" alt="">
-						<span>啦啦啦</span>
+						<span>{{dayInfo.projectName}}</span>
 					</div>
 					<img src="../../assets/img/arrow.png" alt="">
 				</li>
-				<li>
+        <li v-if="dayInfo.address">
+					<div @click="$router.push('/UserInput?title=地址&content=啦啦啦')">
+						<img src="../../assets/img/icon_project.png" alt="">
+						<span>{{dayInfo.address}}</span>
+					</div>
+					<img src="../../assets/img/arrow.png" alt="">
+				</li>
+				<li v-if="dayInfo.remark">
 					<p class="b" @click="$router.push('/UserInput?title=备注&content=我是备注')">
-						备注
+						{{dayInfo.remark}}
 					</p>
 				</li>
 				<!-- <li>
@@ -373,8 +380,11 @@ export default {
 						margin:0 6px;
 					}
 					p{
-            text-align: center;   
-						padding:4px 0;
+            padding:4px 0;
+            .f-d-f;
+            .f-ai-c;
+            .f-fd-c;
+            .f-jc-c;
 						img {
               width:30px;
               height: 30px;
@@ -388,7 +398,7 @@ export default {
 				p{
 					color:#999;
 					font-size:12px;
-					.f-f-1;
+					// .f-f-1;
 				}
 			}
 			li:last-child {

@@ -40,22 +40,6 @@ export default {
 		return {
 			firendLists:[
 				{
-					id:1,
-					status:false,
-					name:'李艳彪1',
-					userimg:liyan,
-					nochoice:icon_checkempty,
-					yeschoice:check_green,
-				},
-				{
-					id:2,
-					status:false,
-					name:'李艳彪2',
-					userimg:liyan,
-					nochoice:icon_checkempty,
-					yeschoice:check_green,
-				},
-				{
 					id:3,
 					status:false,
 					name:'李艳彪3',
@@ -122,6 +106,8 @@ export default {
 .my-firends {
 	.f-d-f;
 	.f-fd-c;
+		margin-top:38px;
+	
 	&-choice {
 		border-bottom: 1px solid #e5e5e5;
 		padding:10px;
@@ -133,7 +119,6 @@ export default {
 		}
 	}
 	&-list {
-		padding-top:38px;
 		width:100%;
 		ul {
 			width:100%;

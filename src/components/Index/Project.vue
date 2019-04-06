@@ -46,8 +46,8 @@ export default {
     this.getProjectList();
   },
   methods: {
-    goProjectDetail(id){
-         this.$router.push(`/ProjectDetail?id=${id}`)
+    goProjectDetail(id) {
+      this.$router.push(`/ProjectDetail?id=${id}`);
     },
     async getProjectList() {
       const { data } = await postHttp.post("/Project/getProjectList", {
@@ -72,7 +72,7 @@ export default {
     margin-top: 60px;
     background: #fff;
     position: fixed;
-    top:0px;
+    top: 0px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -100,7 +100,7 @@ export default {
     }
   }
   &-list {
-    margin-top:100px;
+    margin-top: 100px;
     margin-bottom: 50px;
     width: 100%;
     &-item {
