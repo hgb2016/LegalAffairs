@@ -10,7 +10,7 @@
 			</div>
 			<div class="addfriends-sale-list">
 				<ul>
-					<li v-for="(item,index) in contactlist" :key="index" @click="choiceNow(item.status,item.name,item.headUrl,item.id)">
+					<li v-for="(item,index) in contactlist" :key="index" @click="choiceNow(item.status,item.userName,item.headUrl,item.userId)">
 						<div>
 							<template v-if="item.status === false">
 								<img src="../assets/img/icon_checkempty.png" alt="">
@@ -66,9 +66,10 @@ export default {
 			this.$emit('close_Friends',this.choiceUserLists)
 		},
 		choiceNow (status,name,img,id) {
+			console.log(this.contactlist)
 			if (status === false) {
 				this.contactlist.forEach ((v,index)=>{
-					if (v.id === id) {
+					if (v.userId === id) {
 						let newObj = {}
 						newObj['name'] = name
 						newObj['img'] = img
@@ -79,7 +80,7 @@ export default {
 				})
 			} else {
 				this.contactlist.forEach (v=>{
-					if (v.id === id) {
+					if (v.userId === id) {
 						this.choiceUserLists.forEach ((m,index)=>{
 							if (m.id === id) {
 								this.choiceUserLists.splice(index,1)
@@ -114,14 +115,15 @@ export default {
 		choiceUserListsParents: {
 			handler (val) {
 				this.choiceUserLists = val
-					val.forEach(v=>{
-						this.contactlist.forEach(m=>{
-							if (v.id === m.id) {
-								m.status = true
-							}
-						})
+				val.forEach(v=>{
+					this.contactlist.forEach(m=>{
+						if (v.id === m.userId) {
+							m.status = true
+						}
 					})
-			}
+				})
+			},
+			immediate:true
 		}
   }
 };

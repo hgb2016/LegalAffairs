@@ -19,19 +19,19 @@
 					<span>导出日程</span>
 				</div>
 			</li>
-			<li @click="goShare">
+			<!-- <li @click="goShare">
 				<div>
 					<img src="../assets/img/share.png" alt="">
 					<span>分享给好友</span>
 				</div>
-			</li>
+			</li> -->
 			<li @click="goSuggestion">
 				<div>
 					<img src="../assets/img/opinion.png" alt="">
 					<span>意见反馈</span>
 				</div>
 			</li>
-			<li @click="goAboutUs">
+			<!-- <li @click="goAboutUs">
 				<div>
 					<img src="../assets/img/about.png" alt="">
 					<span>关于我们</span>
@@ -48,7 +48,7 @@
 					<img src="../assets/img/banbenjieshao (1).png" alt="">
 					<span>版本信息</span>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </template>

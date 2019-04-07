@@ -9,9 +9,9 @@
 		</div>
 		<div class="my-customer-list">
 			<ul> 
-				<li v-for="(item,index) in customerList" :key="index" @click="CustomerDetails(item.name)">
-					<span>{{item.name}}</span>
-					<span>{{item.post}}</span>
+				<li v-for="(item,index) in customerList" :key="index" @click="CustomerDetails(item.clientId)">
+					<span>{{item.clientName}}</span>
+					<span>{{item.clientAddress}}</span>
 				</li>
 			</ul>
 		</div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import postHttp from "../../assets/js/postHttp.js";
+
 export default {
   data() {
     return {
@@ -34,14 +36,29 @@ export default {
 				}
 			]
     };
-  },
+	},
+	created () {
+		this.getClientList()
+	},
   methods: {
+		async getClientList () {
+			const { data } = await postHttp.post("/Client/getClientList", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken:window.localStorage.getItem("logintoken"),
+			});
+			console.log(data)
+      if (!data.error) {
+        this.customerList = data.data;
+      } else {
+        alert(data.message);
+      }
+		},
 		searchBtn() {},
 		goAdd () {
 			this.$router.push('/AddCustomer')
 		},
-		CustomerDetails (name) {
-			this.$router.push(`/CustomerDetails?name=${name}&phone=18618377474&email=13513335747@163.com`)
+		CustomerDetails (id) {
+			this.$router.push(`/CustomerDetails?CustomerDetails=${id}`)
 		}
   }
 };
