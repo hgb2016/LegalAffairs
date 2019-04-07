@@ -26,7 +26,9 @@ export default {
 	padding:8px;
 	position: relative;
 	img {
-		width:36px;
+		width:35px;
+		height:35px;
+		border-radius: 50%;
 	}
 	span {
 		font-size:12px;
@@ -38,6 +40,7 @@ export default {
 		right:0;
 		top:0;
 		width:14px;
+		height:14px;
 	}
 }
 </style>

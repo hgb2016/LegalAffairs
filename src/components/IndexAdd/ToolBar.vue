@@ -1,18 +1,18 @@
 <template>
   <div class="tool-bar">
-    <!-- <div class="tool-bar-fix">
+    <div class="tool-bar-fix">
 			<span class="left">我的常用</span>
 			<div class="left-b">
-				<div v-for="(item,index) in topTitle" :key="index">
+				<div v-for="(item,index) in toolList" :key="index">
 					<p>
-						<img :src="item.img" alt="">
+						<img :src="item.actionNewPic" alt="">
 						<i v-if="showI" @click="deleteIcon(index)"></i>
 					</p>
-					<span>{{item.name}}</span>
+					<span>{{item.actionName}}</span>
 				</div>
 			</div>
 			<img class="right" @click="updateIcon" src="../../assets/img/icon_edit.png" alt="">
-    </div>-->
+    </div>
     <div class="tool-bar-list">
       <div class="items">
         <h4>查询</h4>
@@ -55,20 +55,23 @@
 import icon_ssf from "@/assets/img/icon_ssf.png";
 import icon_gs from "@/assets/img/icon_gs.png";
 import lvshifei from "@/assets/img/lvshifei.png";
-import HTTP from "../../assets/js/postHttp.js";
+import postHttp from "../../assets/js/postHttp.js";
 
 export default {
   data() {
     return {
         findList:[],
         countList:[],
-        laborList:[]
+        laborList:[],
+        toolList:[],
+        showI:false
     };
   },
   created() {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
     this.getAllTool();
+    this.getHotTool();
   },
   methods: {
     updateIcon() {
@@ -76,9 +79,20 @@ export default {
     },
     deleteIcon(index) {
       this.topTitle.splice(index, 1);
-		},
+    },
+    async getHotTool() {
+      const { data } = await postHttp.post("/Index/getHotTool", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken
+      });
+      if (!data.error) {
+        this.toolList = data.data;
+      } else {
+        alert(data.message);
+      }
+    },
     async getAllTool() {
-      const { data } = await HTTP.post("/Index/getAllTool", {
+      const { data } = await postHttp.post("/Index/getAllTool", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken
       });
@@ -150,6 +164,7 @@ export default {
   &-list {
     .f-d-f;
     .f-fd-c;
+    padding-top:128px;
     .items {
       .f-d-f;
       .f-fd-c;

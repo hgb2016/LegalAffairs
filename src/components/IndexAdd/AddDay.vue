@@ -44,9 +44,9 @@
 					<div class="w-d">
 						<div class="w-d-part">
 							<h3>参与人</h3>
-							<div class="part-i">
-								<ul>
-									<li v-for="(item,index) in choiceUserLists" :key="index">
+							<div class="part-i" >
+								<ul v-if="choiceUserListsParents.length>0">
+									<li v-for="(item,index) in choiceUserListsParents" :key="index">
 										<delete-img :item="item" @closeDelete="closeDelete"></delete-img>
 									</li>
 								</ul>
@@ -61,7 +61,7 @@
 					<div class="w-l">
 						<span class="tit">项目</span>
 						<p @click="showSale=true">
-							<span>选择项目</span>
+							<span>{{projectTitle}}</span>
 							<img class="arrow" src="../../assets/img/arrow.png" alt="">
 						</p>
 					</div>
@@ -70,7 +70,7 @@
 					<div class="w-l">
 						<span class="tit">提醒</span>
 						<p @click="goTime">
-							<span>准点提醒</span>
+							<span>{{timeString}}</span>
 							<img class="arrow" src="../../assets/img/arrow.png" alt="">
 						</p>
 					</div>
@@ -124,7 +124,9 @@
 			@confirm="closeTimePickerEnd">
 		</mt-datetime-picker>
 		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
-		<add-project :showSale="showSale" @close_Sale="close_Sale"></add-project>
+		<add-project :showSale="showSale" @close_Sale="close_Sale" :projectLists="projectLists" :projectUid="projectUid"></add-project>
+		<add-time :showTime="showTime" @close_Time="close_Time"></add-time>
+		<add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="contactlist"></add-friends>
 	</div>
 </template>
 
@@ -133,14 +135,19 @@ import icon_checkempty from '@/assets/img/icon_checkempty.png'
 import check_green from '@/assets/img/check_green.png'
 import ErrorRemind from "base/ErrorRemind.vue";
 import AddProject from "base/AddProject.vue";
+import AddFriends from "base/AddFriends.vue";
+import AddTime from "base/AddTime.vue";
 import DeleteImg from 'base/DeleteImg'
 import liyan from '@/assets/img/liyan.jpg'
+import postHttp from "../../assets/js/postHttp.js";
 
 export default {
 	components:{
 		ErrorRemind,
+		AddFriends,
 		AddProject,
-		DeleteImg
+		DeleteImg,
+		AddTime
 	},
 	data () {
 		return {
@@ -170,23 +177,15 @@ export default {
 			errorRemind:'',
 			pickerVisibleEnd:'',
 			showSale: false,
-			choiceUserLists:[
-				{
-					name:'李艳彪',
-					id:1,
-					img:liyan
-				},
-				{
-					name:'李艳彪',
-					id:1,
-					img:liyan
-				},
-				{
-					name:'李艳彪',
-					id:1,
-					img:liyan
-				}
-			]
+			showFriends:false,
+			showTime:false,
+			choiceUserListsParents:[
+			],
+			contactlist:[],
+			projectLists:[],
+			projectTitle:'请选择项目',
+			projectUid:'',
+			timeString:'准点提醒'
 		}
 	},
 	computed:{
@@ -195,11 +194,24 @@ export default {
 		}
 	},
 	methods:{
-		close_Sale () {
+		close_Sale (data) {
 			this.showSale = false
+			if (data.name !== '') {
+				this.projectTitle = data.name
+				this.projectUid = data.id
+			}
+		},
+		close_Friends (data) {
+			this.choiceUserListsParents = data
+			this.showFriends = false
+		},
+		close_Time (data) {
+			this.timeString = data.substr(0,data.length-1)
+			this.showTime= false
 		},
 		goMyFriends () {
-			this.$router.push('/MyFriends')
+			this.showFriends= true
+			// this.$router.push('/MyFriends')
 		},
 		keepTwo(num) {
       let result = parseFloat(num);
@@ -280,16 +292,47 @@ export default {
 			}
 		},
 		goTime () {
-			this.$router.push('/RemindTime')
+			this.showTime = true
 		},
 		closeDelete () {
 
-		}
+		},
+		async getNiuFaUser() {
+      const { data } = await postHttp.post("/Index/getNiuFaUser", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken:window.localStorage.getItem("logintoken")
+      });
+      if (!data.error) {
+				data.data.forEach(v=>{
+					v.status = false
+				})
+				this.contactlist=data.data;
+      } else {
+        alert(data.message);
+			}
+		},
+		async getProjectList() {
+      const { data } = await postHttp.post("/Project/getProjectList", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken:window.localStorage.getItem("logintoken")
+			});
+			console.log(data)
+      if (!data.error) {
+				// data.data.forEach(v=>{
+				// 	v.status = false
+				// })
+        this.projectLists = data.data;
+      } else {
+        alert(data.message);
+      }
+    }
 	},
 	created () {
 		let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000)
 		this.endTime = this.formatEnd(dateAfter)
 		this.pickerVisibleEnd =  dateAfter
+		this.getNiuFaUser();
+		this.getProjectList();
 	}
 }
 </script>
@@ -307,8 +350,9 @@ export default {
 		input {
 			.f-f-1;
 			text-align: center;
-			font-size:14px;
+			font-size:16px;
 			color:#333;
+			font-weight: bold;
 			background: #efeff4;
 		}
 	}
@@ -409,6 +453,7 @@ export default {
 					.f-ai-c;
 					.f-jc-sb;
 					padding:0 10px;
+					min-height: 60px;
 					.w-d-part {
 						.f-f-1;
 						.f-d-f;
