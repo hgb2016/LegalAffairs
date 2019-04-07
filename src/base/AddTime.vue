@@ -22,7 +22,7 @@
 <script>
 import ErrorRemind from 'base/ErrorRemind'
 export default {
-	props:['showTime'],
+	props:['showTime','timeString'],
 	components:{
 		ErrorRemind
 	},
@@ -75,13 +75,25 @@ export default {
 				this.right = -100
 			}
 		},
+		timeString:{
+			handler (val) {
+				val.forEach(a=>{
+					this.timeLists.forEach(e=>{
+						if (e.name === a) {
+							e.status = true
+						}
+					})
+				})
+			},
+			immediate:true
+		}
 	},
 	methods: {
 		closeTime () {
-			let newString = ''
+			let newString = []
 			this.timeLists.forEach(v=>{
 				if(v.status === true) {
-					newString+=v.name+','
+					newString.push(v.name)
 				}
 			})
 			this.$emit('close_Time',newString)

@@ -2,13 +2,13 @@
   <div class="delete-img">
 		<img :src="item.img" alt="">
 		<span>{{item.name}}</span>
-		<img class="del" src="../assets/img/icon_dele.png" alt="" @click="deleteUser(item.id)">
+		<img class="del" v-if="!details" src="../assets/img/icon_dele.png" alt="" @click="deleteUser(item.id)">
 	</div>
 </template>
 
 <script>
 export default {
-	props:['item'],
+	props:['item','details'],
 	methods:{
 		deleteUser (id) {
 			this.$emit('closeDelete',id)

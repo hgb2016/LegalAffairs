@@ -73,7 +73,7 @@ export default {
         div {
           span {
             margin-top: 5px;
-            color: #333;
+            color: #000;
             font-size: 12px;
           }
         }
@@ -82,11 +82,11 @@ export default {
           .f-fd-c;
           margin-top: 6px;
           span {
-            color: #333;
+            color: #000;
             font-size: 12px;
           }
           span + span {
-            color:#666;
+            color:#333;
           }
         }
       }

@@ -1,54 +1,57 @@
 <template>
   <div class="cdetails">
 		<div class="cdetails-title">
-			<p>{{name}}</p>
-			<span>描述</span> 
+			<p>{{clientDetails.clientName}}</p>
+			<span>{{clientDetails.clientRemark}}</span> 
 		</div>
 		<div class="cdetails-list">
 			<ul>
-				<li>
+				<li v-if="clientDetails.clientWebsite">
 					<img src="../../assets/img/link.png" alt="">
 					<!-- 网址 -->
-					<span>可可家</span> 
+					<span>{{clientDetails.clientWebsite}}</span> 
 				</li>
-				<li>
+				<li v-if="clientDetails.clientAddress">
 					<!-- 地址 -->
 					<img src="../../assets/img/location1.png" alt="">
-					<span>可可家</span>
+					<span>{{clientDetails.clientAddress}}</span>
 				</li>
-				<li>
+				<li v-if="clientDetails.clientPhone">
 					<!-- 电话 -->
 					<img src="../../assets/img/lianxiwomen.png" alt="">
-					<span>可可家</span>
+					<span>{{clientDetails.clientPhone}}</span>
 				</li>
-				<li>
+				<li v-if="clientDetails.clientFax">
 					<!-- 传真 -->
 					<img src="../../assets/img/printing.png" alt="">
-					<span class="bgc">可可家</span>
+					<span class="bgc">{{clientDetails.clientFax}}</span>
 				</li>
 			</ul>
 		</div>
 		<div class="cdetails-delete">
-			<span>联系人信息（长按信息可以删除）</span>
-			<img src="../../assets/img/contact_add.png" alt="" @click="addInfo">
+			<!-- <span>联系人信息（长按信息可以删除）</span> -->
+			<span>联系人信息</span>
+			<!-- <img src="../../assets/img/contact_add.png" alt="" @click="addInfo"> -->
 		</div>
-		<div class="cdetails-user">
-			<div class="cdetails-user-me">
+		<div class="cdetails-user" v-if="clientDetails.contactlist && clientDetails.contactlist.length>0">
+			<div class="cdetails-user-me" v-for="(item,index) in clientDetails.contactlist" :key="index">
 				<div>
-					<span>{{name}}</span>
-					<span>{{phone}}</span>
-					<span>{{email}}</span>
+					<span>{{item.contactsName}}-{{item.duty}}</span>
+					<span>{{item.mobilePhone}}</span>
+					<span>{{item.email}}</span>
 				</div>
-				<img class="update" src="../../assets/img/pen.png" @click="updateInfo" alt="">
+				<!-- <img class="update" src="../../assets/img/pen.png" @click="updateInfo" alt=""> -->
 			</div>
 		</div>
 		<div class="cdetails-img">
 			<img class="img-i" src="../../assets/img/icon__in.png" alt="">
-			<div>
-				<img src="../../assets/img/liyan.jpg" alt="">
-				<span>李艳彪</span>
+			<div class="img-lists">
+				<div v-if="clientDetails.userList && clientDetails.userList.length>0" v-for="(item,index) in clientDetails.userList" :key="index">
+					<img :src="item.headUrl" alt="">
+					<span>{{item.userName}}</span>
+				</div>
 			</div>
-			<img class="img-y" src="../../assets/img/arrow.png" alt="">
+			<!-- <img class="img-y" src="../../assets/img/arrow.png" alt=""> -->
 		</div>
 		<div class="cdetails-btn">
 			<button @click="deleteCustomerInfo">删除</button>
@@ -62,6 +65,7 @@
 
 <script>
 import AddContact from 'base/AddContact'
+import postHttp from "../../assets/js/postHttp.js";
 export default {
 	components:{
 		AddContact
@@ -74,7 +78,8 @@ export default {
 			updatename:'',
 			updatephone:'',
 			updateemail:'',
-			showAddContact:false
+			showAddContact:false,
+			clientDetails:{}
 		};
 	},
 	methods:{
@@ -95,16 +100,43 @@ export default {
 			this.showAddContact = false
 		},
 		// 删除
-		deleteCustomerInfo () {},
+		async deleteCustomerInfo () {
+      const { data } = await postHttp.post("/Calendar/deleteCalendar", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken:window.localStorage.getItem("logintoken"),
+        scheduleId:this.scheduleId
+			});
+			console.log(data)
+      if (!data.error) {
+        this.errorRemind = '删除成功'
+        this.showRemind = true
+        setTimeout(()=>{
+          this.$router.go(-1)
+        },2000)
+      } else {
+        alert(data.message);
+      }
+		},
 		// 修改
 		updateCustomerInfo () {
-			this.$router.push('/AddCustomer')
-		}
+			this.$router.push(`/AddCustomer?clientId=${this.$route.query.CustomerDetails}`)
+		},
+		async getClientDetails (id) {
+			const { data } = await postHttp.post("/Client/getClientInfo", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+				logintoken:window.localStorage.getItem("logintoken"),
+				clientId:id
+			});
+			console.log(data)
+      if (!data.error) {
+				this.clientDetails = data.data
+	      } else {
+        alert(data.message);
+      }
+		},
 	},
 	created () {
-		this.name=this.$route.query.name
-		this.phone=this.$route.query.phone
-		this.email=this.$route.query.email
+		this.getClientDetails(this.$route.query.CustomerDetails)
 	}
 };
 </script>
@@ -112,12 +144,12 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/flex.less";
 .cdetails {
+	padding:38px 0 50px;
 	&-title {
 		.f-d-f;
 		.f-fd-c;
 		border-bottom:1px solid #e5e5e5;
 		padding:10px 10px;
-		margin-top:38px;
 		p {
 			color:#333;
 			font-size:14px;
@@ -182,6 +214,7 @@ export default {
 				padding:8px 14px;
 				background-color:#efeff4;
 				border-radius: 6px;
+				margin-top:6px;
 				div {
 					.f-f-1;
 					.f-d-f;
@@ -212,18 +245,26 @@ export default {
 		.img-y {
 			width:14px;
 		}
-		div {
+		.img-lists{
 			.f-f-1;
+			.f-fw-w;
 			.f-d-f;
-			.f-fd-c;
-			padding-left:14px;
-			img {
-				width:32px;
-			}
-			span {
-				color:#333;
-				font-size:14px;
-				margin-top:4px;
+			div {
+				.f-d-f;
+				.f-fd-c;
+				.f-fw-w;
+				.f-ai-c;
+				padding-left:14px;
+				img {
+					width:35px;
+					border-radius: 50%;
+					height:35px;
+				}
+				span {
+					color:#333;
+					font-size:14px;
+					margin-top:4px;
+				}
 			}
 		}
 	}
@@ -232,6 +273,9 @@ export default {
 		padding:0 10px;
 		.f-d-f;
 		.f-jc-sb;
+		position: fixed;
+		bottom:10px;
+		width:100%;
 		button {
 			width:40%;
 			height:40px;

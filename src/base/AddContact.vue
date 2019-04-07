@@ -30,7 +30,7 @@
 
 <script>
 export default {
-	props:['name','phone','email'],
+	props:['name','phone','email','work','clicentIndex'],
 	data () {
 		return {
 			username:'',
@@ -42,17 +42,22 @@ export default {
 	watch:{
 		name:{
 			handler (val) {
-				console.log(val)
 				if (val !== '') {
-					this.username = val.split('-')[0]
-					this.userwork = val.split('-')[1]
+					this.username = val
+				}
+			},
+			immediate:true
+		},
+		work: {
+			handler (val) {
+				if (val !== '') {
+					this.userwork = val
 				}
 			},
 			immediate:true
 		},
 		phone:{
 			handler (val) {
-				console.log(val)
 				if (val !== '') {
 					this.userphone = val
 				}
@@ -61,7 +66,6 @@ export default {
 		},
 		email:{
 			handler (val) {
-				console.log(val)
 				if (val !== '') {
 					this.useremail = val
 				}
@@ -72,9 +76,11 @@ export default {
 	methods:{
 		saveAdd () {
 			let newObj={}
-			newObj['name'] = this.username+'-'+this.userwork
+			newObj['name'] = this.username
+			newObj['work'] = this.userwork
 			newObj['phone'] = this.userphone
 			newObj['email'] = this.useremail
+			newObj['clicentIndex'] = this.clicentIndex
 			this.$emit('SaveAdd',newObj)
 		}
 	}

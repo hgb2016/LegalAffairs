@@ -83,6 +83,7 @@ export default {
 		},
 		projectUid:{
 			handler (val) {
+				console.log(val)
 				this.proId = val
 			},
 			immediate:true
