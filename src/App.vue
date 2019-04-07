@@ -37,8 +37,8 @@ export default {
   methods: {
     async login() {
       const { data } = await postHttp.post("/user/login", {
-        mobile: "17328373151",
-        password: "123456"
+        mobile: "18232518065",
+        password: "Yibing1116"
       });
       if (!data.error) {
         window.localStorage.setItem('loginUserId',data.data.loginUserId)

@@ -11,7 +11,7 @@
       <div class="Project-list">
         <div class="Project-list-item" v-for="(item, index) in projectList " :key="index" @click="goProjectDetail(item.projectId)">
           <div class="Project-list-item-r"> 
-            <p>{{item.projectName}}</p>
+            <p style="width:70%">{{item.projectName}}</p>
             <span>
               <p>洽谈中</p>
               <i></i>
@@ -29,6 +29,9 @@
           </div>
         </div>
       </div>
+       <div class="Project-add" @click="$router.push('/CreateProject')">
+      <img src="../../assets/img/icon_add.png" alt>
+    </div>
   </div>
 </template>
 
@@ -171,6 +174,17 @@ export default {
         background-color: #ededed;
         margin-left: 30px;
       }
+    }
+  }
+  &-add {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

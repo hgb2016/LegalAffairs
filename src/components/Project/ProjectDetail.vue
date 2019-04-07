@@ -10,13 +10,30 @@
             <i></i>
           </span>
         </div>
-        <p class="Project-list-desc">描述：{{projectInfo.description}}</p>
-        <div class="Project-list-client">
+        <p v-show="projectInfo.description" class="Project-list-desc">描述：{{projectInfo.description}}</p>
+        <div class="Project-list-client" v-show="projectInfo.clientName">
           <span>
             <img src="../../assets/img/icon_client.png" alt>
             <p>{{projectInfo.clientName}}</p>
           </span>
-         <img width="8px" src="../../assets/img/arrow.png" alt="">
+          <img width="8px" src="../../assets/img/arrow.png" alt>
+        </div>
+        <div>
+          <div class="Project-list-parters">
+            <img src="../../assets/img/icon__players.png" alt>
+           
+              <span v-for="(item,index) in projectInfo.userList" :key="index">
+                <img :src="item.headUrl" alt>
+                <p>{{item.userName}}</p>
+              </span>
+            
+          </div>
+        </div>
+        <div class="Project-list-client">
+          <span>
+            <p>项目日程</p>
+          </span>
+          <img width="30px" src="../../assets/img/banbenjieshao (1).png" alt>
         </div>
       </div>
     </div>
@@ -98,6 +115,40 @@ export default {
   &-list {
     margin-top: 50px;
     width: 100%;
+    &-parters {
+      .f-d-f;
+      .f-fd-r;
+      .f-ai-c;
+      padding: 15px 20px;
+      flex-wrap: wrap;
+      img {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+      span {
+        margin-left: 5px;
+        .f-d-f;
+        .f-fd-c;
+        .f-ai-c;
+        justify-content: center;
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 0px;
+        }
+        p {
+          text-align: center;
+          margin-top: 5px;
+          font-size: 12px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          width: 60px;
+        }
+      }
+    }
     &-desc {
       padding: 10px 20px;
       color: #ccc;
@@ -109,8 +160,8 @@ export default {
       .f-jc-sb;
       .f-ai-c;
       border-bottom: #ededed solid 1px;
-      border-top:  #ededed solid 1px;
-      img{
+      border-top: #ededed solid 1px;
+      img {
         margin-right: 20px;
       }
       span {

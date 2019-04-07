@@ -22,6 +22,7 @@ import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
 import ProjectDetail from '@/components/Project/ProjectDetail'
+import CreateProject from '@/components/Project/CreateProject'
 
 Vue.use(Router)
 
@@ -188,6 +189,14 @@ const router = new Router({
       component: ProjectDetail,
       meta: {
         title: '项目详情'
+      }
+    },
+    {
+      path: '/CreateProject',
+      name: 'CreateProject',
+      component: CreateProject,
+      meta: {
+        title: '创建项目'
       }
     }
   ]
