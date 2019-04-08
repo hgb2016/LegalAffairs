@@ -1,13 +1,18 @@
 <template>
   <div class="user-img">
 		<p>{{title}}</p>
-		<img @click="$router.push('/User')" src="../assets/img/liyan.jpg" alt="">	
+		<img @click="$router.push('/User')" :src="userImg" alt="">	
 	</div>  
 </template>
 
 <script>
 export default {
-	props:['title']
+	props:['title'],
+	data () {
+		return {
+			userImg:window.localStorage.getItem('loginHeadUrl')
+		}
+	}
 }
 </script>
 
@@ -29,7 +34,8 @@ export default {
 	.f-ai-c;
 	.f-jc-sb;
 	img {
-		width:36px;
+		width:35px;
+		height:35px;
 		border-radius: 50%;
 	}
 	p {

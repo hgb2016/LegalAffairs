@@ -3,39 +3,63 @@
 		<div class="user-set-in">
       <div class="headerImg">
         <span>头像</span>
-				<img src="../../assets/img/liyan.jpg" alt="">
+				<img :src="userInfo.headUrl" alt="">
       </div>
       <div @click="$router.push('/UserInput?title=姓名&content=李艳彪')">
         <span>我的姓名</span>
-        <span>李艳彪</span>
+        <p>
+          <span>{{userInfo.userName}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
 			 <div @click="choiceSex">
         <span>性别</span>
-        <span>男</span>
+        <p>
+          <span>{{userInfo.hourRate}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
       <div @click="$router.push('/UserInput?title=公司&content=北京熙呈互动科技有限公司')">
         <span>公司</span>
-        <span>北京熙呈互动科技有限公司</span>
+        <p>
+          <span>{{userInfo.company}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
       <div @click="$router.push('/UserInput?title=地址&content=十里河')">
         <span>地址</span>
-        <span>十里河</span>
+        <p>
+          <span>{{userInfo.address}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
 			<div @click="$router.push('/UserInput?title=职务&content=前端开发工程师')">
         <span>职务</span>
-        <span>前端开发工程师</span>
+        <p>
+          <span>{{userInfo.duty}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
 			<div @click="$router.push('/UserPhone')">
         <span>手机号</span>
-        <span>18618377474</span>
+        <p>
+          <span>{{userInfo.mobilePhone}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
 			<div @click="$router.push('/UserInput?title=邮箱&content=13513335747@163.com')">
         <span>邮箱</span>
-        <span>13513335747@163.com</span>
+        <p>
+          <span>{{userInfo.email}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
 			<div @click="$router.push('/UserInput?title=费率&content=5')">
         <span>小时费率(元/小时)</span>
-        <span>5</span>
+        <p>
+          <span>{{userInfo.hourRate}}</span>
+          <img src="../../assets/img/arrow.png" alt="">
+        </p>
       </div>
       <div @click="$router.push('/UserPwd')">
         <span>修改密码</span>
@@ -68,7 +92,12 @@ export default {
       sexLists:[
         '男',
         '女'
-      ]
+      ],
+    }
+  },
+  computed:{
+    userInfo () {
+      return this.$store.getters.getUserInfo
     }
   },
   methods:{
@@ -78,6 +107,9 @@ export default {
     changeSex (val) {
       this.showSex = false
     }
+  },
+  created () {
+    this.$store.dispatch('getUserInfo',{loginUserId: window.localStorage.getItem("loginUserId"),logintoken:window.localStorage.getItem("logintoken")})
   }
 }
 </script>
@@ -86,7 +118,7 @@ export default {
 @import '../../assets/css/flex.less';
 .user-set{
 	&-in{
-    margin-top:38px;
+    padding-top:38px;
     div{
       .f-d-f;
       .f-ai-c;
@@ -99,14 +131,29 @@ export default {
         font-size:14px;
         letter-spacing: 1px;
       }
+      p {
+        .f-d-f;
+        .f-ai-c;
+        .f-jc-c;
+        span {
+          color:#333;
+          font-size:14px;
+          letter-spacing: 1px;
+        }
+        img {
+          margin-left:4px;
+          width:8px;
+        }
+      }
       img {
-        width:10px;
+        width:8px;
       }
     }
     div.headerImg{
       height:70px;
 			img{
-				width:40px;
+        width:40px;
+        height:40px;
 				border-radius: 50%;
 			}
     }

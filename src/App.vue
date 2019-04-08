@@ -43,6 +43,7 @@ export default {
       if (!data.error) {
         window.localStorage.setItem('loginUserId',data.data.loginUserId)
         window.localStorage.setItem('logintoken',data.data.logintoken)
+        window.localStorage.setItem('loginHeadUrl',data.data.loginHeadUrl)
       } else {
         alert(data.message);
       }

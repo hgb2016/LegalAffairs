@@ -4,13 +4,13 @@
 		<div class="user-info-nav" @click="goSet">
 			<p>
 				<span>
-					李艳彪
+					{{userName}}
 				</span>
 				<span>
-					北京熙呈互动科技有限公司
+					{{company}}
 				</span>
 			</p>
-			<img src="../../assets/img/liyan.jpg" alt="">
+			<img :src="headUrl" alt="">
 		</div>
 	</div>
 	<div class="user-list">
@@ -21,14 +21,48 @@
 
 <script>
 import AdminList from 'base/AdminList'
+import postHttp from "../../assets/js/postHttp.js";
+
 export default {
 	components:{
 		AdminList
 	},
+	data () {
+		return {
+			userInfo:{}
+		}
+	},
+	computed:{
+		userName () {
+			return this.$store.getters.getUserInfo.userName
+		},
+		company () {
+			return this.$store.getters.getUserInfo.company
+		},
+		headUrl () {
+			return this.$store.getters.getUserInfo.headUrl
+		}
+	},
 	methods: {
 		goSet () {
 			this.$router.push('/UserSet')
-		}
+		},
+		// async getUserInfo () {
+		// 	const { data } = await postHttp.post("/User/getUserInfo", {
+    //     loginUserId: window.localStorage.getItem("loginUserId"),
+		// 		logintoken:window.localStorage.getItem("logintoken"),
+		// 	});
+		// 	console.log(data)
+    //   if (!data.error) {
+		// 		this.userInfo = data.data
+	  //     } else {
+    //     alert(data.message);
+    //   }
+		// }
+	},
+	created () {
+		this.$store.dispatch('getUserInfo',{loginUserId: window.localStorage.getItem("loginUserId"),logintoken:window.localStorage.getItem("logintoken")})
+		// this.getUserInfo()
 	}
 }
 </script>
@@ -54,6 +88,7 @@ export default {
 			border-radius: 4px;
 			img {
 				width:40px;
+				height:40px;
 				border-radius: 50%;
 			}
 			p {
