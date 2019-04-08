@@ -81,6 +81,8 @@ export default {
           .f-d-f;
           .f-fd-c;
           margin-top: 6px;
+          border-bottom: 1px solid #e5e5e5;
+          padding-bottom: 4px;
           span {
             color: #000;
             font-size: 12px;
