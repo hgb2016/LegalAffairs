@@ -57,18 +57,19 @@
 			<button @click="deleteCustomerInfo">删除</button>
 			<button @click="updateCustomerInfo">修改</button>
 		</div>
-		<add-contact :name="updatename" :phone="updatephone" :email="updateemail" @SaveAdd="SaveAdd" v-if="showAddContact">
-
-		</add-contact>
+		<add-contact :name="updatename" :phone="updatephone" :email="updateemail" @SaveAdd="SaveAdd" v-if="showAddContact"></add-contact>
+		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
 	</div>
 </template>
 
 <script>
 import AddContact from 'base/AddContact'
 import postHttp from "../../assets/js/postHttp.js";
+import ErrorRemind from "base/ErrorRemind.vue";
 export default {
 	components:{
-		AddContact
+		AddContact,
+		ErrorRemind
 	},
   data() {
     return {
@@ -79,7 +80,9 @@ export default {
 			updatephone:'',
 			updateemail:'',
 			showAddContact:false,
-			clientDetails:{}
+			clientDetails:{},
+			showRemind:false,
+			errorRemind:''
 		};
 	},
 	methods:{
@@ -101,10 +104,10 @@ export default {
 		},
 		// 删除
 		async deleteCustomerInfo () {
-      const { data } = await postHttp.post("/Calendar/deleteCalendar", {
+      const { data } = await postHttp.post("/Client/delClient", {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken:window.localStorage.getItem("logintoken"),
-        scheduleId:this.scheduleId
+        clientId:this.$route.query.CustomerDetails
 			});
 			console.log(data)
       if (!data.error) {

@@ -16,9 +16,7 @@ import CustomerDetails from '@/components/UserList/CustomerDetails'
 import AddDay from '@/components/IndexAdd/AddDay'
 import WhoSee from '@/components/IndexAdd/WhoSee'
 import AddPro from '@/components/IndexAdd/AddPro'
-import MyFriends from '@/components/IndexAdd/MyFriends'
 import DayDetails from '@/components/IndexAdd/DayDetails'
-import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
 import ProjectDetail from '@/components/Project/ProjectDetail'
@@ -43,14 +41,6 @@ const router = new Router({
       component: WhoSee,
       meta: {
         title:'水库可以看我的工作'
-      }
-    },
-    {
-      path: '/MyFriends',
-      name: 'MyFriends',
-      component: MyFriends,
-      meta: {
-        title:'我的好友'
       }
     },
     {
@@ -84,14 +74,6 @@ const router = new Router({
       component: CustomerDetails,
       meta: {
         title:'客户详情'
-      }
-    },
-    {
-      path: '/RemindTime',
-      name: 'RemindTime',
-      component: RemindTime,
-      meta: {
-        title:'准点提醒'
       }
     },
     {
