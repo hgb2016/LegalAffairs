@@ -1,30 +1,30 @@
 <template>
   <div class="add-day">
-		<div class="add-day-input">
-			<input type="text"  placeholder="请输入日程名称" v-model="title">
-		</div>	
-		<div class="add-day-twoTime">
-			<div class="during">
-				<div class="during-start" @click="getStart">
-					<span>开始</span>
-					<p>{{startTime.split(' ')[1]}}</p>
-					<span>{{startTime.split(' ')[0]}}</span>
-				</div>
-				<div class="during-hour">
-					<hr>
-					<span>{{TimeDiff}}小时</span>
-					<hr>
-				</div>
-				<div class="during-end" @click="getEnd">
-					<span>结束</span>
-					<p>{{endTime.split(' ')[1]}}</p>
-					<span>{{endTime.split(' ')[0]}}</span>
-				</div>
-			</div>
-		</div>
-		<div class="add-day-list">
-			<ul>
-				<!-- <li>
+    <div class="add-day-input">
+      <input type="text" placeholder="请输入日程名称" v-model="title">
+    </div>
+    <div class="add-day-twoTime">
+      <div class="during">
+        <div class="during-start" @click="getStart">
+          <span>开始</span>
+          <p>{{startTime.split(' ')[1]}}</p>
+          <span>{{startTime.split(' ')[0]}}</span>
+        </div>
+        <div class="during-hour">
+          <hr>
+          <span>{{TimeDiff}}小时</span>
+          <hr>
+        </div>
+        <div class="during-end" @click="getEnd">
+          <span>结束</span>
+          <p>{{endTime.split(' ')[1]}}</p>
+          <span>{{endTime.split(' ')[0]}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="add-day-list">
+      <ul>
+        <!-- <li>
 					<div class="w-l">
 						<span class="tit">此事项为：</span>
 						<div>
@@ -39,68 +39,68 @@
 							</p>
 						</div>
 					</div>
-				</li> -->
-				<li>
-					<div class="w-d">
-						<div class="w-d-part">
-							<h3>参与人</h3>
-							<div class="part-i" >
-								<ul v-if="choiceUserListsParents.length>0">
-									<li v-for="(item,index) in choiceUserListsParents" :key="index">
-										<delete-img :item="item" @closeDelete="closeDelete" :details="'true'"></delete-img>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<p>
-							<img @click="goMyFriends" src="../../assets/img/contact_add.png" alt="">
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="w-l">
-						<span class="tit">项目</span>
-						<p @click="showSale=true">
-							<span>{{projectTitle}}</span>
-							<img class="arrow" src="../../assets/img/arrow.png" alt="">
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="w-l">
-						<span class="tit">提醒</span>
-						<p @click="goTime">
-							<span>{{timeString.join(',')}}</span>
-							<img class="arrow" src="../../assets/img/arrow.png" alt="">
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="w-l">
-						<span class="tit">提醒</span>
-						<p @click="showLis=!showLis">
-							<span class="ccColor">地址、备注</span>
-							<img class="down" src="../../assets/img/down.png" alt="">
-						</p>
-					</div>
-				</li>
-				<li v-if="showLis">
-					<div class="w-l" style="padding:0 15px;">
-						<span class="tit" style="color:#999">地址</span>
-						<p>
-							<input type="text" placeholder="请输入地址" v-model="address">
-						</p>
-					</div>
-				</li>
-				<li v-if="showLis">
-					<div class="w-l" style="padding:0 15px;">
-						<span class="tit" style="color:#999">备注</span>
-						<p>
-							<input type="text" placeholder="请输入备注" v-model="Remarks">
-						</p>
-					</div>
-				</li>
-				<!-- <li v-if="showLis">
+        </li>-->
+        <li>
+          <div class="w-d">
+            <div class="w-d-part">
+              <h3>参与人</h3>
+              <div class="part-i">
+                <ul v-if="choiceUserListsParents.length>0">
+                  <li v-for="(item,index) in choiceUserListsParents" :key="index">
+                    <delete-img :item="item" @closeDelete="closeDelete" :details="'true'"></delete-img>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p>
+              <img @click="goMyFriends" src="../../assets/img/contact_add.png" alt>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="w-l">
+            <span class="tit">项目</span>
+            <p @click="showSale=true">
+              <span>{{projectTitle}}</span>
+              <img class="arrow" src="../../assets/img/arrow.png" alt>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="w-l">
+            <span class="tit">提醒</span>
+            <p @click="goTime">
+              <span>{{timeString.join(',')}}</span>
+              <img class="arrow" src="../../assets/img/arrow.png" alt>
+            </p>
+          </div>
+        </li>
+        <li>
+          <div class="w-l">
+            <span class="tit">提醒</span>
+            <p @click="showLis=!showLis">
+              <span class="ccColor">地址、备注</span>
+              <img class="down" src="../../assets/img/down.png" alt>
+            </p>
+          </div>
+        </li>
+        <li v-if="showLis">
+          <div class="w-l" style="padding:0 15px;">
+            <span class="tit" style="color:#999">地址</span>
+            <p>
+              <input type="text" placeholder="请输入地址" v-model="address">
+            </p>
+          </div>
+        </li>
+        <li v-if="showLis">
+          <div class="w-l" style="padding:0 15px;">
+            <span class="tit" style="color:#999">备注</span>
+            <p>
+              <input type="text" placeholder="请输入备注" v-model="Remarks">
+            </p>
+          </div>
+        </li>
+        <!-- <li v-if="showLis">
 					<div class="w-l w-i" style="padding:0 15px;">
 						<span class="tit" style="color:#999">上传附件</span>
 						<p>
@@ -108,31 +108,43 @@
 							<img src="../../assets/img/icon_addpicture.png" alt="">
 						</p>
 					</div>
-				</li> -->
-			</ul>
-		</div>
-		<div class="add-day-btn">
-			<button @click="Preservation">
-				确定
-			</button>
-		</div>
-		<mt-datetime-picker
-			v-model="pickerVisible"
-			type="datetime"
-			ref="picker"
-			@confirm="closeTimePicker">
-		</mt-datetime-picker>
-		<mt-datetime-picker
-			v-model="pickerVisibleEnd"
-			type="datetime"
-			ref="pickerEnd"
-			@confirm="closeTimePickerEnd">
-		</mt-datetime-picker>
-		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
-		<add-project :showSale="showSale" @close_Sale="close_Sale" :projectLists="projectLists" :projectUid="projectUid"></add-project>
-		<add-time :showTime="showTime" @close_Time="close_Time" :timeString="timeString"></add-time>
-		<add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="contactlist"></add-friends>
-	</div>
+        </li>-->
+      </ul>
+    </div>
+    <div class="add-day-btn">
+      <button @click="Preservation">确定</button>
+    </div>
+    <mt-datetime-picker
+      v-model="pickerVisible"
+      type="datetime"
+      ref="picker"
+      @confirm="closeTimePicker"
+    ></mt-datetime-picker>
+    <mt-datetime-picker
+      v-model="pickerVisibleEnd"
+      type="datetime"
+      ref="pickerEnd"
+      @confirm="closeTimePickerEnd"
+    ></mt-datetime-picker>
+    <error-remind
+      v-if="showRemind"
+      @Close_errorMind="showRemind = false"
+      :errorRemind="errorRemind"
+    ></error-remind>
+    <add-project
+      :showSale="showSale"
+      @close_Sale="close_Sale"
+      :projectLists="projectLists"
+      :projectUid="projectUid"
+    ></add-project>
+    <add-time :showTime="showTime" @close_Time="close_Time" :timeString="timeString"></add-time>
+    <add-friends
+      :choiceUserListsParents="choiceUserListsParents"
+      :showFriends="showFriends"
+      @close_Friends="close_Friends"
+      :contactlist="contactlist"
+    ></add-friends>
+  </div>
 </template>
 
 <script>
