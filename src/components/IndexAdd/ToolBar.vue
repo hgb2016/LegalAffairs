@@ -1,6 +1,6 @@
 <template>
   <div class="tool-bar">
-    <div class="tool-bar-fix">
+    <!-- <div class="tool-bar-fix">
 			<span class="left">我的常用</span>
 			<div class="left-b">
 				<div v-for="(item,index) in toolList" :key="index">
@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<img class="right" @click="updateIcon" src="../../assets/img/icon_edit.png" alt="">
-    </div>
+    </div> -->
     <div class="tool-bar-list">
       <div class="items">
         <h4>查询</h4>
@@ -164,7 +164,7 @@ export default {
   &-list {
     .f-d-f;
     .f-fd-c;
-    padding-top:128px;
+    padding-top:50px;
     .items {
       .f-d-f;
       .f-fd-c;

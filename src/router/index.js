@@ -22,11 +22,8 @@ import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
 import ProjectDetail from '@/components/Project/ProjectDetail'
-<<<<<<< HEAD
 import ContactInfo from '@/components/Contact/ContactInfo'
-=======
-import CreateProject from '@/components/Project/CreateProject'
->>>>>>> 8606cc861591dcfdd498c89481144c2e4807cea9
+import CreateProject from '@/components/Project/CreateProject2'
 
 Vue.use(Router)
 
@@ -196,19 +193,19 @@ const router = new Router({
       }
     },
     {
-<<<<<<< HEAD
       path: '/ContactInfo',
       name: 'ContactInfo',
       component: ContactInfo,
       meta: {
         title: '联系人信息'
-=======
+      }
+    },
+    {
       path: '/CreateProject',
       name: 'CreateProject',
       component: CreateProject,
       meta: {
         title: '创建项目'
->>>>>>> 8606cc861591dcfdd498c89481144c2e4807cea9
       }
     }
   ]

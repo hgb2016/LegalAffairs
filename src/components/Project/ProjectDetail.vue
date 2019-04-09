@@ -6,12 +6,13 @@
         <div class="Project-list-item-r">
           <p>{{projectInfo.projectName}}</p>
           <span>
-            <p>洽谈中</p>
-            <i></i>
+            <p v-show="projectInfo.status=='0'">进行中</p>
+            <p v-show="projectInfo.status=='1'">洽谈中</p>
+            <p v-show="projectInfo.status=='2'">已完成</p>
           </span>
         </div>
         <p v-show="projectInfo.description" class="Project-list-desc">描述：{{projectInfo.description}}</p>
-        <div class="Project-list-client" v-show="projectInfo.clientName">
+        <div class="Project-list-client" v-show="projectInfo.clientName" @click="goClientDetail(projectInfo.clientId)">
           <span>
             <img src="../../assets/img/icon_client.png" alt>
             <p>{{projectInfo.clientName}}</p>
@@ -21,12 +22,11 @@
         <div>
           <div class="Project-list-parters">
             <img src="../../assets/img/icon__players.png" alt>
-           
-              <span v-for="(item,index) in projectInfo.userList" :key="index">
-                <img :src="item.headUrl" alt>
-                <p>{{item.userName}}</p>
-              </span>
-            
+
+            <span v-for="(item,index) in projectInfo.userList" :key="index">
+              <img :src="item.headUrl" alt>
+              <p>{{item.userName}}</p>
+            </span>
           </div>
         </div>
         <div class="Project-list-client">
@@ -37,17 +37,30 @@
         </div>
       </div>
     </div>
-    <calendar-list :calendarList="projectInfo.timeDataList"></calendar-list>
+    <div>
+       <calendar-list v-if="projectInfo.timeDataList.length>0" :calendarList="projectInfo.timeDataList"></calendar-list>
+       <img  v-if="projectInfo.timeDataList.length==0" src="../../assets/img/1.png" @click="$router.push('/AddDay')"  style="margin-top:10px;" width="100%" alt="">
+    </div>
+   
+  
+    <div class="Project-btn">
+      <button @click="deleteProject()">删除</button>
+      <button @click="editProject()">修改</button>
+    </div>
+      <div class="Project-add" @click="$router.push('/AddDay')">
+      <img src="../../assets/img/icon_add.png" alt>
+    </div>
   </div>
 </template>
 
 <script>
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
-
+import ErrorRemind from "base/ErrorRemind.vue";
 export default {
   components: {
-    calendarList
+    calendarList,
+    ErrorRemind
   },
   data() {
     return {
@@ -62,6 +75,10 @@ export default {
     this.getProjectDetail();
   },
   methods: {
+    goClientDetail(clientId){
+         this.$router.push(`/CustomerDetails?CustomerDetails=${clientId}`)
+    },
+    //获取案件案情
     async getProjectDetail() {
       const { data } = await postHttp.post("/Project/getProjectInfo", {
         loginUserId: this.loginUserId,
@@ -73,8 +90,31 @@ export default {
       } else {
         alert(data.message);
       }
+    },
+     // 删除案件
+  async deleteProject() {
+    const { data } = await postHttp.post("/Project/deleteProject", {
+      loginUserId: window.localStorage.getItem("loginUserId"),
+      logintoken: window.localStorage.getItem("logintoken"),
+      projectId: this.projectId
+    });
+    if (!data.error) {
+      // this.dayInfo = data.data;
+      this.errorRemind = "删除成功";
+      this.showRemind = true;
+      setTimeout(() => {
+        this.$router.go(-1);
+      }, 2000);
+    } else {
+      alert(data.message);
     }
+  },
+  // 修改日程
+  editProject() {
+    this.$router.push(`/CreateProject?projectId=${this.projectId}`);
   }
+  },
+ 
 };
 </script>
 
@@ -82,6 +122,27 @@ export default {
 @import "../../assets/css/flex.less";
 .Project {
   width: 100%;
+  &-btn {
+    padding: 0 20px;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 10px;
+    width: 100vw;
+    .f-d-f;
+    .f-jc-sb;
+    button {
+      width: 40%;
+      height: 100%;
+      background-color: #ccc;
+      text-align: center;
+      line-height: 40px;
+      font-size: 14px;
+      color: #fff;
+    }
+    button + button {
+      background-color: #2d75ee;
+    }
+  }
   &-header {
     background: #fff;
     position: fixed;
@@ -244,6 +305,17 @@ export default {
         background-color: #ededed;
         margin-left: 30px;
       }
+    }
+  }
+   &-add {
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    width: 28px;
+    height: 28px;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

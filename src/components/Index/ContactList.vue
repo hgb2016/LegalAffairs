@@ -9,7 +9,8 @@
     <div class="ContactList-list" >
       <div class="ContactList-list-item" v-for="(item,index) in contactlist" :key="index" @click="goContactInfo(item)">
         <img :src="item.headUrl" alt>
-        <p>{{item.userName}}</p>
+        <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
+
       </div>
     </div>
   </div>
@@ -35,7 +36,8 @@ export default {
   },
   methods: {
     goContactInfo(item){
-         this.$router.push(`/ContactInfo?userinfo=`+item)
+      console.log(item)
+      this.$router.push({path:'/ContactInfo',query:{userinfo:item}})
     },
     async getNiuFaUser() {
       const { data } = await postHttp.post("/Index/getNiuFaUser", {

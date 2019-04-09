@@ -28,13 +28,13 @@ export default {
 	components:{
   },
 	props: {
-		showSale: {
+		showClient: {
 			type: Boolean
 		},
 		clientLists:{
 			tpe:Array
 		},
-		projectUid: {
+		clientId: {
 			type:String
 		}
 	},
@@ -74,14 +74,14 @@ export default {
 		}
 	},
 	watch: {
-		showSale (val) {
+		showClient (val) {
 			if (val === true) {
 				this.right = 0
 			} else {
 				this.right = -100
 			}
 		},
-		projectUid:{
+		clientId:{
 			handler (val) {
 				this.proId = val
 			},
