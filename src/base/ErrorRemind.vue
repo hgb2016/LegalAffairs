@@ -27,7 +27,7 @@ export default {
   p {
     color: #fff;
     font-size: 14px;
-		padding: 8px 10px;
+		padding: 8px 20px;
 		background-color: rgba(0, 0, 0, 0.67);
 		text-align: center;
 		border-radius: 4px;
