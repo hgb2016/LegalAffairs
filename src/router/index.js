@@ -22,6 +22,7 @@ import RemindTime from '@/components/IndexAdd/RemindTime'
 import ToolBar from '@/components/IndexAdd/ToolBar'
 import setWechatTitle from '../assets/js/utils.js'
 import ProjectDetail from '@/components/Project/ProjectDetail'
+import ContactInfo from '@/components/Contact/ContactInfo'
 
 Vue.use(Router)
 
@@ -188,6 +189,14 @@ const router = new Router({
       component: ProjectDetail,
       meta: {
         title: '项目详情'
+      }
+    },
+    {
+      path: '/ContactInfo',
+      name: 'ContactInfo',
+      component: ContactInfo,
+      meta: {
+        title: '联系人信息'
       }
     }
   ]
