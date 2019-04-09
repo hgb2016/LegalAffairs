@@ -539,6 +539,30 @@ export default {
       } else {
         alert(data.message);
       }
+    },
+    clickDateDefault(time) {
+      let y = new Date(time).getFullYear();
+        let m =
+          new Date(time).getMonth() + 1 <= 9
+            ? "0" + (new Date(time).getMonth() + 1)
+            : new Date(time).getMonth() + 1;
+        let d =
+          new Date(time).getDate() <= 9
+            ? "0" + new Date(time).getDate()
+            : new Date(time).getDate();
+        let hour =
+          new Date().getHours() <= 9
+            ? "0" + new Date().getHours()
+            : new Date().getHours();
+        let min =
+          new Date().getMinutes() <= 9
+            ? "0" + new Date().getMinutes()
+            : new Date().getMinutes();
+        let sec =
+          new Date().getSeconds() <= 9
+            ? "0" + new Date().getSeconds()
+            : new Date().getSeconds();
+        return y + "-" + m + "-" + d + " " + hour + ":" + min;
     }
   },
   created() {
@@ -548,11 +572,22 @@ export default {
 			this.editDays = true
       this.getCalendarInfo(this.$route.query.scheduleId);
     } else {
-			this.editDays = false			
-      let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000);
-      this.endTime = this.formatEnd(dateAfter);
-      this.pickerVisibleEnd = dateAfter;
-      this.pickerVisible = new Date();
+			
+      if (this.$route.query.clickDate) {
+        this.startTime = this.clickDateDefault(this.$route.query.clickDate)
+        this.pickerVisible = new Date(this.$route.query.clickDate)
+        this.editDays = false			
+        let dateAfter = new Date(new Date(this.$route.query.clickDate).getTime() + 1 * 60 * 60 * 1000);
+        this.endTime = this.clickDateDefault(dateAfter);
+        this.pickerVisibleEnd = dateAfter;
+      } else {
+        this.startTime = this.defaultDate()
+        this.pickerVisible = new Date();
+        this.editDays = false			
+        let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000);
+        this.endTime = this.formatEnd(dateAfter);
+        this.pickerVisibleEnd = dateAfter;
+      }
     }
   }
 };
