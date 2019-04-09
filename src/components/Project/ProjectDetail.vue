@@ -39,7 +39,7 @@
     </div>
     <div>
        <calendar-list v-if="projectInfo.timeDataList.length>0" :calendarList="projectInfo.timeDataList"></calendar-list>
-       <img  v-if="projectInfo.timeDataList.length==0" src="../../assets/img/1.png" @click="$router.push('/AddDay')"  style="margin-top:10px;" width="100%" alt="">
+       <img  v-if="projectInfo.timeDataList.length==0" src="../../assets/img/1.png" @click="goAddDay()"  style="margin-top:10px;" width="100%" alt="">
     </div>
    
   
@@ -47,7 +47,7 @@
       <button @click="deleteProject()">删除</button>
       <button @click="editProject()">修改</button>
     </div>
-      <div class="Project-add" @click="$router.push('/AddDay')">
+      <div class="Project-add" @click="goAddDay()">
       <img src="../../assets/img/icon_add.png" alt>
     </div>
   </div>
@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       projectId: "",
-      projectInfo: []
+      projectInfo: {}
     };
   },
   created() {
@@ -75,6 +75,9 @@ export default {
     this.getProjectDetail();
   },
   methods: {
+    goAddDay(){
+         this.$router.push({path:'/AddDay',query:{projectId:this.projectId,projectName:this.projectInfo.projectName}})
+    },
     goClientDetail(clientId){
          this.$router.push(`/CustomerDetails?CustomerDetails=${clientId}`)
     },
