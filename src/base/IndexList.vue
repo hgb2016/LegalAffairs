@@ -7,14 +7,14 @@
             <div>
               <span>{{infomationList[0].beginTime.split(' ')[0]}}</span>
             </div>
-            <div v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
+            <div class="secondDiv" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
               <template v-if="item.markTime === false">
                 <span>{{item.title}}</span>
-                <span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+                <span>{{item.beginTime}}-{{item.endTime}}</span>
               </template>
               <template v-else>
-                <span style="color:#888">{{item.title}}</span>
-                <span style="color:#999">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+                <span style="color:#999">{{item.title}}</span>
+                <span style="color:#999">{{item.beginTime}}-{{item.endTime}}</span>
               </template>
             </div>
           </div>
@@ -65,7 +65,6 @@ export default {
     li {
       margin-left: 20px;
       margin-right: 20px;
-      border-bottom: 1px solid #e5e5e5;
       .list-time {
         .f-d-f;
         .f-fd-c;
@@ -77,10 +76,12 @@ export default {
             font-size: 12px;
           }
         }
-        div + div {
+        .secondDiv {
           .f-d-f;
           .f-fd-c;
           margin-top: 6px;
+          border-bottom: 1px solid #e5e5e5;
+          padding-bottom: 4px;
           span {
             color: #000;
             font-size: 12px;

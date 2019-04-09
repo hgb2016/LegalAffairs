@@ -83,7 +83,7 @@ export default {
 	overflow: hidden;
 	background: #efeff4;
 	&-phone{
-		margin-top:38px;
+		padding-top:38px;
 		div{
 			height:50px;
 			background-color:#fff;
