@@ -59,9 +59,9 @@
     </div>
     <div class="cdetails-img">
       <img class="img-i" src="../../assets/img/icon__in.png" alt>
-      <div class="img-lists">
+      <div class="img-lists" v-if="clientDetails.userList && clientDetails.userList.length>0">
         <div
-          v-if="clientDetails.userList && clientDetails.userList.length>0"
+          
           v-for="(item,index) in clientDetails.userList"
           :key="index"
         >
