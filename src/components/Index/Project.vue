@@ -2,33 +2,42 @@
   <div class="Project">
     <div class="Project-header">
       <div class="Project-header-search">
-        <input type="text" placeholder="请输入项目名称">
+        <input  type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
-    
     </div>
-      <!-- 案件列表-->
-      <div class="Project-list">
-        <div class="Project-list-item" v-for="(item, index) in projectList " :key="index" @click="goProjectDetail(item.projectId)">
-          <div class="Project-list-item-r"> 
-            <p>{{item.projectName}}</p>
-            <span>
-              <p>洽谈中</p>
-              <i></i>
-            </span>
+    <!-- 案件列表-->
+    <div class="Project-list">
+      <div class="Project-list-item" v-for="(item, index) in projectList " :key="index">
+        <div class="Project-list-item-r">
+          <p style="width:70%" @click="goProjectDetail(item.projectId)">{{item.projectName}}</p>
+          <span @click="item.isUp=!item.isUp">
+            <p v-show="item.status=='0'">进行中</p>
+            <p v-show="item.status=='1'">洽谈中</p>
+            <p v-show="item.status=='2'">已完成</p>
+            <i :class="item.isUp? 'up':'down'"></i>
+          </span>
+        </div>
+        <div
+          v-show="item.isUp"
+          class="Project-list-childItem"
+          v-for="(childItem, index) in item.calenderList"
+          :key="index"
+        >
+          <div>
+            <img :src="childItem.headUrl" alt>
+            <p>{{childItem.createUserName }}</p>
+            <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
           </div>
-          <div class="Project-list-childItem" v-for="(childItem, index) in item.calenderList" :key="index">
-            <div   >
-              <img :src="childItem.headUrl" alt>
-              <p>{{childItem.createUserName  }}</p>
-              <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
-            </div>
-            <h5>{{childItem.title}}</h5>
-            <p>{{childItem.hourNum}}小时</p>
-            <span></span>
-          </div>
+          <h5>{{childItem.title}}</h5>
+          <p>{{childItem.hourNum}}小时</p>
+          <span></span>
         </div>
       </div>
+    </div>
+    <div class="Project-add" @click="$router.push('/CreateProject')">
+      <img src="../../assets/img/icon_add.png" alt>
+    </div>
   </div>
 </template>
 
@@ -56,6 +65,11 @@ export default {
       });
       if (!data.error) {
         this.projectList = data.data;
+        this.projectList.forEach(element => {
+          this.$set(element, "isUp", false);
+        });
+       
+
       } else {
         alert(data.message);
       }
@@ -123,13 +137,6 @@ export default {
             background-color: #4fc15f;
             padding: 3px 20px;
           }
-          i {
-            margin-left: 10px;
-            background-image: url("../../assets/img/up_black.png");
-            width: 13px;
-            height: 7.5px;
-            background-size: 100% 100%;
-          }
         }
       }
     }
@@ -173,5 +180,30 @@ export default {
       }
     }
   }
+  &-add {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.up {
+  margin-left: 10px;
+  background-image: url("../../assets/img/up_black.png");
+  width: 13px;
+  height: 7.5px;
+  background-size: 100% 100%;
+}
+.down {
+  margin-left: 10px;
+  background-image: url("../../assets/img/down_black.png");
+  width: 13px;
+  height: 7.5px;
+  background-size: 100% 100%;
 }
 </style>
