@@ -1,14 +1,133 @@
 <template>
   <div class="cdetails">
+    <div class="cdetails-title">
+      <p>{{clientDetails.clientName}}</p>
+      <span>{{clientDetails.clientRemark}}</span>
+    </div>
+    <div class="cdetails-list">
+      <ul>
+        <li v-if="clientDetails.clientWebsite">
+          <div>
+            <img width="15" src="../../assets/img/link.png" alt>
+          </div>
+          <!-- 网址 -->
+          <span>{{clientDetails.clientWebsite}}</span>
+        </li>
+        <li v-if="clientDetails.clientAddress">
+          <!-- 地址 -->
+          <div>
+            <img width="28" src="../../assets/img/location1.png" alt>
+          </div>
 
+          <span>{{clientDetails.clientAddress}}</span>
+        </li>
+        <li v-if="clientDetails.clientPhone">
+          <!-- 电话 -->
+          <div>
+            <img width="28" src="../../assets/img/lianxiwomen.png" alt>
+          </div>
+
+          <span>{{clientDetails.clientPhone}}</span>
+        </li>
+        <li v-if="clientDetails.clientFax">
+          <!-- 传真 -->
+          <div>
+            <img width="15" src="../../assets/img/printing.png" alt>
+          </div>
+
+          <span class="bgc">{{clientDetails.clientFax}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="cdetails-delete">
+      <!-- <span>联系人信息（长按信息可以删除）</span> -->
+      <span>联系人信息</span>
+      <!-- <img src="../../assets/img/contact_add.png" alt="" @click="addInfo"> -->
+    </div>
+    <div
+      class="cdetails-user"
+      v-if="clientDetails.contactlist && clientDetails.contactlist.length>0"
+    >
+      <div class="cdetails-user-me" v-for="(item,index) in clientDetails.contactlist" :key="index">
+        <div>
+          <span>{{item.contactsName}}-{{item.duty}}</span>
+          <span>{{item.mobilePhone}}</span>
+          <span>{{item.email}}</span>
+        </div>
+        <!-- <img class="update" src="../../assets/img/pen.png" @click="updateInfo" alt=""> -->
+      </div>
+    </div>
+    <div class="cdetails-img">
+      <img class="img-i" src="../../assets/img/icon__in.png" alt>
+      <div class="img-lists" v-if="clientDetails.userList && clientDetails.userList.length>0">
+        <div
+          
+          v-for="(item,index) in clientDetails.userList"
+          :key="index"
+        >
+          <img :src="item.headUrl" alt>
+          <span>{{item.userName}}</span>
+        </div>
+      </div>
+      <!-- <img class="img-y" src="../../assets/img/arrow.png" alt=""> -->
+    </div>
+    <div class="cdetails-btn">
+      <button @click="deleteCustomerInfo">删除</button>
+      <button @click="updateCustomerInfo">修改</button>
+    </div>
+    <add-contact
+      :name="updatename"
+      :phone="updatephone"
+      :email="updateemail"
+      @SaveAdd="SaveAdd"
+      v-if="showAddContact"
+    ></add-contact>
+  </div>
 </template>
 
 <script>
 import AddContact from "base/AddContact";
 import postHttp from "../../assets/js/postHttp.js";
-import ErrorRemind from "base/ErrorRemind.vue";
 export default {
-
+  components: {
+    AddContact
+  },
+  data() {
+    return {
+      name: "",
+      phone: "",
+      email: "",
+      updatename: "",
+      updatephone: "",
+      updateemail: "",
+      showAddContact: false,
+      clientDetails: {}
+    };
+  },
+  methods: {
+    goDetails() {},
+    updateInfo() {
+      this.updatename = this.name;
+      this.updatephone = this.phone;
+      this.updateemail = this.email;
+      this.showAddContact = true;
+    },
+    addInfo() {
+      this.updatename = "";
+      this.updatephone = "";
+      this.updateemail = "";
+      this.showAddContact = true;
+    },
+    SaveAdd() {
+      this.showAddContact = false;
+    },
+    // 删除
+    async deleteCustomerInfo() {
+      const { data } = await postHttp.post("/Client/delClient", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken: window.localStorage.getItem("logintoken"),
+        clientId: this.$route.query.CustomerDetails
+      });
       if (!data.error) {
         this.errorRemind = "删除成功";
         this.showRemind = true;

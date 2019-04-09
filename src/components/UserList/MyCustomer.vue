@@ -25,16 +25,7 @@ export default {
   data() {
     return {
 			enterpriseName: "",
-			customerList:[
-				{
-					name:'李艳彪',
-					post:'前端开发工程师'
-				},
-				{
-					name:'侯国兵',
-					post:'原生开发'
-				}
-			]
+			customerList:[]
     };
 	},
 	created () {
