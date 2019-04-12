@@ -30,7 +30,7 @@
           </div>
           <span>{{userInfo.address}}</span>
         </li>
-         <li v-if="userInfo.hourRate!='0'">
+        <li v-if="userInfo.hourRate!='0'">
           <div>
             <img width="28" src="../../assets/img/icon_fate.png" alt>
           </div>
@@ -39,24 +39,24 @@
       </ul>
     </div>
     <div class="ContactInfo-calendarinfo">
-        <h4>最近日程</h4>
-        <div class="ContactInfo-calendarinfo-list" v-for="(item, index) in userCalInfo" :key="index">
-            <p>{{item.beginTime}}</p>
-            <span v-for="(childItem, index) in item.calendarlist" :key="index" >
-               {{childItem.titleShow}}
-            </span>
-        </div>
+      <h4>最近日程</h4>
+      <div class="ContactInfo-calendarinfo-list" v-for="(item, index) in userCalInfo" :key="index">
+        <p>{{item.beginTime}}</p>
+        <span v-for="(childItem, index) in item.calendarlist" :key="index">{{childItem.titleShow}}</span>
+      </div>
     </div>
+      <button class="delete_btn" @click="isDelete()">删除好友</button>
+  
   </div>
 </template>
 
 <script>
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
-
+import { MessageBox } from 'mint-ui';
 export default {
   components: {
-    calendarList
+    calendarList,
   },
   data() {
     return {
@@ -82,6 +82,24 @@ export default {
       } else {
         alert(data.message);
       }
+    },
+    isDelete(){
+      MessageBox.confirm('确定删除此好友?').then(action => {
+        this.deleteFriend();
+      });
+    },
+    async deleteFriend() {
+   
+      const { data } = await postHttp.post("/Calendar/getFriendCalendar", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken: window.localStorage.getItem("logintoken"),
+        id: this.userInfo.userId
+      });
+      if (!data.error) {
+        this.userCalInfo = data.data;
+      } else {
+        alert(data.message);
+      }
     }
   }
 };
@@ -91,23 +109,23 @@ export default {
 @import "../../assets/css/flex.less";
 .ContactInfo {
   width: 100%;
-  &-calendarinfo{
+  &-calendarinfo {
+    padding-bottom: 40px;
     width: 100%;
-    h4{
+    h4 {
       margin-top: 10px;
       margin-left: 20px;
     }
-    &-list{
+    &-list {
       font-size: 14px;
       border-bottom: 1px solid #ededed;
       padding: 10px 0px;
-      p{
-          margin-left: 30px;
+      p {
+        margin-left: 30px;
       }
-      span{
+      span {
         .f-d-f;
-      .f-fd-c;
-    
+        .f-fd-c;
         margin-top: 7px;
         margin-left: 40px;
       }
@@ -123,6 +141,7 @@ export default {
       .f-ai-c;
       img {
         width: 50px;
+        height: 50px;
         border-radius: 50%;
       }
       p {
@@ -159,5 +178,15 @@ export default {
       }
     }
   }
+}
+.delete_btn{
+  background: red;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 35px;
+  font-size: 14px;
+  color: white;
+    
 }
 </style>

@@ -2,12 +2,13 @@
   <div class="Project">
     <div class="Project-header">
       <div class="Project-header-search">
-        <input  type="text" placeholder="请输入项目名称">
+        <input  @input="getProjectList()" v-model="keyword"  type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
     </div>
     <!-- 案件列表-->
     <div class="Project-list">
+      
       <div class="Project-list-item" v-for="(item, index) in projectList " :key="index">
         <div class="Project-list-item-r">
           <p style="width:70%" @click="goProjectDetail(item.projectId)">{{item.projectName}}</p>
@@ -34,6 +35,7 @@
           <span></span>
         </div>
       </div>
+    
     </div>
     <div class="Project-add" @click="$router.push('/CreateProject')">
       <img src="../../assets/img/icon_add.png" alt>
@@ -46,7 +48,8 @@ import postHttp from "../../assets/js/postHttp.js";
 export default {
   data() {
     return {
-      projectList: []
+      projectList: [],
+      keyword:'',
     };
   },
   created() {
@@ -55,13 +58,16 @@ export default {
     this.getProjectList();
   },
   methods: {
+   
     goProjectDetail(id) {
       this.$router.push(`/ProjectDetail?id=${id}`);
     },
     async getProjectList() {
       const { data } = await postHttp.post("/Project/getProjectList", {
         loginUserId: this.loginUserId,
-        logintoken: this.logintoken
+        logintoken: this.logintoken,
+        keyword:this.keyword,
+
       });
       if (!data.error) {
         this.projectList = data.data;
