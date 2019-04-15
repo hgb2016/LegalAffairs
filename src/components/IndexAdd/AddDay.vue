@@ -504,7 +504,6 @@ export default {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken: window.localStorage.getItem("logintoken")
       });
-      console.log(data);
       if (!data.error) {
         data.data.forEach(v=>{
         	v.status = false
