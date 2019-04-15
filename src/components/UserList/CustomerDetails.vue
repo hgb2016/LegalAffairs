@@ -123,12 +123,11 @@ export default {
     },
     // 删除
     async deleteCustomerInfo() {
-      const { data } = await postHttp.post("/Calendar/deleteCalendar", {
+      const { data } = await postHttp.post("/Client/delClient", {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken: window.localStorage.getItem("logintoken"),
-        scheduleId: this.scheduleId
+        clientId: this.$route.query.CustomerDetails
       });
-      console.log(data);
       if (!data.error) {
         this.errorRemind = "删除成功";
         this.showRemind = true;

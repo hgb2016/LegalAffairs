@@ -2,7 +2,7 @@
 <div class="day">
 	<can-demo :infomationList="infomationList" @choiceDayLists="choiceDayLists"></can-demo>
 	<index-list :infomationList="ExhibitionLists" :mark="mark" v-if="ExhibitionLists.length>0"></index-list>
-	<div class="day-add" @click="$router.push('/AddDay')">
+	<div class="day-add" @click="goAddDay">
 		<img src="../../assets/img/icon_add.png" alt="">
 	</div>
 </div>
@@ -32,11 +32,44 @@ export default {
 			endTime:currentThird(),
 			loginUserId: "",
 			logintoken: "",
-			mark:true
+			mark:true,
+			clickDate:''
 		}
 	},
 	methods :{
+		clickDateDefault(time) {
+      let y = new Date(time).getFullYear();
+        let m =
+          new Date(time).getMonth() + 1 <= 9
+            ? "0" + (new Date(time).getMonth() + 1)
+            : new Date(time).getMonth() + 1;
+        let d =
+          new Date(time).getDate() <= 9
+            ? "0" + new Date(time).getDate()
+            : new Date(time).getDate();
+        let hour =
+          new Date().getHours() <= 9
+            ? "0" + new Date().getHours()
+            : new Date().getHours();
+        let min =
+          new Date().getMinutes() <= 9
+            ? "0" + new Date().getMinutes()
+            : new Date().getMinutes();
+        let sec =
+          new Date().getSeconds() <= 9
+            ? "0" + new Date().getSeconds()
+            : new Date().getSeconds();
+        return y + "-" + m + "-" + d + " " + hour + ":" + min;
+    },
+		goAddDay () {
+			if (this.clickDate === '') {
+				this.$router.push('/AddDay')
+			} else {
+				this.$router.push(`/AddDay?clickDate=${this.clickDate}`)
+			}
+		},
 		choiceDayLists (data) {
+			this.clickDate = this.clickDateDefault(data.replace(/\//g, '-'))
 			// this.ExhibitionLists = []
 			let newArr = []
 			let newData = data.split('/')[0]+'-'+(data.split('/')[1]<10?'0'+data.split('/')[1]:data.split('/')[1]) + '-' + (data.split('/')[2]<10?'0'+data.split('/')[2]:data.split('/')[2])
@@ -67,7 +100,6 @@ export default {
 				data.data.forEach(v => {
           let currentdate = new Date()
 					let vDate = new Date(v.endTime.replace(/\//g, '-'))
-					console.log(v.endTime.replace(/\//g, '-'))
           if (currentdate>vDate) {
             v.markTime = true
           } else {
@@ -80,7 +112,6 @@ export default {
 						this.ExhibitionLists.push(m)
 					}
 				})
-				console.log(this.ExhibitionLists)
       } else {
         alert(data.message);
       }

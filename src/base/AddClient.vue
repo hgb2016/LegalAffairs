@@ -3,7 +3,6 @@
 		
     <div class="addproject-sale">
 			<div class="addproject-sale-twoBtn">
-				<!-- <span @click="goAddPro">添加客户</span> -->
 				<span @click="closeSale()">确定</span>
 			</div>
 			<ul>
