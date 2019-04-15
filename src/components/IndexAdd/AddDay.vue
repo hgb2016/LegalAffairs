@@ -202,8 +202,8 @@ export default {
       projectTitle: "请选择项目",
       projectUid: "",
       timeString: ["准点提醒"],
-			title: "",
-			editDays:false
+      title: "",
+      editDays: false
     };
   },
   computed: {
@@ -230,8 +230,8 @@ export default {
             (newObj["logintoken"] = window.localStorage.getItem("logintoken"));
           newObj["title"] = this.title;
           newObj["beginTime"] = this.startTime;
-					newObj["endTime"] = this.endTime;
-					newObj["scheduleId"] = this.$route.query.scheduleId;
+          newObj["endTime"] = this.endTime;
+          newObj["scheduleId"] = this.$route.query.scheduleId;
           if (this.address !== "") {
             newObj["address"] = this.address;
           }
@@ -328,35 +328,32 @@ export default {
       }
     },
     close_Friends(data) {
-			this.choiceUserListsParents = data;
-			this.showFriends = false;
-			console.log(data)
-			if (this.editDays === true) {
-				this.editCalendarPar ()
-			}
-		},
-		async editCalendarPar () {
-			let newObj = {}
-			newObj["loginUserId"] = window.localStorage.getItem("loginUserId")
-			newObj["logintoken"] = window.localStorage.getItem("logintoken")
-			if (this.choiceUserListsParents.length > 0) {
-				let newArr = [];
-				this.choiceUserListsParents.forEach(v => {
-					let newObj = {};
-					newObj["userId"] = v.id;
-					newArr.push(newObj);
-				});
-				newObj["userList"] = newArr;
-			} else {
-				newObj["userList"] = [];
-			}
-			newObj['scheduleId'] = this.$route.query.scheduleId
-			const { data } = await postHttp.post(
-				"/Calendar/editCalendarPar",
-				newObj
-			);
-			console.log(data)
-		},
+      this.choiceUserListsParents = data;
+      this.showFriends = false;
+      console.log(data);
+      if (this.editDays === true) {
+        this.editCalendarPar();
+      }
+    },
+    async editCalendarPar() {
+      let newObj = {};
+      newObj["loginUserId"] = window.localStorage.getItem("loginUserId");
+      newObj["logintoken"] = window.localStorage.getItem("logintoken");
+      if (this.choiceUserListsParents.length > 0) {
+        let newArr = [];
+        this.choiceUserListsParents.forEach(v => {
+          let newObj = {};
+          newObj["userId"] = v.id;
+          newArr.push(newObj);
+        });
+        newObj["userList"] = newArr;
+      } else {
+        newObj["userList"] = [];
+      }
+      newObj["scheduleId"] = this.$route.query.scheduleId;
+      const { data } = await postHttp.post("/Calendar/editCalendarPar", newObj);
+      console.log(data);
+    },
     close_Time(data) {
       this.timeString = data;
       this.showTime = false;
@@ -505,10 +502,19 @@ export default {
         logintoken: window.localStorage.getItem("logintoken")
       });
       if (!data.error) {
-        data.data.forEach(v=>{
-        	v.status = false
-        })
+        data.data.forEach(v => {
+          v.status = false;
+        });
         this.projectLists = data.data;
+          if (this.$route.query.projectId) {
+        this.projectUid = this.$route.query.projectId;
+          this.projectLists.forEach(element => {   
+           if(this.projectUid==element.projectId){
+              this.projectTitle=element.projectName
+            
+           }
+        });
+      }
       } else {
         alert(data.message);
       }
@@ -538,14 +544,14 @@ export default {
         this.address = dayDetails.address;
         this.Remarks = dayDetails.remark;
         this.choiceUserListsParents = [];
-        dayDetails.userList.forEach((v,index) => {
-					if (index>0) {
-						let newUsers = {};
-						newUsers["id"] = v.userId;
-						newUsers["img"] = v.headUrl;
-						newUsers["name"] = v.userName;
-						this.choiceUserListsParents.push(newUsers);
-					}
+        dayDetails.userList.forEach((v, index) => {
+          if (index > 0) {
+            let newUsers = {};
+            newUsers["id"] = v.userId;
+            newUsers["img"] = v.headUrl;
+            newUsers["name"] = v.userName;
+            this.choiceUserListsParents.push(newUsers);
+          }
         });
       } else {
         alert(data.message);
@@ -553,48 +559,50 @@ export default {
     },
     clickDateDefault(time) {
       let y = new Date(time).getFullYear();
-        let m =
-          new Date(time).getMonth() + 1 <= 9
-            ? "0" + (new Date(time).getMonth() + 1)
-            : new Date(time).getMonth() + 1;
-        let d =
-          new Date(time).getDate() <= 9
-            ? "0" + new Date(time).getDate()
-            : new Date(time).getDate();
-        let hour =
-          new Date().getHours() <= 9
-            ? "0" + new Date().getHours()
-            : new Date().getHours();
-        let min =
-          new Date().getMinutes() <= 9
-            ? "0" + new Date().getMinutes()
-            : new Date().getMinutes();
-        let sec =
-          new Date().getSeconds() <= 9
-            ? "0" + new Date().getSeconds()
-            : new Date().getSeconds();
-        return y + "-" + m + "-" + d + " " + hour + ":" + min;
+      let m =
+        new Date(time).getMonth() + 1 <= 9
+          ? "0" + (new Date(time).getMonth() + 1)
+          : new Date(time).getMonth() + 1;
+      let d =
+        new Date(time).getDate() <= 9
+          ? "0" + new Date(time).getDate()
+          : new Date(time).getDate();
+      let hour =
+        new Date().getHours() <= 9
+          ? "0" + new Date().getHours()
+          : new Date().getHours();
+      let min =
+        new Date().getMinutes() <= 9
+          ? "0" + new Date().getMinutes()
+          : new Date().getMinutes();
+      let sec =
+        new Date().getSeconds() <= 9
+          ? "0" + new Date().getSeconds()
+          : new Date().getSeconds();
+      return y + "-" + m + "-" + d + " " + hour + ":" + min;
     }
   },
   created() {
     this.getNiuFaUser();
     this.getProjectList();
     if (this.$route.query.scheduleId) {
-			this.editDays = true
+      this.editDays = true;
       this.getCalendarInfo(this.$route.query.scheduleId);
     } else {
-			
+    
       if (this.$route.query.clickDate) {
-        this.startTime = this.clickDateDefault(this.$route.query.clickDate)
-        this.pickerVisible = new Date(this.$route.query.clickDate)
-        this.editDays = false			
-        let dateAfter = new Date(new Date(this.$route.query.clickDate).getTime() + 1 * 60 * 60 * 1000);
+        this.startTime = this.clickDateDefault(this.$route.query.clickDate);
+        this.pickerVisible = new Date(this.$route.query.clickDate);
+        this.editDays = false;
+        let dateAfter = new Date(
+          new Date(this.$route.query.clickDate).getTime() + 1 * 60 * 60 * 1000
+        );
         this.endTime = this.clickDateDefault(dateAfter);
         this.pickerVisibleEnd = dateAfter;
       } else {
-        this.startTime = this.defaultDate()
+        this.startTime = this.defaultDate();
         this.pickerVisible = new Date();
-        this.editDays = false			
+        this.editDays = false;
         let dateAfter = new Date(new Date().getTime() + 1 * 60 * 60 * 1000);
         this.endTime = this.formatEnd(dateAfter);
         this.pickerVisibleEnd = dateAfter;
