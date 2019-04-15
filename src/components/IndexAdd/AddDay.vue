@@ -77,7 +77,7 @@
         </li>
         <li>
           <div class="w-l">
-            <span class="tit">提醒</span>
+            <span class="tit">更多</span>
             <p @click="showLis=!showLis">
               <span class="ccColor">地址、备注</span>
               <img class="down" src="../../assets/img/down.png" alt>
@@ -618,10 +618,12 @@ export default {
     input {
       .f-f-1;
       text-align: center;
+      background-color: #efeff4;
       font-size: 16px;
-      color: #333;
-      font-weight: bold;
-      background: #efeff4;
+      color: #000;
+    }
+    ::-webkit-input-placeholder {
+      color: #000;
     }
   }
   &-btn {

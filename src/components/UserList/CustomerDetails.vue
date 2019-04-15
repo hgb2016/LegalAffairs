@@ -175,11 +175,12 @@ export default {
     padding: 10px 10px;
     p {
       color: #333;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: bold;
     }
     span {
       color: #999;
-      font-size: 14px;
+      font-size: 12px;
       margin-top: 8px;
     }
   }
@@ -287,6 +288,9 @@ export default {
           height: 35px;
         }
         span {
+          width:50px;
+          overflow: hidden;
+          text-overflow: ellipsis;
           color: #333;
           font-size: 14px;
           margin-top: 4px;

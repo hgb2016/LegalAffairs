@@ -1,26 +1,10 @@
 <template>
-  <div class="add-day">
-		<div class="add-day-input">
+  <div class="create-project">
+		<div class="create-project-input">
 			<input type="text"  placeholder="请输入项目名称" v-model="title">
 		</div>	
-		<div class="add-day-list">
+		<div class="create-project-list">
 			<ul>
-				<!-- <li>
-					<div class="w-l">
-						<span class="tit">此事项为：</span>
-						<div>
-							<p v-for="(item,index) in peopleList" :key="index" @click="choiceLists(index)">
-								<template v-if="index === idx">
-									<img :src="item.clickImg" alt="">
-								</template>
-								<template v-else>
-									<img :src="item.img" alt="">
-								</template>
-								{{item.name}}
-							</p>
-						</div>
-					</div>
-				</li> -->
 				<li>
 					<div class="w-d">
 						<div class="w-d-part">
@@ -59,7 +43,7 @@
 
 				<li>  
 					<div class="w-l">
-						<span class="tit">提醒</span>
+						<span class="tit">更多</span>
 						<p @click="showLis=!showLis">
 							<span class="ccColor">地址、备注</span>
 							<img class="down" src="../../assets/img/down.png" alt="">
@@ -93,7 +77,7 @@
 				</li> -->
 			</ul>
 		</div>
-		<div class="add-day-btn">
+		<div class="create-project-btn">
 			<button @click="Preservation">
 				确定
 			</button>
@@ -138,7 +122,6 @@ import AddClient from "base/AddClient.vue";
 import AddMajoruser from "base/AddMajoruser.vue";
 import AddTime from "base/AddTime.vue";
 import DeleteImg from "base/DeleteImg";
-import liyan from "@/assets/img/liyan.jpg";
 import postHttp from "../../assets/js/postHttp.js";
 
 export default {
@@ -576,7 +559,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/flex.less";
-.add-day {
+.create-project {
   .f-d-f;
   .f-fd-c;
   padding-bottom: 50px;
@@ -588,10 +571,12 @@ export default {
     input {
       .f-f-1;
       text-align: center;
+      background-color: #efeff4;
       font-size: 16px;
-      color: #333;
-      font-weight: bold;
-      background: #efeff4;
+      color: #000;
+    }
+    ::-webkit-input-placeholder {
+      color: #000;
     }
   }
   &-btn {

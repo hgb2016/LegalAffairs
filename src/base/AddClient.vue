@@ -1,10 +1,6 @@
 <template>
   <div class="addproject" :style="rightTransition" @click.self="closeSale">
-		
     <div class="addproject-sale">
-			<div class="addproject-sale-twoBtn">
-				<span @click="closeSale()">确定</span>
-			</div>
 			<ul>
 				<li v-for="(item,index) in clientLists" :key="index" @click="choiceClient(item.clientName,item.clientId)">
 					<span v-if="item.clientId !== proId">{{item.clientName}}</span>
@@ -92,7 +88,7 @@ export default {
 <style lang="less" scoped>
 @import '../assets/css/flex.less';
 .addproject{
-	width:100%;
+	width:100vw;
 	height:100vh;
 	position: fixed;
 	top:0;
@@ -106,32 +102,10 @@ export default {
 	.f-fd-rr;
 	&-sale{
 		width:80%;
-		height:100%;
+		height:100vh;
 		background-color: #fff;
-		overflow-y: scroll;
-		.f-d-f;
-		.f-fd-c;
 		position: relative;
-		&-twoBtn {
-			.f-d-f;
-			padding:10px;
-			.f-d-f;
-			.f-jc-sb;
-			position: absolute;
-			bottom:0;
-			left:0;
-			right:0;
-			span {
-				width:100%;
-				height:38px;
-				color:#fff;
-				.f-d-f;
-				.f-ai-c;
-				.f-jc-c;
-				background-color: #2B6FCE;
-				font-size:14px;
-			}
-		}
+		overflow-y: scroll;
 		ul {
 			.f-d-f;
 			.f-fd-c;

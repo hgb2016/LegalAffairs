@@ -9,12 +9,12 @@
             </div>
             <div class="secondDiv" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
               <template v-if="item.markTime === false">
-                <span>{{item.title}}</span>
-                <span>{{item.beginTime}}-{{item.endTime}}</span>
+                <span style="font-weight:bold;">{{item.title}}</span>
+                <span style="font-weight:bold;">{{item.beginTime}}---{{item.endTime}}</span>
               </template>
               <template v-else>
                 <span style="color:#999">{{item.title}}</span>
-                <span style="color:#999">{{item.beginTime}}-{{item.endTime}}</span>
+                <span style="color:#999">{{item.beginTime}}---{{item.endTime}}</span>
               </template>
             </div>
           </div>
@@ -26,12 +26,12 @@
             </div>
             <div>
               <template v-if="item.markTime === false">
-                <span>{{item.title}}</span>
-                <span>{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+                <span style="font-weight:bold;">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+                <span style="font-weight:bold;">{{item.title}}</span>
               </template>
               <template v-else>
-                <span style="color:#888">{{item.title}}</span>
                 <span style="color:#999">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
+                <span style="color:#888">{{item.title}}</span>
               </template>
             </div>
           </div>
@@ -68,12 +68,14 @@ export default {
       .list-time {
         .f-d-f;
         .f-fd-c;
-        padding: 10px 0px;
+        padding-top: 10px;
         div {
           span {
-            margin-top: 5px;
             color: #000;
             font-size: 12px;
+          }
+          span + span {
+            margin-top: 5px;
           }
         }
         .secondDiv {

@@ -2,10 +2,6 @@
   <div class="addproject" :style="rightTransition" @click.self="closeSale">
 		
     <div class="addproject-sale">
-			<div class="addproject-sale-twoBtn">
-				<span @click="goAddPro">添加项目</span>
-				<!-- <span>确定</span> -->
-			</div>
 			<ul>
 				<li v-for="(item,index) in projectLists" :key="index" @click="choiceProject(item.projectName,item.projectId)">
 					<span v-if="item.projectId !== proId">{{item.projectName}}</span>
@@ -63,9 +59,6 @@ export default {
 				this.proId = ''
 			}
 		},
-		goAddPro () {
-			this.$router.push('/AddPro')
-		},
 		closeSale () {
 			let newObj = {}
 			newObj['name'] = this.proName
@@ -114,32 +107,12 @@ export default {
 		.f-d-f;
 		.f-fd-c;
 		position: relative;
-		&-twoBtn {
-			.f-d-f;
-			padding:10px;
-			.f-d-f;
-			.f-jc-sb;
-			position: absolute;
-			bottom:0;
-			left:0;
-			right:0;
-			span {
-				width:100%;
-				height:38px;
-				color:#fff;
-				.f-d-f;
-				.f-ai-c;
-				.f-jc-c;
-				background-color: #2B6FCE;
-				font-size:14px;
-			}
-		}
 		ul {
 			.f-d-f;
 			.f-fd-c;
 			padding-bottom:38px;
 			li {
-				height:60px;
+				height:50px;
 				border-top:1px solid #e5e5e5;
 				.f-d-f;
 				.f-ai-c;
