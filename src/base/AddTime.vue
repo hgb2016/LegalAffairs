@@ -161,7 +161,7 @@ export default {
 			width:100%;
 			li{
 				padding:0 10px;
-				height:40px;
+				height:50px;
 				border-bottom:1px solid #e5e5e5;
 				.f-d-f;
 				.f-ai-c;

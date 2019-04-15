@@ -2,7 +2,7 @@
   <div class="my-customer">
 		<div class="my-customer-search">
 			<div>
-				<input type="text" placeholder="搜索企业名称" v-model="enterpriseName">
+				<input type="text" placeholder="搜索企业名称" v-model="enterpriseName" @input="searchCustomer">
 				<i @click="searchBtn"></i>
 			</div>
 			<p @click="goAdd">添加客户</p>
@@ -14,6 +14,7 @@
 					<span>{{item.clientAddress}}</span>
 				</li>
 			</ul>
+			<h6>{{lowupdate}}</h6>
 		</div>
 	</div>
 </template>
@@ -25,21 +26,40 @@ export default {
   data() {
     return {
 			enterpriseName: "",
-			customerList:[]
+			customerList:[],
+			pageNum:1,
+			markCustomer:1,
+			totalPages:0,
+			lowupdate:''
     };
 	},
 	created () {
 		this.getClientList()
 	},
   methods: {
+		searchCustomer () {
+			this.pageNum = 1
+			this.getClientList()
+		},
 		async getClientList () {
 			const { data } = await postHttp.post("/Client/getClientList", {
         loginUserId: window.localStorage.getItem("loginUserId"),
-        logintoken:window.localStorage.getItem("logintoken"),
+				logintoken:window.localStorage.getItem("logintoken"),
+				page:this.pageNum,
+				keyword:this.enterpriseName
 			});
-			console.log(data)
       if (!data.error) {
-        this.customerList = data.data;
+				this.markCustomer = 0
+				this.totalPages = data.totalPages
+				this.customerList = []
+				data.data.map(item => {
+          this.customerList.push(item);
+        });
+				if (data.totalPages>1) {
+					this.lowupdate = '加载更多'
+				} else {
+					this.lowupdate = ''
+				}
       } else {
         alert(data.message);
       }
@@ -50,7 +70,49 @@ export default {
 		},
 		CustomerDetails (id) {
 			this.$router.push(`/CustomerDetails?CustomerDetails=${id}`)
-		}
+		},
+		 async customerScroll() {
+      let windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      let scrollY =
+        document.body.scrollTop ||
+        document.documentElement.scrollTop ||
+				window.pageYOffset;
+      if (
+        scrollY + windowHeight === this.$el.getBoundingClientRect().height &&
+        this.markCustomer === 0
+      ) {
+        this.markCustomer = 1;
+        this.pageNum++;
+        if (this.pageNum <= this.totalPages) {
+					const { data } = await postHttp.post("/Client/getClientList", {
+						loginUserId: window.localStorage.getItem("loginUserId"),
+						logintoken:window.localStorage.getItem("logintoken"),
+						page:this.pageNum
+					});
+					if (!data.error) {
+						this.markCustomer = 0
+						data.data.map(item => {
+							this.customerList.push(item);
+						});
+						if (this.pageNum<data.totalPages) {
+							this.lowupdate = '加载更多'
+						} else {
+							this.lowupdate = ''
+						}
+					}
+					this.lowupdate = "加载更多";
+        } else {
+          this.lowupdate = "";
+        }
+      }
+    },
+	},
+	mounted() {
+    window.addEventListener("scroll", this.customerScroll);
+	},
+	beforeRouteLeave(to, from, next) {
+    window.removeEventListener("scroll", this.customerScroll);
+    next();
   }
 };
 </script>
@@ -58,6 +120,8 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/flex.less";
 .my-customer {
+	width:100vw;
+	min-height: 100vh;
   &-search {
 		height:50px;
 		.f-d-f;
@@ -113,13 +177,21 @@ export default {
 				span {
 					color:#333;
 					font-size:14px;
+					font-weight: bold;
 				}
 				span + span {
 					font-size:12px;
-					color:#666;
+					color:#999;
 					margin-top:6px;
 				}
 			}
+		}
+		h6 {
+			width:100%;
+			text-align: center;
+			line-height: 26px;
+			font-size:14px;
+			color:#333;
 		}
 	}
 }

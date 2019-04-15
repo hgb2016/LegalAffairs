@@ -1,10 +1,10 @@
 <template>
-  <div class="add-day">
-    <div class="add-day-input">
+  <div class="create-project">
+    <div class="create-project-input">
       <input type="text" v-model="projectName" placeholder="请输入项目名称">
     </div>
 
-    <div class="add-day-list">
+    <div class="create-project-list">
       <ul>
         <!-- <li>
           <div class="w-l" >
@@ -419,7 +419,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/flex.less";
-.add-day {
+.create-project {
   .f-d-f;
   .f-fd-c;
   &-input {
@@ -430,10 +430,12 @@ export default {
     input {
       .f-f-1;
       text-align: center;
+      background-color: #efeff4;
       font-size: 16px;
-      color: #333;
-      font-weight: bold;
-      background: #efeff4;
+      color: #000;
+    }
+    ::-webkit-input-placeholder {
+      color: #000;
     }
   }
   &-twoTime {

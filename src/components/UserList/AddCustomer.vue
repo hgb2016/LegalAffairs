@@ -51,7 +51,7 @@
 					<div class="part-i">
 						<ul>
 							<li v-for="(item,index) in choiceUserListsParents" :key="index">
-								<delete-img :item="item" @closeDelete="closeDelete"></delete-img>
+								<delete-img :item="item" @closeDelete="closeDelete"  :details="'true'"></delete-img>
 							</li>
 						</ul>
 					</div>
@@ -289,7 +289,7 @@ export default {
 					}
 				}
 			} else {
-				if (this.title === "") {
+				if (this.clientName === "") {
 					this.showRemind = true;
 					this.errorRemind = "请输入客户名称";
 					setTimeout(() => {
@@ -382,7 +382,7 @@ export default {
     },
     closeDelete() {},
     deletecus(index) {
-      this.contactLists.splice(index, i);
+      this.contactLists.splice(index, 1);
     },
     twoScale() {
       if (this.scaleInfo === false) {

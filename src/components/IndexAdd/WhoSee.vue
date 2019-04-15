@@ -11,7 +11,6 @@
 		</ul>
      <button class="who-see-btn" @click="showFriends=true">添加谁可见人员</button>
      <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="partInlist"></add-friends>
-
 </div>
 </template>
 

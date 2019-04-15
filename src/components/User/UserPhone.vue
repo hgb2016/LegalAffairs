@@ -95,7 +95,7 @@ export default {
 			font-size: 14px;
 			line-height: 40px;
 			text-align: center;
-			background-color: #FE5A5A;
+			background-color: #2d75ee;
 			color:#fff;
     }
     button.cccbgm {
@@ -113,7 +113,7 @@ export default {
 			font-size:14px;
 			line-height: 40px;
 			text-align: center;
-			background-color: #FE5A5A;
+			background-color: #2d75ee;
 		}
 		.next {
 			background-color: #ccc;

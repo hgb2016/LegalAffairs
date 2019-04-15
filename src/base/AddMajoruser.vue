@@ -2,10 +2,9 @@
   <div class="addproject" :style="rightTransition" @click.self="closeSale">
 		
     <div class="addproject-sale">
-			<div class="addproject-sale-twoBtn">
+			<!-- <div class="addproject-sale-twoBtn">
 				<span @click="closeSale()">确定</span>
-				<!-- <span>确定</span> -->
-			</div>
+			</div> -->
 			<ul>
 				<li v-for="(item,index) in userLists" :key="index" @click="choiceMajor(item.userName,item.userId)">
 					<span v-if="item.userId !== proId">{{item.userName}}</span>
@@ -136,7 +135,7 @@ export default {
 			.f-fd-c;
 			padding-bottom:38px;
 			li {
-				height:60px;
+				height:50px;
 				border-top:1px solid #e5e5e5;
 				.f-d-f;
 				.f-ai-c;
