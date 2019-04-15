@@ -73,7 +73,7 @@
 				</li> -->
 			</ul>
 		</div>
-    <div class="day-details-btn">
+    <div class="day-details-btn" v-show="isEdit">
       <button @click="deleteDay">
         删除
       </button>
@@ -94,6 +94,9 @@
 			@confirm="closeTimePickerEnd">
 		</mt-datetime-picker>
 		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
+    <div class="add" >
+      <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
+    </div>
 	</div>
 </template>
 
@@ -108,7 +111,7 @@ export default {
   },
   data() {
     return {
-
+      isEdit:false,
       peopleList: [
         {
           name: "工作",
@@ -460,4 +463,18 @@ export default {
     }
   }
 }
+ .add {
+    .f-d-f;
+    .f-fd-c;
+    .f-ai-c;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+  
+    img {
+      margin-top: 15px;
+       width: 28px;
+       height: 28px;
+    }
+  }
 </style>

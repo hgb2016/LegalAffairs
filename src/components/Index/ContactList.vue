@@ -1,17 +1,28 @@
 <template>
   <div>
     <div class="ContactList-header">
-      <div class="ContactList-header-search">
-        <input type="text" placeholder="请输入好友名称">
-        <i></i>
-      </div>
-    </div>
-    <div class="ContactList-list" >
-      <div class="ContactList-list-item" v-for="(item,index) in contactlist" :key="index" @click="goContactInfo(item)">
-        <img :src="item.headUrl" alt>
-        <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
+      <mt-search
+       @input="getNiuFaUser()"
+      
+        class="ContactList-header-search"
+        v-model="keyword"
+        cancel-text="取消"
+        placeholder="搜索"
+        :show="true"
+      >
 
-      </div>
+        <div class="ContactList-list">
+          <div
+            class="ContactList-list-item"
+            v-for="(item,index) in contactlist"
+            :key="index"
+            @click="goContactInfo(item)"
+          >
+            <img :src="item.headUrl" alt>
+            <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
+          </div>
+        </div>
+      </mt-search>
     </div>
   </div>
 </template>
@@ -24,9 +35,8 @@ export default {
     return {
       loginUserId: "",
       logintoken: "",
-      contactlist: [
-       
-      ]
+      contactlist: [],
+      keyword: ""
     };
   },
   created() {
@@ -35,17 +45,18 @@ export default {
     this.getNiuFaUser();
   },
   methods: {
-    goContactInfo(item){
-      console.log(item)
-      this.$router.push({path:'/ContactInfo',query:{userinfo:item}})
+    goContactInfo(item) {
+      console.log(item);
+      this.$router.push({ path: "/ContactInfo", query: { userinfo: item } });
     },
     async getNiuFaUser() {
       const { data } = await postHttp.post("/Index/getNiuFaUser", {
         loginUserId: this.loginUserId,
-        logintoken:this.logintoken
+        logintoken: this.logintoken,
+        keyword:this.keyword
       });
       if (!data.error) {
-          this.contactlist=data.data;
+        this.contactlist = data.data;
       } else {
         alert(data.message);
       }
@@ -63,33 +74,10 @@ export default {
     position: fixed;
     top: 0;
     width: 100%;
-    &-search {
-      margin: 20px;
-      .f-f-1;
-      .f-d-f;
-      height: 30px;
-      border: 1px solid #e5e5e5;
-      border-radius: 30px;
-      background-color: #fff;
-      .f-d-f;
-      .f-jc-sb;
-      .f-ai-c;
-      padding: 0 10px;
-      i {
-        background-image: url("../../assets/img/icon_search.png");
-        width: 26px;
-        height: 26px;
-        background-size: 100% 100%;
-      }
-      input {
-        font-size: 12px;
-        color: #333;
-      }
-    }
+   
   }
 
   &-list {
-    margin-top: 60px;
     width: 100%;
     &-item {
       .f-d-f;

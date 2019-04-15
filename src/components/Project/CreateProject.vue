@@ -223,7 +223,7 @@ export default {
       this.showSale = false;
       if (data.name !== "") {
         this.clientTitle = data.name;
-        this.projectUid = data.id;
+        this.clientId = data.id;
       }
     },
     close_Friends(data) {

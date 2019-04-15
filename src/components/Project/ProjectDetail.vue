@@ -12,7 +12,11 @@
           </span>
         </div>
         <p v-show="projectInfo.description" class="Project-list-desc">描述：{{projectInfo.description}}</p>
-        <div class="Project-list-client" v-show="projectInfo.clientName" @click="goClientDetail(projectInfo.clientId)">
+        <div
+          class="Project-list-client"
+          v-show="projectInfo.clientName"
+          @click="goClientDetail(projectInfo.clientId)"
+        >
           <span>
             <img src="../../assets/img/icon_client.png" alt>
             <p>{{projectInfo.clientName}}</p>
@@ -38,17 +42,27 @@
       </div>
     </div>
     <div>
-       <calendar-list v-if="projectInfo.timeDataList.length>0" :calendarList="projectInfo.timeDataList"></calendar-list>
-       <img  v-if="projectInfo.timeDataList.length==0" src="../../assets/img/1.png" @click="goAddDay()"  style="margin-top:10px;" width="100%" alt="">
+      <calendar-list
+        v-if="projectInfo.timeDataList.length>0"
+        :calendarList="projectInfo.timeDataList"
+      ></calendar-list>
+      <img
+        v-if="projectInfo.timeDataList.length==0"
+        src="../../assets/img/1.png"
+        @click="goAddDay()"
+        style="margin-top:10px;"
+        width="100%"
+        alt
+      >
     </div>
-   
-  
-    <div class="Project-btn">
-      <button @click="deleteProject()">删除</button>
+
+    <div class="Project-btn" v-show="isEdit">
+      <button @click="isDelete()">删除</button>
       <button @click="editProject()">修改</button>
     </div>
-      <div class="Project-add" @click="goAddDay()">
-      <img src="../../assets/img/icon_add.png" alt>
+    <div class="Project-add" >
+      <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
+      <img @click="goAddDay()" src="../../assets/img/icon_add.png" alt>
     </div>
   </div>
 </template>
@@ -57,6 +71,7 @@
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
 import ErrorRemind from "base/ErrorRemind.vue";
+import { MessageBox } from 'mint-ui';
 export default {
   components: {
     calendarList,
@@ -65,7 +80,8 @@ export default {
   data() {
     return {
       projectId: "",
-      projectInfo: {}
+      projectInfo: {},
+      isEdit:false,
     };
   },
   created() {
@@ -75,11 +91,22 @@ export default {
     this.getProjectDetail();
   },
   methods: {
-    goAddDay(){
-         this.$router.push({path:'/AddDay',query:{projectId:this.projectId,projectName:this.projectInfo.projectName}})
+      isDelete(){
+      MessageBox.confirm('确定删除此好友?').then(action => {
+        this.deleteProject();
+      });
     },
-    goClientDetail(clientId){
-         this.$router.push(`/CustomerDetails?CustomerDetails=${clientId}`)
+    goAddDay() {
+      this.$router.push({
+        path: "/AddDay",
+        query: {
+          projectId: this.projectId,
+          projectName: this.projectInfo.projectName
+        }
+      });
+    },
+    goClientDetail(clientId) {
+      this.$router.push(`/CustomerDetails?CustomerDetails=${clientId}`);
     },
     //获取案件案情
     async getProjectDetail() {
@@ -94,30 +121,29 @@ export default {
         alert(data.message);
       }
     },
-     // 删除案件
-  async deleteProject() {
-    const { data } = await postHttp.post("/Project/deleteProject", {
-      loginUserId: window.localStorage.getItem("loginUserId"),
-      logintoken: window.localStorage.getItem("logintoken"),
-      projectId: this.projectId
-    });
-    if (!data.error) {
-      // this.dayInfo = data.data;
-      this.errorRemind = "删除成功";
-      this.showRemind = true;
-      setTimeout(() => {
-        this.$router.go(-1);
-      }, 2000);
-    } else {
-      alert(data.message);
+    // 删除案件
+    async deleteProject() {
+      const { data } = await postHttp.post("/Project/deleteProject", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken: window.localStorage.getItem("logintoken"),
+        projectId: this.projectId
+      });
+      if (!data.error) {
+        // this.dayInfo = data.data;
+        this.errorRemind = "删除此项目吗？";
+        this.showRemind = true;
+        setTimeout(() => {
+          this.$router.go(-1);
+        }, 2000);
+      } else {
+        alert(data.message);
+      }
+    },
+    // 修改日程
+    editProject() {
+      this.$router.push(`/CreateProject?projectId=${this.projectId}`);
     }
-  },
-  // 修改日程
-  editProject() {
-    this.$router.push(`/CreateProject?projectId=${this.projectId}`);
   }
-  },
- 
 };
 </script>
 
@@ -310,15 +336,18 @@ export default {
       }
     }
   }
-   &-add {
+  &-add {
+    .f-d-f;
+    .f-fd-c;
+    .f-ai-c;
     position: fixed;
     bottom: 100px;
     right: 40px;
-    width: 28px;
-    height: 28px;
+  
     img {
-      width: 100%;
-      height: 100%;
+      margin-top: 15px;
+       width: 28px;
+       height: 28px;
     }
   }
 }
