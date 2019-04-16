@@ -5,16 +5,16 @@
         <template v-if="mark===true">
           <div class="list-time">
             <div>
-              <span>{{infomationList[0].beginTime.split(' ')[0]}}</span>
+              <span>{{infomationList[0].beginTime | NowDate}}</span>
             </div>
             <div class="secondDiv" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
               <template v-if="item.markTime === false">
                 <span style="font-weight:bold;">{{item.title}}</span>
-                <span style="font-weight:bold;">{{item.beginTime}}---{{item.endTime}}</span>
+                <span>{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
               </template>
               <template v-else>
                 <span style="color:#999">{{item.title}}</span>
-                <span style="color:#999">{{item.beginTime}}---{{item.endTime}}</span>
+                <span style="color:#999">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
               </template>
             </div>
           </div>
@@ -22,16 +22,16 @@
         <template v-else>
           <div class="list-time" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
             <div>
-              <span>{{item.beginTime.split(' ')[0]}}</span>
+              <span>{{item.beginTime.split(' ')[0]}} - {{item.endTime.split(' ')[0]}}</span>
             </div>
             <div>
               <template v-if="item.markTime === false">
-                <span style="font-weight:bold;">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
                 <span style="font-weight:bold;">{{item.title}}</span>
+                <span>{{item.beginTime.split(' ')[1]}} - {{item.endTime.split(' ')[1]}}</span>
               </template>
               <template v-else>
-                <span style="color:#999">{{item.beginTime.split(' ')[1]}}-{{item.endTime.split(' ')[1]}}</span>
                 <span style="color:#888">{{item.title}}</span>
+                <span style="color:#999">{{item.beginTime.split(' ')[1]}} - {{item.endTime.split(' ')[1]}}</span>
               </template>
             </div>
           </div>
@@ -44,6 +44,43 @@
 <script>
 export default {
   props: ["infomationList",'mark'],
+  filters:{
+    FormatDate(time) {
+      console.log(time)
+      let y = new Date().getFullYear();
+      let m =
+        new Date().getMonth() + 1 <= 9
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      let d =
+        new Date().getDate() <= 9
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      let newString = y+'-'+m+'-'+d 
+      if (time.split(' ')[0] === newString) {
+        return time.split(' ')[1]
+      } else {
+        return time.split(' ')[0].split('-')[1]+'-'+ time.split(' ')[0].split('-')[2] + ' '+time.split(' ')[1]
+      }
+    },
+    NowDate(time) {
+      let y = new Date().getFullYear();
+      let m =
+        new Date().getMonth() + 1 <= 9
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      let d =
+        new Date().getDate() <= 9
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      let newString = y+'-'+m+'-'+d 
+      if (time.split(' ')[0] === newString) {
+        return '今天'
+      } else {
+        return time.split(' ')[0]
+      }
+    }
+  },
   methods:{
     goDayDetails (id) {
       this.$router.push(`/DayDetails?id=${id}`)
@@ -70,11 +107,11 @@ export default {
         .f-fd-c;
         padding-top: 10px;
         div {
+          .f-d-f;
+          .f-fd-c;
           span {
             color: #000;
             font-size: 12px;
-          }
-          span + span {
             margin-top: 5px;
           }
         }
