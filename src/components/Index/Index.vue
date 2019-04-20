@@ -15,7 +15,7 @@
         <span>更多</span>
       </div>
     </div>
-    <index-list :infomationList="infomationList" v-if="infomationList.length>0" :mark="mark"></index-list>
+    <index-list :infomationList="infomationList" :mark="mark"></index-list>
     <div class="index-add" @click="$router.push('/AddDay')">
       <img src="../../assets/img/icon_add.png" alt>
     </div>

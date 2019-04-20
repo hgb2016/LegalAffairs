@@ -1,7 +1,7 @@
 <template>
     <div class="index-list">
 		<ul>
-			<li>
+			<li v-if="infomationList.length>0">
         <template v-if="mark===true">
           <div class="list-time">
             <div>
@@ -9,14 +9,19 @@
             </div>
             <div class="secondDiv" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
               <template v-if="item.markTime === false">
-                <span style="font-weight:bold;">{{item.title}}</span>
-                <span>{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
-              </template>
-              <template v-else>
-                <span style="color:#999">{{item.title}}</span>
+                <span style="color:#000">{{item.title}}</span>
                 <span style="color:#999">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
               </template>
+              <template v-else>
+                <span style="color:#D9D9D9">{{item.title}}</span>
+                <span style="color:#D9D9D9">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
+              </template>
             </div>
+          </div>
+          <div class="bot-yx">
+            <span></span>
+            <p>优秀是一种习惯</p>
+            <span></span>
           </div>
         </template>
         <template v-else>
@@ -35,8 +40,12 @@
               </template>
             </div>
           </div>
+          
         </template>
 			</li>
+      <li v-if="infomationList.length===0" class="nullArray">
+        <img src="../assets/img/3.png" alt="">
+      </li>
 		</ul>
 	</div>
 </template>
@@ -94,7 +103,6 @@ export default {
 .index-list {
   width: 100%;
   margin-top: 10px;
-  border-top:1px solid #e5e5e5;
   ul {
     width: 100%;
     .f-d-f;
@@ -110,7 +118,7 @@ export default {
           .f-d-f;
           .f-fd-c;
           span {
-            color: #000;
+            color: #666;
             font-size: 12px;
             margin-top: 5px;
           }
@@ -129,6 +137,30 @@ export default {
             color:#333;
           }
         }
+      }
+      .bot-yx {
+        .f-d-f;
+        padding:10px 10px;
+        justify-content: center;
+        align-items: center;
+        span {
+          padding:0 10px;
+          width:80px;
+          height:1px;
+          background-color: rgb(217, 217, 217);
+
+        }
+        p {
+          font-size:12px;
+          color:#999;
+          flex:1;
+          text-align: center;
+        }
+      }
+    }
+    .nullArray {
+      img {
+        width:100%;
       }
     }
   }

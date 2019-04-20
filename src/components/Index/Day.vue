@@ -1,7 +1,7 @@
 <template>
 <div class="day">
 	<can-demo :infomationList="infomationList" @choiceDayLists="choiceDayLists"></can-demo>
-	<index-list :infomationList="ExhibitionLists" :mark="mark" v-if="ExhibitionLists.length>0"></index-list>
+	<index-list :infomationList="ExhibitionLists" :mark="mark"></index-list>
 	<div class="day-add" @click="goAddDay">
 		<img src="../../assets/img/icon_add.png" alt="">
 	</div>
@@ -70,7 +70,6 @@ export default {
 		},
 		choiceDayLists (data) {
 			this.clickDate = this.clickDateDefault(data.replace(/\//g, '-'))
-			// this.ExhibitionLists = []
 			let newArr = []
 			let newData = data.split('/')[0]+'-'+(data.split('/')[1]<10?'0'+data.split('/')[1]:data.split('/')[1]) + '-' + (data.split('/')[2]<10?'0'+data.split('/')[2]:data.split('/')[2])
 			this.infomationList.forEach(m =>{
