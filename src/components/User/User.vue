@@ -47,22 +47,9 @@ export default {
 		goSet () {
 			this.$router.push('/UserSet')
 		},
-		// async getUserInfo () {
-		// 	const { data } = await postHttp.post("/User/getUserInfo", {
-    //     loginUserId: window.localStorage.getItem("loginUserId"),
-		// 		logintoken:window.localStorage.getItem("logintoken"),
-		// 	});
-		// 	console.log(data)
-    //   if (!data.error) {
-		// 		this.userInfo = data.data
-	  //     } else {
-    //     alert(data.message);
-    //   }
-		// }
 	},
 	created () {
 		this.$store.dispatch('getUserInfo',{loginUserId: window.localStorage.getItem("loginUserId"),logintoken:window.localStorage.getItem("logintoken")})
-		// this.getUserInfo()
 	}
 }
 </script>

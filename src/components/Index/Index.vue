@@ -29,7 +29,7 @@
       </ul>
     </div>
     <index-list :infomationList="ExhibitionLists" :mark="mark"></index-list>
-    <div class="index-add" @click="$router.push('/AddDay')">
+    <div class="index-add" @click="goAddDay">
       <img src="../../assets/img/icon_add.png" alt>
     </div>
   </div>
@@ -98,9 +98,14 @@ export default {
     this.defaultDD()
   },
   methods: {
+    goAddDay () {
+			if (this.clickSelection === '') {
+				this.$router.push('/AddDay')
+			} else {
+				this.$router.push(`/AddDay?clickDate=${this.clickSelection}`)
+			}
+		},
     defaultDD () {
-        console.log(this.defaultDate())
-      
       this.sevenDay.forEach((v,index) =>{
         if (v.time.split('-')[2] === this.defaultDate().split('-')[2]) {
           this.idx = index

@@ -62,9 +62,13 @@ export default {
 		goWhoSee () {
 			this.$router.push('WhoSee')
 		},
-		goExportDay () {},
+		goExportDay () {
+			this.$router.push('/ExportDay')
+		},
 		goShare () {},
-		goSuggestion () {},
+		goSuggestion () {
+			this.$router.push('/Feedback')
+		},
 		goAboutUs () {},
 		goContact () {},
 	}

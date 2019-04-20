@@ -9,10 +9,11 @@ import UserSet from '@/components/User/UserSet'
 import UserInput from '@/components/User/UserInput'
 import UserPhone from '@/components/User/UserPhone'
 import UserPwd from '@/components/User/UserPwd'
+import Feedback from '@/components/User/Feedback'
+import ExportDay from '@/components/User/ExportDay'
 import MyCustomer from '@/components/UserList/MyCustomer'
 import AddCustomer from '@/components/UserList/AddCustomer'
 import CustomerDetails from '@/components/UserList/CustomerDetails'
-
 import AddDay from '@/components/IndexAdd/AddDay'
 import WhoSee from '@/components/IndexAdd/WhoSee'
 import AddPro from '@/components/IndexAdd/AddPro'
@@ -30,6 +31,14 @@ const router = new Router({
   base: '/jkcs',
   routes: [
     {
+      path: '/ExportDay',
+      name: 'ExportDay',
+      component: ExportDay,
+      meta: {
+        title:'导出日程'
+      }
+    },
+    {
       path: '/',
       name: 'Index',
       component: Index,
@@ -38,11 +47,19 @@ const router = new Router({
       }
     },
     {
+      path: '/Feedback',
+      name: 'Feedback',
+      component: Feedback,
+      meta: {
+        title:'反馈意见'
+      }
+    },
+    {
       path: '/WhoSee',
       name: 'WhoSee',
       component: WhoSee,
       meta: {
-        title:'水库可以看我的工作'
+        title:'谁可以看我的工作'
       }
     },
     {

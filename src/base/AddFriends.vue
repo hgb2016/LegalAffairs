@@ -1,6 +1,10 @@
 <template>
   <div class="addfriends" :style="rightTransition" @click.self="closeFriend">
     <div class="addfriends-sale">
+			<div class="addfriends-nav">
+				<span>添加可见人员</span>
+				<span>保存</span>
+			</div>
 			<div class="addfriends-sale-choice" v-if="choiceUserLists.length>0">
 				<ul>
 					<li v-for="(item,index) in choiceUserLists" :key="index">
@@ -66,7 +70,6 @@ export default {
 			this.$emit('close_Friends',this.choiceUserLists)
 		},
 		choiceNow (status,name,img,id) {
-			console.log(this.contactlist)
 			if (status === false) {
 				this.contactlist.forEach ((v,index)=>{
 					if (v.userId === id) {
@@ -92,13 +95,13 @@ export default {
 			}
 		},
 		closeDelete (id) {
-			this.choiceUserLists.forEach ((m,index)=>{
+			this.choiceUserLists.forEach((m,index)=>{
 				if (m.id === id) {
 					this.choiceUserLists.splice(index,1)
 				}
 			})
-			this.firendLists.forEach ((v,index)=>{
-				if (v.id === id) {
+			this.contactlist.forEach ((v,index)=>{
+				if (v.userId === id) {
 					v.status = false
 				}
 			})
@@ -122,6 +125,7 @@ export default {
 						}
 					})
 				})
+				console.log(this.contactlist)
 			},
 			immediate:true
 		}
@@ -142,7 +146,21 @@ export default {
   z-index: 9999;
   overflow: hidden;
   .f-d-f;
-  .f-fd-rr;
+	.f-fd-rr;
+	&-nav {
+		.f-d-f;
+		.f-jc-sb;
+		span {
+			.f-f-1;
+			padding:10px;
+			background-color: #2d75ee;
+			color:#fff;
+			font-size:14px;
+			.f-d-f;
+			.f-ai-c;
+			.f-jc-c;
+		}
+	}
   &-sale {
     width: 80%;
     height: 100%;

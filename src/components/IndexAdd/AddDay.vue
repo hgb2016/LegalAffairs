@@ -225,42 +225,7 @@ export default {
             this.errorRemind = "";
           }, 2000);
         } else {
-          let newObj = {};
-          (newObj["loginUserId"] = localStorage.getItem("loginUserId")),
-            (newObj["logintoken"] = window.localStorage.getItem("logintoken"));
-          newObj["title"] = this.title;
-          newObj["beginTime"] = this.startTime;
-					newObj["endTime"] = this.endTime;
-					newObj["scheduleId"] = this.$route.query.scheduleId;
-          if (this.address !== "") {
-            newObj["address"] = this.address;
-          }
-          if (this.Remarks !== "") {
-            newObj["remark"] = this.Remarks;
-          }
-          if (this.projectUid !== "") {
-            newObj["projectId"] = this.projectUid;
-          }
-          let timeArr = [];
-          this.timeString.forEach(a => {
-            let newtime = {};
-            newtime["description"] = a;
-            timeArr.push(newtime);
-          });
-          newObj["remindList"] = timeArr;
-          const { data } = await postHttp.post(
-            "/Calendar/editCalendar",
-            newObj
-          );
-          if (!data.error) {
-            this.showRemind = true;
-            this.errorRemind = "修改成功";
-            setTimeout(() => {
-              this.$router.go(-1);
-            }, 2000);
-          } else {
-            alert(data.message);
-          }
+          this.editCalendarPar()
         }
       } else {
         if (this.title === "") {
@@ -328,10 +293,45 @@ export default {
     close_Friends(data) {
 			this.choiceUserListsParents = data;
 			this.showFriends = false;
-			if (this.editDays === true) {
-				this.editCalendarPar ()
-			}
-		},
+    },
+    async PreservationRepeat () {
+      let newObj = {};
+      (newObj["loginUserId"] = localStorage.getItem("loginUserId")),
+        (newObj["logintoken"] = window.localStorage.getItem("logintoken"));
+      newObj["title"] = this.title;
+      newObj["beginTime"] = this.startTime;
+      newObj["endTime"] = this.endTime;
+      newObj["scheduleId"] = this.$route.query.scheduleId;
+      if (this.address !== "") {
+        newObj["address"] = this.address;
+      }
+      if (this.Remarks !== "") {
+        newObj["remark"] = this.Remarks;
+      }
+      if (this.projectUid !== "") {
+        newObj["projectId"] = this.projectUid;
+      }
+      let timeArr = [];
+      this.timeString.forEach(a => {
+        let newtime = {};
+        newtime["description"] = a;
+        timeArr.push(newtime);
+      });
+      newObj["remindList"] = timeArr;
+      const { data } = await postHttp.post(
+        "/Calendar/editCalendar",
+        newObj
+      );
+      if (!data.error) {
+        this.showRemind = true;
+        this.errorRemind = "修改成功";
+        setTimeout(() => {
+          this.$router.go(-1);
+        }, 2000);
+      } else {
+        alert(data.message);
+      }
+    },
 		async editCalendarPar () {
 			let newObj = {}
 			newObj["loginUserId"] = window.localStorage.getItem("loginUserId")
@@ -351,7 +351,10 @@ export default {
 			const { data } = await postHttp.post(
 				"/Calendar/editCalendarPar",
 				newObj
-			);
+      );
+      if (!data.error) {
+        this.PreservationRepeat()
+      }
 			console.log(data)
 		},
     close_Time(data) {
@@ -360,7 +363,6 @@ export default {
     },
     goMyFriends() {
       this.showFriends = true;
-      // this.$router.push('/MyFriends')
     },
     keepTwo(num) {
       let result = parseFloat(num);
