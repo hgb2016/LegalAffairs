@@ -97,12 +97,7 @@ export default {
       scaleInfo: false,
       showContact: false,
       contactLists: [
-        // {
-				// 	name:'李艳彪-前端',
-				//  work:'前端开发'
-        // 	phone:'18618377474',
-        // 	email:'13513335747@16.com'
-        // }
+
 			],
 			clientName:'',
 			clientAddress:'',
@@ -115,21 +110,7 @@ export default {
 			updateemail: "",
 			updatework:'',
       choiceUserLists: [
-        // {
-        // 	name:'李艳彪',
-        // 	id:1,
-        // 	img:liyan
-        // },
-        // {
-        // 	name:'李艳彪',
-        // 	id:1,
-        // 	img:liyan
-        // },
-        // {
-        // 	name:'李艳彪',
-        // 	id:1,
-        // 	img:liyan
-        // }
+       
       ],
       // 参与人
       showFriends: false,

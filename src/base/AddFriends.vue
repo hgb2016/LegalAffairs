@@ -72,7 +72,6 @@ export default {
 			this.$emit('close_Friends',this.choiceUserLists)
 		},
 		choiceNow (status,name,img,id) {
-			console.log(this.contactlist)
 			if (status === false) {
 				this.contactlist.forEach ((v,index)=>{
 					if (v.userId === id) {
@@ -98,13 +97,13 @@ export default {
 			}
 		},
 		closeDelete (id) {
-			this.choiceUserLists.forEach ((m,index)=>{
+			this.choiceUserLists.forEach((m,index)=>{
 				if (m.id === id) {
 					this.choiceUserLists.splice(index,1)
 				}
 			})
-			this.firendLists.forEach ((v,index)=>{
-				if (v.id === id) {
+			this.contactlist.forEach ((v,index)=>{
+				if (v.userId === id) {
 					v.status = false
 				}
 			})
@@ -128,6 +127,7 @@ export default {
 						}
 					})
 				})
+				console.log(this.contactlist)
 			},
 			immediate:true
 		}

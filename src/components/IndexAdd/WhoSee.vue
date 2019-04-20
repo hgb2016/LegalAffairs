@@ -1,16 +1,27 @@
 <template>
 <div class="who-see">
     <ul>
-			<li v-for="(item,index) in choiceUserListsParents" :key="index">
-				<div>
-					<img :src="item.headUrl" alt="">
-					<span>{{item.userName}}</span>
-					<img class="see-del" src="../../assets/img/icon_dele.png" alt="">
-				</div>
-			</li>
+      <template v-if="repeatLists.length  === 0">
+        <li v-for="(item,index) in seeLists" :key="index">
+          <div>
+            <img :src="item.headUrl" alt="">
+            <span>{{item.userName}}</span>
+            <img class="see-del" src="../../assets/img/icon_dele.png" alt="">
+          </div>
+        </li>
+      </template>
+			<template v-if="repeatLists.length > 0">
+        <li v-for="(item,index) in repeatLists" :key="index">
+          <div>
+            <img :src="item.img" alt="">
+            <span>{{item.name}}</span>
+            <img class="see-del" src="../../assets/img/icon_dele.png" alt="">
+          </div>
+        </li>
+      </template>
 		</ul>
     <button class="who-see-btn" @click="showFriends=true">添加谁可见人员</button>
-    <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="partInlist"></add-friends>
+    <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="contactlist"></add-friends>
 </div>
 </template>
 
@@ -26,14 +37,20 @@ export default {
     return {
       firendLists: [],
       showFriends:false,
-      partInlist:[],
-      choiceUserListsParents:[]
+      contactlist:[],
+      choiceUserListsParents:[],
+      seeLists:[],
+      repeatLists:[]
     };
   },
   methods: {
     close_Friends(data) {
-      this.choiceUserListsParents = data;
-      this.showFriends = false;
+      console.log(data)
+      if (data) {
+        this.repeatLists = data
+        this.choiceUserListsParents = data;
+        this.showFriends = false;
+      }
     },
     async getUserShow() {
       const { data } = await postHttp.post("/User/getUserShow", {
@@ -41,10 +58,14 @@ export default {
         logintoken: window.localStorage.getItem("logintoken")
       });
       if (!data.error) {
+        this.seeLists = data.data
         data.data.forEach(v => {
-          v.status = false;
+          let newUsers = {};
+          newUsers["id"] = v.workUserId;
+          newUsers["img"] = v.headUrl;
+          newUsers["name"] = v.userName;
+          this.choiceUserListsParents.push(newUsers);
         });
-        this.choiceUserListsParents = data.data;
       } else {
         alert(data.message);
       }
@@ -59,14 +80,17 @@ export default {
         data.data.forEach(v => {
           v.status = false;
         });
-        this.partInlist = data.data;
+        this.contactlist = data.data;
+        this.getUserShow()
       } else {
         alert(data.message);
       }
     },
+    async addUserShow () {
+
+    },
   },
   created() {
-    this.getUserShow();
     this.getNiuFaUser();
   },
 };
