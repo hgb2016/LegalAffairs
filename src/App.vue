@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <title-nav v-if="$route.path !== '/' && $route.path !== '/Project' && $route.path !== '/Day' && $route.path !=='/ContactList'"></title-nav>
-    <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'" :title="title"></user-img>
+    <user-img v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day'|| $route.path === '/ContactList'" :title="title"></user-img>
     <router-view></router-view>
     <tab
       v-if="$route.path === '/' || $route.path === '/Project' || $route.path === '/Day' || $route.path === '/ContactList'"
@@ -37,8 +37,8 @@ export default {
   methods: {
     async login() {
       const { data } = await postHttp.post("/user/login", {
-        mobile: "17328373151",
-        password: "123456"
+        mobile: "18232518065",
+        password: "Yibing1116"
       });
       if (!data.error) {
         window.localStorage.setItem('loginUserId',data.data.loginUserId)

@@ -2,9 +2,10 @@
   <div class="addproject" :style="rightTransition" @click.self="closeSale">
 		
     <div class="addproject-sale">
-			<!-- <div class="addproject-sale-twoBtn">
+			<div class="addproject-sale-twoBtn">
 				<span @click="closeSale()">确定</span>
-			</div> -->
+				<!-- <span>确定</span> -->
+			</div>
 			<ul>
 				<li v-for="(item,index) in userLists" :key="index" @click="choiceMajor(item.userName,item.userId)">
 					<span v-if="item.userId !== proId">{{item.userName}}</span>
@@ -30,7 +31,7 @@ export default {
 		showMajorUser: {
 			type: Boolean
 		},
-		userLists:{
+			userLists:{
 			tpe:Array
 		},
 		userId: {
@@ -135,7 +136,7 @@ export default {
 			.f-fd-c;
 			padding-bottom:38px;
 			li {
-				height:50px;
+				height:60px;
 				border-top:1px solid #e5e5e5;
 				.f-d-f;
 				.f-ai-c;
