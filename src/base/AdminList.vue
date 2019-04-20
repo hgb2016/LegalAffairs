@@ -25,12 +25,12 @@
 					<span>分享给好友</span>
 				</div>
 			</li> -->
-			<li @click="goSuggestion">
+			<!-- <li @click="goSuggestion">
 				<div>
 					<img src="../assets/img/opinion.png" alt="">
 					<span>意见反馈</span>
 				</div>
-			</li>
+			</li> -->
 			<!-- <li @click="goAboutUs">
 				<div>
 					<img src="../assets/img/about.png" alt="">
