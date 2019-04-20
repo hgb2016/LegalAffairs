@@ -2,20 +2,50 @@
   <div class="Project">
     <div class="Project-header">
       <div class="Project-header-search">
-        <input  @input="getProjectList()" v-model="keyword"  type="text" placeholder="请输入项目名称">
+        <input @input="handelSearch()" v-model="keyword" type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
     </div>
+    <div class="Project-sort">
+      <div class="Project-sort-item" @click="issort=!issort">
+        <span>
+          <p>{{sort_name}}</p>
+          <i :class="issort? 'up':'down'"></i>
+        </span>
+      </div>
+      <div class="Project-sort-item"  @click="isstatus=!isstatus">
+        <span>
+          <p>所有</p>
+          <i :class="isstatus? 'up':'down'"></i>
+        </span>
+      </div>
+    </div>
+    <ul class="Project-sort-select" v-if="issort">
+      <li
+        @click="handleSelect(item)"
+        v-for="(item, index) in navLists"
+        :key="index"
+        :class="item.selected?'select':'unselect'"
+      >{{item.name}}</li>
+    </ul>
+    <ul class="Project-sort-rightselect" v-if="isstatus">
+      <li
+        @click="handlestatus(item)"
+        v-for="(item, index) in statusList"
+        :key="index"
+        :class="item.selected?'select':'unselect'"
+      >{{item.name}}</li>
+    </ul>
     <!-- 案件列表-->
     <div class="Project-list">
-      
       <div class="Project-list-item" v-for="(item, index) in projectList " :key="index">
         <div class="Project-list-item-r">
           <p style="width:70%" @click="goProjectDetail(item.projectId)">{{item.projectName}}</p>
           <span @click="item.isUp=!item.isUp">
             <p v-show="item.status=='0'">进行中</p>
             <p v-show="item.status=='1'">洽谈中</p>
-            <p v-show="item.status=='2'">已完成</p>
+            <p v-show="item.status=='2'" style=" background-color: #999999;
+  color: white;">已完成</p>
             <i :class="item.isUp? 'up':'down'"></i>
           </span>
         </div>
@@ -35,7 +65,6 @@
           <span></span>
         </div>
       </div>
-    
     </div>
     <div class="Project-add" @click="$router.push('/CreateProject')">
       <img src="../../assets/img/icon_add.png" alt>
@@ -49,16 +78,98 @@ export default {
   data() {
     return {
       projectList: [],
-      keyword:'',
+      keyword: "",
+      casestatus: "",
+      casestatus_show:"所有",
+      cur_page: "",
+      caseOrder: "",
+      issort: false,
+      isstatus:false,
+      sort_name: "默认",
+      navLists: [
+        {
+          name: "默认",
+          order: "",
+          selected: true
+        },
+        {
+          name: "名称",
+          order: "projectName",
+          selected: false
+        },
+        {
+          name: "客户",
+          order: "clientName",
+          selected: false
+        },
+        {
+          name: "时间",
+          order: "jinzhanListShow",
+          selected: false
+        }
+      ],
+        statusList: [
+        {
+          name: "所有",
+          order: "",
+          selected: true
+        },
+        {
+          name: "进行中",
+          status: "0",
+          selected: false
+        },
+        {
+          name: "洽谈中",
+          status: "1",
+          selected: false
+        },
+        {
+          name: "已完成",
+          status: "2",
+          selected: false
+        }
+      ]
     };
   },
+
   created() {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
     this.getProjectList();
   },
+  computed: {},
   methods: {
-   
+    handleSelect(item) {
+      item.selected = true;
+      this.sort_name = item.name;
+      this.issort = false;
+      this.caseOrder = item.order + " desc";
+      this.navLists.forEach(element => {
+        if (element.name !== item.name) {
+          element.selected = false;
+        }
+      });
+      this.getProjectList();
+    },
+    handelSearch(){
+        this.cur_page=1;
+        this.casestatus='',
+        this.caseOrder="",
+        this.getProjectList();
+    },
+     handlestatus(item) {
+      item.selected = true;
+      this.casestatus_show = item.name;
+      this.isstatus = false;
+      this.casestatus =item.status
+      this.statusList.forEach(element => {
+        if (element.name !== item.name) {
+          element.selected = false;
+        }
+      });
+      this.getProjectList();
+    },
     goProjectDetail(id) {
       this.$router.push(`/ProjectDetail?id=${id}`);
     },
@@ -66,16 +177,16 @@ export default {
       const { data } = await postHttp.post("/Project/getProjectList", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
-        keyword:this.keyword,
-
+        keyword: this.keyword,
+        casestatus: this.casestatus,
+        order: this.caseOrder,
+        page:this.cur_page
       });
       if (!data.error) {
         this.projectList = data.data;
         this.projectList.forEach(element => {
           this.$set(element, "isUp", false);
         });
-       
-
       } else {
         alert(data.message);
       }
@@ -119,8 +230,64 @@ export default {
       }
     }
   }
-  &-list {
+
+  &-sort {
+    font-size: 14px;
     margin-top: 100px;
+    padding: 5px 20px;
+    border-bottom: 1px solid #ededed;
+    border-top: 1px solid #ededed;
+    .f-d-f;
+    .f-fd-r;
+    .f-jc-sb;
+    .f-ai-c;
+    &-item {
+      width: 50%;
+      img {
+        width: 12px;
+        height: 7px;
+      }
+      span {
+        border-right: 1px solid #ededed;
+
+        .f-d-f;
+        .f-fd-r;
+        .f-ai-c;
+        justify-content: center;
+        p {
+          margin-right: 5px;
+        }
+      }
+    }
+    &-select {
+      width: 50%;
+      box-shadow: 3px 3px 3px hsl(0, 8%, 95%), 3px -3px 3px #f3f3f3,
+        -3px 3px 3px #f3f3f3, -3px -3px 3px #f3f3f3;
+      background-color: white;
+      position: absolute;
+      top: 130px;
+      li {
+        padding: 5px 10px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+    &-rightselect {
+      width: 50%;
+      box-shadow: 3px 3px 3px hsl(0, 8%, 95%), 3px -3px 3px #f3f3f3,
+        -3px 3px 3px #f3f3f3, -3px -3px 3px #f3f3f3;
+      background-color: white;
+      position: absolute;
+      top: 130px;
+      right: 0px;
+      li {
+        padding: 5px 10px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+  }
+  &-list {
     margin-bottom: 50px;
     width: 100%;
     &-item {
@@ -141,7 +308,7 @@ export default {
             color: #fff;
             border-radius: 4px;
             background-color: #4fc15f;
-            padding: 3px 20px;
+            padding: 3px 10px;
           }
         }
       }
@@ -211,5 +378,15 @@ export default {
   width: 13px;
   height: 7.5px;
   background-size: 100% 100%;
+}
+.select {
+  color: #0c7dff;
+}
+.unselect {
+  color: #333;
+}
+.ungray{
+  background-color: #999999;
+  color: white;
 }
 </style>

@@ -57,8 +57,8 @@
     </div>
 
     <div class="Project-btn" v-show="isEdit">
-      <button @click="isDelete()">删除</button>
-      <button @click="editProject()">修改</button>
+      <button @click="isDelete()">删除项目</button>
+      <button @click="editProject()">修改项目</button>
     </div>
     <div class="Project-add" >
       <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
@@ -284,7 +284,7 @@ export default {
             color: #fff;
             border-radius: 4px;
             background-color: #4fc15f;
-            padding: 3px 20px;
+            padding: 3px 10px;
           }
           i {
             margin-left: 10px;

@@ -5,7 +5,7 @@
 				<input type="text" placeholder="搜索企业名称" v-model="enterpriseName" @input="searchCustomer">
 				<i @click="searchBtn"></i>
 			</div>
-			<p @click="goAdd">添加客户</p>
+			<p @click="goAdd" >添加客户</p>
 		</div>
 		<div class="my-customer-list">
 			<ul> 
@@ -156,7 +156,7 @@ export default {
 			}
 		}
 		p{
-			color:#333;
+			color:blue;
 			font-size:14px;
 			margin-left: 10px;
 		}

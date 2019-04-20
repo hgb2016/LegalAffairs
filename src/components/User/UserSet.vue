@@ -61,13 +61,13 @@
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-      <div @click="$router.push('/UserPwd')">
+      <!-- <div @click="$router.push('/UserPwd')">
         <span>修改密码</span>
         <img src="../../assets/img/arrow.png" alt="">
       </div>
       <div>
         <span>退出登录</span>
-      </div>
+      </div> -->
     </div>
     <transition name="fade">
       <div class="user-set-sex" v-if="showSex" @click.self="showSex=false">

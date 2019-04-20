@@ -1,6 +1,12 @@
 <template>
   <div class="addfriends" :style="rightTransition" @click.self="closeFriend">
+   
     <div class="addfriends-sale">
+		 <div class="addfriends-header">
+		  <p></p>
+			<h4>我的好友</h4>
+			<p style="color:#0c7dff">确定</p>
+		</div>
 			<div class="addfriends-sale-choice" v-if="choiceUserLists.length>0">
 				<ul>
 					<li v-for="(item,index) in choiceUserLists" :key="index">
@@ -143,7 +149,23 @@ export default {
   overflow: hidden;
   .f-d-f;
   .f-fd-rr;
+	&-header{
+		 background-color: #fff;
+		width: 80%;
+		position: fixed;
+		top: 0px;
+		border-bottom: 1px solid #ededed;
+		 padding: 10px 15px;
+			.f-d-f;
+			.f-fd-r;
+			.f-ai-c;
+			.f-jc-sb;
+		p{
+			font-size: 15px;
+		}
+	}
   &-sale {
+		margin-top: 40px;
     width: 80%;
     height: 100%;
     background-color: #fff;

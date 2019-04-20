@@ -1,28 +1,21 @@
 <template>
   <div>
     <div class="ContactList-header">
-      <mt-search
-       @input="getNiuFaUser()"
-      
-        class="ContactList-header-search"
-        v-model="keyword"
-        cancel-text="取消"
-        placeholder="搜索"
-        :show="true"
+      <div class="ContactList-header-search">
+        <input @input="getNiuFaUser()" v-model="keyword" type="text" placeholder="请输入关键字">
+        <i></i>
+      </div>
+    </div>
+    <div class="ContactList-list">
+      <div
+        class="ContactList-list-item"
+        v-for="(item,index) in contactlist"
+        :key="index"
+        @click="goContactInfo(item)"
       >
-
-        <div class="ContactList-list">
-          <div
-            class="ContactList-list-item"
-            v-for="(item,index) in contactlist"
-            :key="index"
-            @click="goContactInfo(item)"
-          >
-            <img :src="item.headUrl" alt>
-            <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
-          </div>
-        </div>
-      </mt-search>
+        <img :src="item.headUrl" alt>
+        <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -53,7 +46,7 @@ export default {
       const { data } = await postHttp.post("/Index/getNiuFaUser", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
-        keyword:this.keyword
+        keyword: this.keyword
       });
       if (!data.error) {
         this.contactlist = data.data;
@@ -70,14 +63,39 @@ export default {
 .ContactList {
   width: 100%;
   &-header {
+    margin-top: 60px;
     background: #fff;
     position: fixed;
-    top: 0;
+    top: 0px;
     width: 100%;
-   
+    &-search {
+      margin: 0px 20px 10px;
+      .f-f-1;
+      .f-d-f;
+      height: 30px;
+      border: 1px solid #e5e5e5;
+      border-radius: 30px;
+      background-color: #fff;
+      .f-d-f;
+      .f-jc-sb;
+      .f-ai-c;
+      padding: 0 10px;
+      i {
+        background-image: url("../../assets/img/icon_search.png");
+        width: 26px;
+        height: 26px;
+        background-size: 100% 100%;
+      }
+      input {
+        width: 100%;
+        font-size: 12px;
+        color: #333;
+      }
+    }
   }
 
   &-list {
+    margin-top: 100px;
     width: 100%;
     &-item {
       .f-d-f;
