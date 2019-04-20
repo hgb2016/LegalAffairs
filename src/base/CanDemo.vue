@@ -89,8 +89,7 @@ h3 {
   transform: translateX(-50%);
   width: 4px;
   height:4px;
-	background-color: rgb(254, 90, 90);
-	border-radius: 50%;
+	background-color:red;
 }
 
 .wh_container >>> .mark2 {

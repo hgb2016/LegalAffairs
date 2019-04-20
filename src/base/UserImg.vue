@@ -41,7 +41,7 @@ export default {
 	p {
 		color:#000;
 		font-weight: bold;
-		font-size:20px;
+		font-size:24px;
 	}
 }
 </style>

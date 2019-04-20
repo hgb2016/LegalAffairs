@@ -13,6 +13,7 @@
 .wh_container {
   max-width: 410px;
   margin: auto;
+  border-bottom:1px solid #e5e5e5;
 }
 
 li {
@@ -20,22 +21,29 @@ li {
 }
 .wh_top_changge {
   display: flex;
+  padding-left:20px;
+  height:20px;
+  margin-bottom:4px;
 }
 
 .wh_top_changge li {
   cursor: pointer;
   display: flex;
-  color: #333;
-  font-size: 14px;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  height: 47px;
+  color: #000;
+  font-size: 12px;
+  line-height: 20px;
 }
 
-.wh_top_changge .wh_content_li {
-  cursor: auto;
-  flex: 2.5;
+.wh_top_changge .wh_content_ji {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #E1FC4B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-left:4px;
 }
 .wh_content_all {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
@@ -49,8 +57,10 @@ li {
 .wh_content {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 3% 0 3%;
   width: 100%;
+}
+.wh_top_bot {
+  border-top:1px solid #e5e5e5;
 }
 
 .wh_content:first-child .wh_content_item_tag,
@@ -73,24 +83,28 @@ wh_content_item_tag {
 }
 
 .wh_top_tag {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size:12px;
+  color:#000;
 }
 
 .wh_item_date {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  color:#000;
+  font-size:12px;
 }
 
 .wh_jiantou1 {
@@ -126,11 +140,12 @@ wh_content_item_tag {
   color: #bfbfbf;
 }
 .wh_content_item .wh_isToday {
-  background: #f6f67e;
+  background: #E1FC4B;
   border-radius: 100px;
+  color:#333;
 }
 .wh_content_item .wh_chose_day {
-  background: rgb(74, 74, 250);
+  background: #0D73EA;
   border-radius: 100px;
   color: #fff;
 }
@@ -139,21 +154,16 @@ wh_content_item_tag {
   <section class="wh_container">
     <div class="wh_content_all">
       <div class="wh_top_changge">
-        <li @click="PreMonth(myDate,false)">
-          <div class="wh_jiantou1"></div>
-        </li>
         <li class="wh_content_li">{{dateTop}}</li>
-        <li @click="NextMonth(myDate,false)">
-          <div class="wh_jiantou2"></div>
-        </li>
+        <li class="wh_content_ji" @click="demo">今</li>
       </div>
-      <div class="wh_content">
+      <div class="wh_content wh_top_bot">
         <div class="wh_content_item" v-for="tag in textTop">
           <div class="wh_top_tag">{{tag}}</div>
         </div>
       </div>
       <div class="wh_content">
-        <div class="wh_content_item" v-for="(item,index) in list" @click="clickDay(item,index)">
+        <div class="wh_content_item" v-for="(item,index) in list" @click="clickDay(item,index)"  @touchstart = "touchesstart" @touchend="touchesend">
           <div
             class="wh_item_date"
             v-bind:class="[{ wh_isMark: item.isMark},{wh_other_dayhide:item.otherMonth!=='nowMonth'},{wh_want_dayhide:item.dayHide},{wh_isToday:item.isToday},{wh_chose_day:item.chooseDay}]"
@@ -173,7 +183,9 @@ export default {
       myDate: [],
       list: [],
       historyChose: [],
-      dateTop: ""
+      dateTop: "",
+      startClient: 0,
+      currentIndex: 2
     };
   },
   props: {
@@ -207,6 +219,22 @@ export default {
     this.myDate = new Date();
   },
   methods: {
+    defaultDate() {
+      var y = new Date().getFullYear();
+      var m =
+        new Date().getMonth() + 1 <= 9
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      var d =
+        new Date().getDate() <= 9
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      return y + "-" + m + "-" + d
+    },
+    demo() {
+      console.log(this.defaultDate())
+      this.ChoseMonth(this.defaultDate()); //跳到12月12日选中12月12日
+    },
     intStart() {
       timeUtil.sundayStart = this.sundayStart;
     },
@@ -216,6 +244,7 @@ export default {
       return obj;
     },
     clickDay: function(item, index) {
+      console.log(item,index)
       if (item.otherMonth === "nowMonth" && !item.dayHide) {
         this.getList(this.myDate, item.date);
       }
@@ -223,6 +252,21 @@ export default {
         item.otherMonth === "preMonth"
           ? this.PreMonth(item.date)
           : this.NextMonth(item.date);
+      }
+    },
+    touchesstart (e) {
+      e = e || event
+      if (e.touches.length === 1) {
+        this.startClient = e.touches[0].clientX
+      }
+    },
+    touchesend (e) {
+      e = e || event
+      const delta = 30
+      if (this.startClient - e.changedTouches[0].clientX <= -delta) {
+        this.PreMonth(this.myDate,false)
+      } else if (this.startClient - e.changedTouches[0].clientX >= delta) {
+        this.NextMonth(this.myDate,false)
       }
     },
     ChoseMonth: function(date, isChosedDay = true) {
