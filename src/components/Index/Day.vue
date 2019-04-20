@@ -1,6 +1,6 @@
 <template>
 <div class="day">
-	<can-demo :infomationList="infomationList" @choiceDayLists="choiceDayLists"></can-demo>
+	<can-demo :infomationList="sevenDay" @choiceDayLists="choiceDayLists" @changeDate="changeDate"></can-demo>
 	<index-list :infomationList="ExhibitionLists" :mark="mark"></index-list>
 	<div class="day-add" @click="goAddDay">
 		<img src="../../assets/img/icon_add.png" alt="">
@@ -19,6 +19,36 @@ function currentThird () {
   date2.setDate(date1.getDate() + 14);
 	return formatDatetime(date2)
 }
+function getCurrentMonthFirst(){
+	var date =new Date();
+	date.setDate(1);
+	var month = parseInt(date.getMonth()+1);
+	var day = date.getDate();
+	if (month < 10) {
+			month = '0' + month
+	}
+	if (day < 10) {
+			day = '0' + day
+	}
+	return date.getFullYear() + '-' + month + '-' + day;
+}
+function getCurrentMonthLast(){
+	var date=new Date();
+	var currentMonth=date.getMonth();
+	var nextMonth=++currentMonth;
+	var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+	var oneDay=1000*60*60*24;
+	var lastTime = new Date(nextMonthFirstDay-oneDay);
+	var month = parseInt(lastTime.getMonth()+1);
+	var day = lastTime.getDate();
+	if (month < 10) {
+			month = '0' + month
+	}
+	if (day < 10) {
+			day = '0' + day
+	}
+	return date.getFullYear() + '-' + month + '-' + day 
+}
 export default {
 	components:{
 		CanDemo,
@@ -26,17 +56,57 @@ export default {
 	},
 	data () {
 		return {
-			infomationList:[],
 			ExhibitionLists:[],
-			beginTime:formatDatetime(new Date()-7*24*3600*1000),
-			endTime:currentThird(),
+			beginTime:getCurrentMonthFirst(),
+			endTime:getCurrentMonthLast(),
 			loginUserId: "",
 			logintoken: "",
 			mark:true,
-			clickDate:''
+			clickDate:'',
+			sevenDay:[],
+			infomationList:[]
 		}
 	},
 	methods :{
+		getCurrentMonthFirst(time){
+			var date =new Date(time);
+			date.setDate(1);
+			var month = parseInt(date.getMonth()+1);
+			var day = date.getDate();
+			if (month < 10) {
+					month = '0' + month
+			}
+			if (day < 10) {
+					day = '0' + day
+			}
+			return date.getFullYear() + '-' + month + '-' + day;
+		},
+		getCurrentMonthLast(time){
+			var date=new Date(time);
+			var currentMonth=date.getMonth();
+			var nextMonth=++currentMonth;
+			var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+			var oneDay=1000*60*60*24;
+			var lastTime = new Date(nextMonthFirstDay-oneDay);
+			var month = parseInt(lastTime.getMonth()+1);
+			var day = lastTime.getDate();
+			if (month < 10) {
+					month = '0' + month
+			}
+			if (day < 10) {
+					day = '0' + day
+			}
+			return date.getFullYear() + '-' + month + '-' + day 
+		},
+		changeDate (data) {
+			this.ExhibitionLists = []
+			this.infomationList = []
+			this.sevenDay = []
+			this.beginTime = this.getCurrentMonthFirst(data)
+			this.endTime = this.getCurrentMonthLast(data)
+			this.getMyCalendar()
+			this.getMyCalendarD()
+		},
 		clickDateDefault(time) {
       let y = new Date(time).getFullYear();
         let m =
@@ -69,16 +139,29 @@ export default {
 			}
 		},
 		choiceDayLists (data) {
+			let newClick = data.replace(/\//g, '-')
 			this.clickDate = this.clickDateDefault(data.replace(/\//g, '-'))
 			let newArr = []
-			let newData = data.split('/')[0]+'-'+(data.split('/')[1]<10?'0'+data.split('/')[1]:data.split('/')[1]) + '-' + (data.split('/')[2]<10?'0'+data.split('/')[2]:data.split('/')[2])
 			this.infomationList.forEach(m =>{
-				if (m.beginTime.split(' ')[0] === newData) {
+				if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],newClick)) {
 					newArr.push(m)
 				}
 			})
 			this.ExhibitionLists = newArr
 		},
+		nowInDateBetwen(d1, d2, date) {
+        var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
+        var dateEnd = new Date(d2.replace(/-/g, "/"));//将-转化为/，使用new Date
+        var dateNow = new Date(date.replace(/-/g, "/"));//将-转化为/，使用new Date
+        var beginDiff = dateNow.getTime() - dateBegin.getTime();//时间差的毫秒数
+        var beginDayDiff = Math.floor(beginDiff / (24 * 3600 * 1000));//计算出相差天数
+        var endDiff = dateEnd.getTime() - dateNow.getTime();//时间差的毫秒数
+				var endDayDiff = Math.floor(endDiff / (24 * 3600 * 1000));//计算出相差天数
+				if (endDayDiff >= 0 && beginDayDiff >= 0) {//已过期
+					return true
+        }
+        return false;
+    },
 		defaultDate() {
 			var y = new Date().getFullYear();
 			var m =
@@ -107,7 +190,7 @@ export default {
         });
 				this.infomationList = data.data;
 				data.data.forEach(m =>{
-					if (m.beginTime.split(' ')[0] === this.defaultDate()) {
+					if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],this.defaultDate())) {
 						this.ExhibitionLists.push(m)
 					}
 				})
@@ -115,12 +198,26 @@ export default {
         alert(data.message);
       }
 		},
-		
+		async getMyCalendarD() {
+      const { data } = await postHttp.post("/Calendar/getMyCalendarData", {
+        loginUserId: this.loginUserId,
+        logintoken: this.logintoken,
+        userId: this.loginUserId,
+        beginTime:this.beginTime,
+        endTime:this.endTime
+      });
+      if (!data.error) {
+				this.sevenDay = data.data
+      } else {
+        alert(data.message);
+      }
+    },
 	},
 	created () {
 		this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
 		this.getMyCalendar();
+		this.getMyCalendarD()
 	}
 }
 </script>

@@ -22,6 +22,7 @@
     "qrcodejs2": "^0.0.2",
     "qs": "^6.5.1",
     "swiper": "^3.4.2",
+    "v-week-slider": "^1.3.0",
     "velocity-animate-server": "^1.2.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

@@ -28,12 +28,13 @@ export default {
         let newArr = []
 				val.forEach(v=>{
           let newObj = {}
-          let newDay = new Date(v.beginTime).getDate()
+          let newDay = new Date(v.showDate).getDate()
 					newObj['date'] = this.format(new Date(), newDay)
 					newObj['className'] = "mark1"
 					newArr.push(newObj)
-				})
-				this.arr = newArr
+        })
+        this.arr = newArr
+
       },
       immediate: true
     }
@@ -51,15 +52,12 @@ export default {
     },
     //左右点击切换月份
     changeDate(data) {
+      this.$emit('changeDate',data.replace(/\//g, '-'))
     },
     format(date, index) {
       date = new Date(date);
       return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
     },
-    // format(date, index) {
-    //   date = new Date(date);
-    //   return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
-    // }
   }
 };
 </script>
