@@ -9,8 +9,8 @@
 				</div>
 			</li>
 		</ul>
-     <button class="who-see-btn" @click="showFriends=true">添加谁可见人员</button>
-     <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="partInlist"></add-friends>
+    <button class="who-see-btn" @click="showFriends=true">添加谁可见人员</button>
+    <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="partInlist"></add-friends>
 </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
       this.choiceUserListsParents = data;
       this.showFriends = false;
     },
-     async getUserShow() {
+    async getUserShow() {
       const { data } = await postHttp.post("/User/getUserShow", {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken: window.localStorage.getItem("logintoken")
@@ -67,6 +67,7 @@ export default {
   },
   created() {
     this.getUserShow();
+    this.getNiuFaUser();
   },
 };
 </script>

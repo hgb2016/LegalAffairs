@@ -252,7 +252,6 @@ export default {
             "/Calendar/editCalendar",
             newObj
           );
-          console.log(data);
           if (!data.error) {
             this.showRemind = true;
             this.errorRemind = "修改成功";
@@ -307,7 +306,6 @@ export default {
             "/Calendar/editCalendar",
             newObj
           );
-          console.log(data);
           if (!data.error) {
             this.showRemind = true;
             this.errorRemind = "添加成功";
@@ -330,7 +328,6 @@ export default {
     close_Friends(data) {
 			this.choiceUserListsParents = data;
 			this.showFriends = false;
-			console.log(data)
 			if (this.editDays === true) {
 				this.editCalendarPar ()
 			}
@@ -465,6 +462,7 @@ export default {
       this.pickerVisibleEnd = dateAfter;
     },
     closeTimePickerEnd() {
+      console.log(this.pickerVisibleEnd,this.pickerVisible)
       if (this.pickerVisibleEnd < this.pickerVisible) {
         this.showRemind = true;
         this.errorRemind = "结束时间不能小于开始时间";
@@ -562,17 +560,17 @@ export default {
             ? "0" + new Date(time).getDate()
             : new Date(time).getDate();
         let hour =
-          new Date().getHours() <= 9
-            ? "0" + new Date().getHours()
-            : new Date().getHours();
+          new Date(time).getHours() <= 9
+            ? "0" + new Date(time).getHours()
+            : new Date(time).getHours();
         let min =
-          new Date().getMinutes() <= 9
-            ? "0" + new Date().getMinutes()
-            : new Date().getMinutes();
+          new Date(time).getMinutes() <= 9
+            ? "0" + new Date(time).getMinutes()
+            : new Date(time).getMinutes();
         let sec =
-          new Date().getSeconds() <= 9
-            ? "0" + new Date().getSeconds()
-            : new Date().getSeconds();
+          new Date(time).getSeconds() <= 9
+            ? "0" + new Date(time).getSeconds()
+            : new Date(time).getSeconds();
         return y + "-" + m + "-" + d + " " + hour + ":" + min;
     }
   },
@@ -583,7 +581,6 @@ export default {
 			this.editDays = true
       this.getCalendarInfo(this.$route.query.scheduleId);
     } else {
-			
       if (this.$route.query.clickDate) {
         this.startTime = this.clickDateDefault(this.$route.query.clickDate)
         this.pickerVisible = new Date(this.$route.query.clickDate)

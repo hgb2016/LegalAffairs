@@ -4,18 +4,25 @@
 			<li v-if="infomationList.length>0">
         <template v-if="mark===true">
           <div class="list-time">
-            <div>
+            <div class="list-time-nav">
               <span>{{infomationList[0].beginTime | NowDate}}</span>
             </div>
-            <div class="secondDiv" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
-              <template v-if="item.markTime === false">
-                <span style="color:#000">{{item.title}}</span>
-                <span style="color:#999">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
-              </template>
-              <template v-else>
-                <span style="color:#D9D9D9">{{item.title}}</span>
-                <span style="color:#D9D9D9">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
-              </template>
+            <div class="list-time-bot" v-for="(item,index) in infomationList" :key="index">
+              <div class="bot-left">
+                <p></p>
+                <span></span>
+                <p class="x"></p>
+              </div>
+              <div class="bot-right" @click="goDayDetails(item.scheduleId)">
+                <template v-if="item.markTime === false">
+                  <span style="color:#000">{{item.title}}</span>
+                  <span style="color:#999">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
+                </template>
+                <template v-else>
+                  <span style="color:#D9D9D9">{{item.title}}</span>
+                  <span style="color:#D9D9D9">{{item.beginTime | FormatDate }} - {{item.endTime | FormatDate}}</span>
+                </template>
+              </div>
             </div>
           </div>
           <div class="bot-yx">
@@ -23,24 +30,6 @@
             <p>优秀是一种习惯</p>
             <span></span>
           </div>
-        </template>
-        <template v-else>
-          <div class="list-time" v-for="(item,index) in infomationList" :key="index" @click="goDayDetails(item.scheduleId)">
-            <div>
-              <span>{{item.beginTime.split(' ')[0]}} - {{item.endTime.split(' ')[0]}}</span>
-            </div>
-            <div>
-              <template v-if="item.markTime === false">
-                <span style="font-weight:bold;">{{item.title}}</span>
-                <span>{{item.beginTime.split(' ')[1]}} - {{item.endTime.split(' ')[1]}}</span>
-              </template>
-              <template v-else>
-                <span style="color:#888">{{item.title}}</span>
-                <span style="color:#999">{{item.beginTime.split(' ')[1]}} - {{item.endTime.split(' ')[1]}}</span>
-              </template>
-            </div>
-          </div>
-          
         </template>
 			</li>
       <li v-if="infomationList.length===0" class="nullArray">
@@ -55,7 +44,6 @@ export default {
   props: ["infomationList",'mark'],
   filters:{
     FormatDate(time) {
-      console.log(time)
       let y = new Date().getFullYear();
       let m =
         new Date().getMonth() + 1 <= 9
@@ -69,7 +57,7 @@ export default {
       if (time.split(' ')[0] === newString) {
         return time.split(' ')[1]
       } else {
-        return time.split(' ')[0].split('-')[1]+'-'+ time.split(' ')[0].split('-')[2] + ' '+time.split(' ')[1]
+        return time.split(' ')[1]
       }
     },
     NowDate(time) {
@@ -102,7 +90,6 @@ export default {
 @import "../assets/css/flex.less";
 .index-list {
   width: 100%;
-  margin-top: 10px;
   ul {
     width: 100%;
     .f-d-f;
@@ -113,28 +100,56 @@ export default {
       .list-time {
         .f-d-f;
         .f-fd-c;
+        .f-f-1;
         padding-top: 10px;
-        div {
+        .list-time-nav {
           .f-d-f;
           .f-fd-c;
+          margin-bottom:8px;
           span {
             color: #666;
             font-size: 12px;
             margin-top: 5px;
           }
         }
-        .secondDiv {
+        .list-time-bot{
           .f-d-f;
-          .f-fd-c;
-          margin-top: 6px;
-          border-bottom: 1px solid #e5e5e5;
-          padding-bottom: 4px;
-          span {
-            color: #000;
-            font-size: 12px;
+          .bot-left{
+            width:4px;
+            .f-d-f;
+            .f-ai-c;
+            .f-jc-c;
+            margin-right:10px;
+            .f-fd-c;
+            span {
+              width:2px;
+              height:2px;
+              background-color:red;
+              margin:4px 0;
+            }
+            p {
+              width:1px;
+              height:10px;
+              background-color: #999;
+            }
+            .x {
+              .f-f-1;
+            }
           }
-          span + span {
-            color:#333;
+          .bot-right {
+            .f-d-f;
+            .f-fd-c;
+            .f-f-1;
+            margin-top: 6px;
+            border-bottom: 1px solid #f6f5f5;
+            padding-bottom: 4px;
+            span {
+              color: #000;
+              font-size: 12px;
+            }
+            span + span {
+              color:#333;
+            }
           }
         }
       }

@@ -27,7 +27,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  base: '/fa',
+  base: '/jkcs',
   routes: [
     {
       path: '/',
