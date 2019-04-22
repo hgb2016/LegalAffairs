@@ -49,7 +49,7 @@ export default {
       }
     },
     deleteSee (wordId) {
-      MessageBox.confirm('确定删除此项目?').then(action => {
+      MessageBox.confirm('确定移除他?').then(action => {
         this.deletewWho(wordId);
       });
     },

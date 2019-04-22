@@ -37,7 +37,12 @@
           <span>
             <p>项目日程</p>
           </span>
-          <img width="30px" src="../../assets/img/banbenjieshao (1).png" alt>
+          <img
+            @click="exportProject()"
+            width="30px"
+            src="../../assets/img/banbenjieshao (1).png"
+            alt
+          >
         </div>
       </div>
     </div>
@@ -60,7 +65,7 @@
       <button @click="isDelete()">删除项目</button>
       <button @click="editProject()">修改项目</button>
     </div>
-    <div class="Project-add" >
+    <div class="Project-add">
       <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
       <img @click="goAddDay()" src="../../assets/img/icon_add.png" alt>
     </div>
@@ -71,7 +76,7 @@
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
 import ErrorRemind from "base/ErrorRemind.vue";
-import { MessageBox } from 'mint-ui';
+import { MessageBox } from "mint-ui";
 export default {
   components: {
     calendarList,
@@ -81,7 +86,7 @@ export default {
     return {
       projectId: "",
       projectInfo: {},
-      isEdit:false,
+      isEdit: false
     };
   },
   created() {
@@ -91,8 +96,11 @@ export default {
     this.getProjectDetail();
   },
   methods: {
-      isDelete(){
-      MessageBox.confirm('确定删除此项目?').then(action => {
+    exportProject() {
+      this.$router.push(`/ExportDay?projectId=${this.projectId}`);
+    },
+    isDelete() {
+      MessageBox.confirm("确定删除此项目?").then(action => {
         this.deleteProject();
       });
     },
@@ -113,7 +121,7 @@ export default {
       const { data } = await postHttp.post("/Project/getProjectInfo", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
-        projectId: this.projectId
+        projectId: this.projectId,
       });
       if (!data.error) {
         this.projectInfo = data.data;
@@ -343,11 +351,11 @@ export default {
     position: fixed;
     bottom: 100px;
     right: 40px;
-  
+
     img {
       margin-top: 15px;
-       width: 28px;
-       height: 28px;
+      width: 28px;
+      height: 28px;
     }
   }
 }

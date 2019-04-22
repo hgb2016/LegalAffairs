@@ -113,7 +113,7 @@ export default {
   }
 
   &-list {
-    padding: 100px 0px 60px;
+    padding: 180px 0px 60px;
     width: 100%;
     &-item {
       .f-d-f;

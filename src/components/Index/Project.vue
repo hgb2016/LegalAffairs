@@ -5,21 +5,22 @@
         <input @input="handelSearch()" v-model="keyword" type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
-    </div>
-    <div class="Project-sort">
-      <div class="Project-sort-item" @click="issort=!issort">
-        <span>
-          <p>{{sort_name}}</p>
-          <i :class="issort? 'up':'down'"></i>
-        </span>
+      <div class="Project-sort">
+        <div class="Project-sort-item" @click="issort=!issort">
+          <span>
+            <p>{{sort_name}}</p>
+            <i :class="issort? 'up':'down'"></i>
+          </span>
+        </div>
+        <div class="Project-sort-item" @click="isstatus=!isstatus">
+          <span>
+            <p>所有</p>
+            <i :class="isstatus? 'up':'down'"></i>
+          </span>
+        </div>
       </div>
-      <div class="Project-sort-item"  @click="isstatus=!isstatus">
-        <span>
-          <p>所有</p>
-          <i :class="isstatus? 'up':'down'"></i>
-        </span>
-      </div>
     </div>
+
     <ul class="Project-sort-select" v-if="issort">
       <li
         @click="handleSelect(item)"
@@ -65,6 +66,7 @@
           <span></span>
         </div>
       </div>
+      <h6>{{lowupdate}}</h6>
     </div>
     <div class="Project-add" @click="$router.push('/CreateProject')">
       <img src="../../assets/img/icon_add.png" alt>
@@ -80,11 +82,14 @@ export default {
       projectList: [],
       keyword: "",
       casestatus: "",
-      casestatus_show:"所有",
-      cur_page: "",
+      casestatus_show: "所有",
+      cur_page: 1,
       caseOrder: "",
+      markCustomer: 1,
+      totalPages: 0,
+      lowupdate: "",
       issort: false,
-      isstatus:false,
+      isstatus: false,
       sort_name: "默认",
       navLists: [
         {
@@ -108,7 +113,7 @@ export default {
           selected: false
         }
       ],
-        statusList: [
+      statusList: [
         {
           name: "所有",
           order: "",
@@ -137,6 +142,8 @@ export default {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
     this.getProjectList();
+    this.cur_page=2;
+    this.getProjectList();
   },
   computed: {},
   methods: {
@@ -144,12 +151,12 @@ export default {
       item.selected = true;
       this.sort_name = item.name;
       this.issort = false;
-      if(item.name=="默认"){
-          this.caseOrder = item.order;
-      }else{
-         this.caseOrder = item.order + " desc";
+      if (item.name == "默认") {
+        this.caseOrder = item.order;
+      } else {
+        this.caseOrder = item.order + " desc";
       }
-      
+
       this.navLists.forEach(element => {
         if (element.name !== item.name) {
           element.selected = false;
@@ -157,17 +164,15 @@ export default {
       });
       this.getProjectList();
     },
-    handelSearch(){
-        this.cur_page=1;
-        this.casestatus='',
-        this.caseOrder="",
-        this.getProjectList();
+    handelSearch() {
+      this.cur_page = 1;
+      (this.casestatus = ""), (this.caseOrder = ""), this.getProjectList();
     },
-     handlestatus(item) {
+    handlestatus(item) {
       item.selected = true;
       this.casestatus_show = item.name;
       this.isstatus = false;
-      this.casestatus =item.status
+      this.casestatus = item.status;
       this.statusList.forEach(element => {
         if (element.name !== item.name) {
           element.selected = false;
@@ -185,17 +190,79 @@ export default {
         keyword: this.keyword,
         casestatus: this.casestatus,
         order: this.caseOrder,
-        page:this.cur_page
+        page: this.cur_page
       });
       if (!data.error) {
-        this.projectList = data.data;
+        this.markCustomer = 0;
+        this.totalPages = data.totalPages;
+        data.data.map(item => {
+          this.projectList.push(item);
+        });
+        if (data.totalPages > 1) {
+          this.lowupdate = "加载更多";
+        } else {
+          this.lowupdate = "";
+        }
         this.projectList.forEach(element => {
           this.$set(element, "isUp", false);
         });
       } else {
         alert(data.message);
       }
+    },
+    async customerScroll() {
+      let windowHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+      let scrollY =
+        document.body.scrollTop ||
+        document.documentElement.scrollTop ||
+        window.pageYOffset;
+      if (
+        scrollY + windowHeight === this.$el.getBoundingClientRect().height &&
+        this.markCustomer === 0
+      ) {
+        this.markCustomer = 1;
+        this.cur_page++;
+        if (this.cur_page <= this.totalPages) {
+          const { data } = await postHttp.post("/Project/getProjectList", {
+            loginUserId: window.localStorage.getItem("loginUserId"),
+            logintoken: window.localStorage.getItem("logintoken"),
+            page: this.cur_page,
+            keyword: this.keyword,
+            casestatus: this.casestatus,
+            order: this.caseOrder
+          });
+           console.log(data)
+          if (!data.error) {
+           
+            this.markCustomer = 0;
+            data.data.map(item => {
+              this.projectList.push(item);
+            });
+            this.projectList.forEach(element => {
+              this.$set(element, "isUp", false);
+            });
+            if (this.cur_page < data.totalPages) {
+              this.lowupdate = "加载更多";
+            } else {
+              this.lowupdate = "";
+            }
+          }
+          this.lowupdate = "加载更多";
+        } else {
+          this.lowupdate = "";
+        }
+      }
     }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.customerScroll);
+  },
+  beforeRouteLeave(to, from, next) {
+    window.removeEventListener("scroll", this.customerScroll);
+    next();
   }
 };
 </script>
@@ -207,7 +274,7 @@ export default {
   &-header {
     background: #fff;
     position: fixed;
-    top:60px;
+    top: 60px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -237,7 +304,7 @@ export default {
 
   &-sort {
     font-size: 14px;
-    padding: 105px 20px 5px;
+    padding: 1px 20px 5px;
     border-bottom: 1px solid #ededed;
     border-top: 1px solid #ededed;
     .f-d-f;
@@ -290,6 +357,7 @@ export default {
     }
   }
   &-list {
+    padding-top: 130px;
     padding-bottom: 60px;
     width: 100%;
     &-item {
@@ -387,8 +455,15 @@ export default {
 .unselect {
   color: #333;
 }
-.ungray{
+.ungray {
   background-color: #999999;
   color: white;
+}
+h6 {
+  width: 100%;
+  text-align: center;
+  line-height: 26px;
+  font-size: 14px;
+  color: #333;
 }
 </style>

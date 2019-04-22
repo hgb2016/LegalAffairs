@@ -35,7 +35,7 @@
 			<h6>若未收到邮件，请确认是否被拦截或者被误认为是垃圾邮件。</h6>
 		</div>
 		<div class="export-btn">
-			<span @click="submitExport">提交意见</span>
+			<span @click="submitExport">确定</span>
 		</div>
 		<mt-datetime-picker
       v-model="pickerVisible"
