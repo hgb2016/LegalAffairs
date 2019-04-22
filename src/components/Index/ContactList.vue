@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="ContactList-header">
+     <div  class="ContactList-weichat">
+       <img src="../../assets/img/icon_weichat.png" alt="">
+       <p>微信添加好友</p>
+     </div>
       <div class="ContactList-header-search">
         <input @input="getNiuFaUser()" v-model="keyword" type="text" placeholder="请输入关键字">
         <i></i>
@@ -62,6 +66,21 @@ export default {
 @import "../../assets/css/flex.less";
 .ContactList {
   width: 100%;
+  &-weichat{
+    width: 100%;
+    .f-d-f;
+      .f-fd-c;
+      .f-ai-c;
+      font-size: 14px;
+      img{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 40px;
+      }
+      p{
+        margin-bottom: 10px;
+      }
+  }
   &-header {
     background: #fff;
     position: fixed;

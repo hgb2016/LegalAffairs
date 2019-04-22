@@ -92,7 +92,7 @@ export default {
   },
   methods: {
       isDelete(){
-      MessageBox.confirm('确定删除此好友?').then(action => {
+      MessageBox.confirm('确定删除此项目?').then(action => {
         this.deleteProject();
       });
     },

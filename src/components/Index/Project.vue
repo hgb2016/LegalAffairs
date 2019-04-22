@@ -144,7 +144,12 @@ export default {
       item.selected = true;
       this.sort_name = item.name;
       this.issort = false;
-      this.caseOrder = item.order + " desc";
+      if(item.name=="默认"){
+          this.caseOrder = item.order;
+      }else{
+         this.caseOrder = item.order + " desc";
+      }
+      
       this.navLists.forEach(element => {
         if (element.name !== item.name) {
           element.selected = false;

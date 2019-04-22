@@ -80,7 +80,7 @@ export default {
       infomationList:[],
       mark:true,
       default_date:'2019-04-20',
-      weekLanguages:['一', '二', '三', '四', '五', '六','日'],
+      weekLanguages:['一', '二', '三', '四', '五', '六',"日"],
       sevenDay:getDates(),
       idx:-1,
       clickSelection:'',

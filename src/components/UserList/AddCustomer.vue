@@ -436,7 +436,7 @@ export default {
       color: #000;
     }
     ::-webkit-input-placeholder {
-      color: #000;
+      color: #999;
     }
   }
   &-info {
