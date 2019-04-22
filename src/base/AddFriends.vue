@@ -2,11 +2,11 @@
   <div class="addfriends" :style="rightTransition" @click.self="closeFriend">
    
     <div class="addfriends-sale">
-		 <div class="addfriends-header">
-		  <p></p>
-			<h4>我的好友</h4>
-			<p style="color:#0c7dff">确定</p>
-		</div>
+		 	<div class="addfriends-header">
+				<p></p>
+				<h4>我的好友</h4>
+				<p style="color:#0c7dff" @click="closeFriend">确定</p>
+			</div>
 			<div class="addfriends-sale-choice" v-if="choiceUserLists.length>0">
 				<ul>
 					<li v-for="(item,index) in choiceUserLists" :key="index">
@@ -35,30 +35,30 @@
 </div>
 </template>
 <script>
-import icon_checkempty from '@/assets/img/icon_checkempty.png'
-import check_green from '@/assets/img/check_green.png'
-import liyan from '@/assets/img/liyan.jpg'
-import DeleteImg from 'base/DeleteImg'
+import icon_checkempty from "@/assets/img/icon_checkempty.png";
+import check_green from "@/assets/img/check_green.png";
+import liyan from "@/assets/img/liyan.jpg";
+import DeleteImg from "base/DeleteImg";
 export default {
-	components:{
-		DeleteImg
-	},
+  components: {
+    DeleteImg
+  },
   props: {
     showFriends: {
       type: Boolean
-		},
-		contactlist:{
-			type:Array
-		},
-		choiceUserListsParents:{
-			type:Array
-		}
+    },
+    contactlist: {
+      type: Array
+    },
+    choiceUserListsParents: {
+      type: Array
+    }
   },
   data() {
     return {
       right: -100,
-			choiceUserLists:[]
-		};
+      choiceUserLists: []
+    };
   },
   computed: {
     rightTransition() {
@@ -68,46 +68,46 @@ export default {
     }
   },
   methods: {
-		closeFriend () {
-			this.$emit('close_Friends',this.choiceUserLists)
-		},
-		choiceNow (status,name,img,id) {
-			if (status === false) {
-				this.contactlist.forEach ((v,index)=>{
-					if (v.userId === id) {
-						let newObj = {}
-						newObj['name'] = name
-						newObj['img'] = img
-						newObj['id'] = id
-						this.choiceUserLists.push(newObj)
-						v.status = true
-					}
-				})
-			} else {
-				this.contactlist.forEach (v=>{
-					if (v.userId === id) {
-						this.choiceUserLists.forEach ((m,index)=>{
-							if (m.id === id) {
-								this.choiceUserLists.splice(index,1)
-							}
-						})
-						v.status = false
-					}
-				}) 
-			}
-		},
-		closeDelete (id) {
-			this.choiceUserLists.forEach((m,index)=>{
-				if (m.id === id) {
-					this.choiceUserLists.splice(index,1)
-				}
-			})
-			this.contactlist.forEach ((v,index)=>{
-				if (v.userId === id) {
-					v.status = false
-				}
-			})
-		}
+    closeFriend() {
+      this.$emit("close_Friends", this.choiceUserLists);
+    },
+    choiceNow(status, name, img, id) {
+      if (status === false) {
+        this.contactlist.forEach((v, index) => {
+          if (v.userId === id) {
+            let newObj = {};
+            newObj["name"] = name;
+            newObj["img"] = img;
+            newObj["id"] = id;
+            this.choiceUserLists.push(newObj);
+            v.status = true;
+          }
+        });
+      } else {
+        this.contactlist.forEach(v => {
+          if (v.userId === id) {
+            this.choiceUserLists.forEach((m, index) => {
+              if (m.id === id) {
+                this.choiceUserLists.splice(index, 1);
+              }
+            });
+            v.status = false;
+          }
+        });
+      }
+    },
+    closeDelete(id) {
+      this.choiceUserLists.forEach((m, index) => {
+        if (m.id === id) {
+          this.choiceUserLists.splice(index, 1);
+        }
+      });
+      this.contactlist.forEach((v, index) => {
+        if (v.userId === id) {
+          v.status = false;
+        }
+      });
+    }
   },
   watch: {
     showFriends(val) {
@@ -116,21 +116,21 @@ export default {
       } else {
         this.right = -100;
       }
-		},
-		choiceUserListsParents: {
-			handler (val) {
-				this.choiceUserLists = val
-				val.forEach(v=>{
-					this.contactlist.forEach(m=>{
-						if (v.id === m.userId) {
-							m.status = true
-						}
-					})
-				})
-				console.log(this.contactlist)
-			},
-			immediate:true
-		}
+    },
+    choiceUserListsParents: {
+      handler(val) {
+        this.choiceUserLists = val;
+        val.forEach(v => {
+          this.contactlist.forEach(m => {
+            if (v.id === m.userId) {
+              m.status = true;
+            }
+          });
+        });
+        console.log(this.contactlist);
+      },
+      immediate: true
+    }
   }
 };
 </script>
@@ -149,23 +149,23 @@ export default {
   overflow: hidden;
   .f-d-f;
   .f-fd-rr;
-	&-header{
-		 background-color: #fff;
-		width: 80%;
-		position: fixed;
-		top: 0px;
-		border-bottom: 1px solid #ededed;
-		 padding: 10px 15px;
-			.f-d-f;
-			.f-fd-r;
-			.f-ai-c;
-			.f-jc-sb;
-		p{
-			font-size: 15px;
-		}
-	}
+  &-header {
+    background-color: #fff;
+    width: 80%;
+    position: fixed;
+    top: 0px;
+    border-bottom: 1px solid #ededed;
+    padding: 10px 15px;
+    .f-d-f;
+    .f-fd-r;
+    .f-ai-c;
+    .f-jc-sb;
+    p {
+      font-size: 15px;
+    }
+  }
   &-sale {
-		margin-top: 40px;
+    margin-top: 40px;
     width: 80%;
     height: 100%;
     background-color: #fff;
@@ -174,54 +174,54 @@ export default {
     .f-fd-c;
     position: relative;
     &-choice {
-				border-bottom: 1px solid #e5e5e5;
-				padding:10px;
-				ul {
-					.f-d-f;
-					.f-fw-w;
-					li{
-					}
-				}
-			}
-			&-list {
-				width:100%;
-				margin-top:10px;
-				ul {
-					width:100%;
-					.f-d-f;
-					.f-fd-c;
-					li {
-						height:50px;
-						.f-d-f;
-						.f-ai-c;
-						.f-jc-sb;
-						padding:0 10px;
-						border-bottom:1px solid #e5e5e5;
-						div {
-							.f-d-f;
-							.f-ai-c;
-							.f-f-1;
-							img {
-								width:12px;
-							}
-							img + img {
-								border-radius: 50%;
-								height: 35px;
-								width: 35px;
-								margin-left:10px;
-							}
-							span {
-								font-size:14px;
-								color:#333;
-								margin-left:4px;
-							}
-						}
-						img {
-							width:12px;
-						}
-					}
-				}
-			}
+      border-bottom: 1px solid #e5e5e5;
+      padding: 10px;
+      ul {
+        .f-d-f;
+        .f-fw-w;
+        li {
+        }
+      }
+    }
+    &-list {
+      width: 100%;
+      margin-top: 10px;
+      ul {
+        width: 100%;
+        .f-d-f;
+        .f-fd-c;
+        li {
+          height: 50px;
+          .f-d-f;
+          .f-ai-c;
+          .f-jc-sb;
+          padding: 0 10px;
+          border-bottom: 1px solid #e5e5e5;
+          div {
+            .f-d-f;
+            .f-ai-c;
+            .f-f-1;
+            img {
+              width: 12px;
+            }
+            img + img {
+              border-radius: 50%;
+              height: 35px;
+              width: 35px;
+              margin-left: 10px;
+            }
+            span {
+              font-size: 14px;
+              color: #333;
+              margin-left: 4px;
+            }
+          }
+          img {
+            width: 12px;
+          }
+        }
+      }
+    }
   }
 }
 </style>

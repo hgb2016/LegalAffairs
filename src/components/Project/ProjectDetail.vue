@@ -43,11 +43,11 @@
     </div>
     <div>
       <calendar-list
-        v-if="projectInfo.timeDataList.length>0"
+        v-if="projectInfo.timeDataList && projectInfo.timeDataList.length>0"
         :calendarList="projectInfo.timeDataList"
       ></calendar-list>
       <img
-        v-if="projectInfo.timeDataList.length==0"
+        v-if="projectInfo.timeDataList && projectInfo.timeDataList.length==0"
         src="../../assets/img/1.png"
         @click="goAddDay()"
         style="margin-top:10px;"

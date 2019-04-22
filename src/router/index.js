@@ -28,7 +28,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  base: '/jkcs',
+  base: '/fw',
   routes: [
     {
       path: '/ExportDay',

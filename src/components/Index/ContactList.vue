@@ -82,10 +82,9 @@ export default {
       }
   }
   &-header {
-    margin-top: 60px;
     background: #fff;
     position: fixed;
-    top: 0px;
+    top: 60px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -114,7 +113,7 @@ export default {
   }
 
   &-list {
-    margin-top: 190px;
+    padding: 100px 0px 60px;
     width: 100%;
     &-item {
       .f-d-f;

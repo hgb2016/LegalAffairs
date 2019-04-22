@@ -1,37 +1,34 @@
 <template>
 <div class="who-see">
     <ul>
-      <template v-if="repeatLists.length  === 0">
         <li v-for="(item,index) in seeLists" :key="index">
           <div>
             <img :src="item.headUrl" alt="">
             <span>{{item.userName}}</span>
-            <img class="see-del" src="../../assets/img/icon_dele.png" alt="">
+            <img class="see-del" @click="deleteSee(item.workId)" src="../../assets/img/icon_dele.png" alt="">
           </div>
         </li>
-      </template>
-			<template v-if="repeatLists.length > 0">
-        <li v-for="(item,index) in repeatLists" :key="index">
-          <div>
-            <img :src="item.img" alt="">
-            <span>{{item.name}}</span>
-            <img class="see-del" src="../../assets/img/icon_dele.png" alt="">
-          </div>
-        </li>
-      </template>
 		</ul>
     <button class="who-see-btn" @click="showFriends=true">添加谁可见人员</button>
-    <add-friends :choiceUserListsParents="choiceUserListsParents" :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="contactlist"></add-friends>
+    <see-lists :showFriends="showFriends" @close_Friends="close_Friends" :contactlist="contactlist"></see-lists>
+    <error-remind
+		v-if="showRemind"
+		@Close_errorMind="showRemind = false"
+		:errorRemind="errorRemind"
+	></error-remind>
 </div>
 </template>
 
 <script>
+import ErrorRemind from "base/ErrorRemind.vue";
 import postHttp from "../../assets/js/postHttp.js";
-import AddFriends from "base/AddFriends.vue";
+import SeeLists from "base/SeeLists.vue";
+import { MessageBox } from 'mint-ui';
 
 export default {
   components:{
-    AddFriends
+    SeeLists,
+    ErrorRemind
   },
   data() {
     return {
@@ -40,16 +37,36 @@ export default {
       contactlist:[],
       choiceUserListsParents:[],
       seeLists:[],
-      repeatLists:[]
+			showRemind:false,
+			errorRemind:''
     };
   },
   methods: {
     close_Friends(data) {
-      console.log(data)
+      this.showFriends = false;
       if (data) {
-        this.repeatLists = data
-        this.choiceUserListsParents = data;
-        this.showFriends = false;
+        this.getNiuFaUser()
+      }
+    },
+    deleteSee (wordId) {
+      MessageBox.confirm('确定删除此项目?').then(action => {
+        this.deletewWho(wordId);
+      });
+    },
+    
+    async deletewWho (workId) {
+      const { data } = await postHttp.post("/User/delUserShow", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken: window.localStorage.getItem("logintoken"),
+        workId:workId
+      });
+      if (!data.error) {
+        this.showRemind = true;
+        this.errorRemind = "删除成功";
+        this.getNiuFaUser();
+        setTimeout(() => {
+          this.showRemind = false;
+        }, 2000);
       }
     },
     async getUserShow() {
@@ -59,12 +76,12 @@ export default {
       });
       if (!data.error) {
         this.seeLists = data.data
-        data.data.forEach(v => {
-          let newUsers = {};
-          newUsers["id"] = v.workUserId;
-          newUsers["img"] = v.headUrl;
-          newUsers["name"] = v.userName;
-          this.choiceUserListsParents.push(newUsers);
+        data.data.forEach(m => {
+          this.contactlist.forEach((v,index)=>{
+            if (v.workUserId === m.userId) {
+              this.contactlist.splice(index,1)
+            }
+          })
         });
       } else {
         alert(data.message);
@@ -77,17 +94,11 @@ export default {
         logintoken: window.localStorage.getItem("logintoken")
       });
       if (!data.error) {
-        data.data.forEach(v => {
-          v.status = false;
-        });
         this.contactlist = data.data;
         this.getUserShow()
       } else {
         alert(data.message);
       }
-    },
-    async addUserShow () {
-
     },
   },
   created() {

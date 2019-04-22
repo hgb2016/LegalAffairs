@@ -39,7 +39,7 @@
 			<div class="cist" v-for="(item,index) in contactLists" :key="index">
 				<img class="jian" src="../../assets/img/icon_dele.png" @click="deletecus(index)" alt="">
 				<div>
-					<span>{{item.name}}-{{item.work}}</span>
+					<span>{{item.name}}{{item.work?'-'+item.work:''}}</span>
 					<span>{{item.phone}}</span>
 					<span>{{item.email}}</span>
 				</div>
@@ -436,7 +436,7 @@ export default {
       color: #000;
     }
     ::-webkit-input-placeholder {
-      color: #000;
+      color: #999;
     }
   }
   &-info {

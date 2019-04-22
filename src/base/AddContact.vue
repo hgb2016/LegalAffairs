@@ -25,11 +25,16 @@
 			</div>
 		</div>
 	</div>
+	<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
 </div>
 </template>
 
 <script>
+import ErrorRemind from "base/ErrorRemind.vue";
 export default {
+	components:{
+		ErrorRemind
+	},
 	props:['name','phone','email','work','clicentIndex'],
 	data () {
 		return {
@@ -37,6 +42,8 @@ export default {
 			userwork:'',
 			userphone:'',
 			useremail:'',
+			showRemind:false,
+			errorRemind:''
 		}
 	},
 	watch:{
@@ -75,13 +82,47 @@ export default {
 	},
 	methods:{
 		saveAdd () {
-			let newObj={}
-			newObj['name'] = this.username
-			newObj['work'] = this.userwork
-			newObj['phone'] = this.userphone
-			newObj['email'] = this.useremail
-			newObj['clicentIndex'] = this.clicentIndex
-			this.$emit('SaveAdd',newObj)
+			let phoneReg = /^[1][1,2,3,4,5,6,7,8,9,0][0-9]{9}$/
+			let pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			if (this.username === '') {
+				this.showRemind = true
+				this.errorRemind = '请输入姓名'
+				setTimeout(()=>{
+					this.showRemind = false
+					this.errorRemind = ''
+				},2000)
+			} else if (this.userphone === '') {
+				this.showRemind = true
+				this.errorRemind = '请输入手机号'
+				setTimeout(()=>{
+					this.showRemind = false
+					this.errorRemind = ''
+				},2000)
+			}	else if (!phoneReg.test(this.userphone)) {
+				this.showRemind = true
+				this.errorRemind = '手机号格式不正确'
+				setTimeout(()=>{
+					this.showRemind = false
+					this.errorRemind = ''
+				},2000)
+			}	else if (this.useremail !== '') {
+				if (!pattern.test(this.useremail)) {
+					this.showRemind = true
+					this.errorRemind = '邮箱格式不正确'
+					setTimeout(()=>{
+							this.showRemind = false
+							this.errorRemind = ''
+					},2000)
+				} 
+			} else {
+				let newObj={}
+				newObj['name'] = this.username
+				newObj['work'] = this.userwork
+				newObj['phone'] = this.userphone
+				newObj['email'] = this.useremail
+				newObj['clicentIndex'] = this.clicentIndex
+				this.$emit('SaveAdd',newObj)
+			}
 		}
 	}
 }

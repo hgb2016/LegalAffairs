@@ -5,69 +5,62 @@
         <span>头像</span>
 				<img :src="userInfo.headUrl" alt="">
       </div>
-      <div @click="$router.push('/UserInput?title=姓名&content=李艳彪')">
+      <div @click="$router.push(`/UserInput?title=姓名&content=${userInfo.userName}`)">
         <span>我的姓名</span>
         <p>
           <span>{{userInfo.userName}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-			 <div @click="choiceSex">
+      <!-- <div @click="choiceSex">
         <span>性别</span>
         <p>
           <span>{{userInfo.hourRate}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
-      </div>
-      <div @click="$router.push('/UserInput?title=公司&content=北京熙呈互动科技有限公司')">
+      </div> -->
+      <div @click="$router.push(`/UserInput?title=公司&content=${userInfo.company===null?'':userInfo.company}`)">
         <span>公司</span>
         <p>
           <span>{{userInfo.company}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-      <div @click="$router.push('/UserInput?title=地址&content=十里河')">
+      <div @click="$router.push(`/UserInput?title=地址&content=${userInfo.address===null?'':userInfo.address}`)">
         <span>地址</span>
         <p>
           <span>{{userInfo.address}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-			<div @click="$router.push('/UserInput?title=职务&content=前端开发工程师')">
+			<div @click="$router.push(`/UserInput?title=职务&content=${userInfo.duty===null?'':userInfo.duty}`)">
         <span>职务</span>
         <p>
           <span>{{userInfo.duty}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-			<div @click="$router.push('/UserPhone')">
+			<div @click="$router.push(`/UserPhone?phone=${userInfo.mobilePhone===null?'':userInfo.mobilePhone}`)">
         <span>手机号</span>
         <p>
           <span>{{userInfo.mobilePhone}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-			<div @click="$router.push('/UserInput?title=邮箱&content=13513335747@163.com')">
+			<div @click="$router.push(`/UserInput?title=邮箱&content=${userInfo.email===null?'':userInfo.email}`)">
         <span>邮箱</span>
         <p>
           <span>{{userInfo.email}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-			<div @click="$router.push('/UserInput?title=费率&content=5')">
+			<div @click="$router.push(`/UserInput?title=费率&content=${userInfo.hourRate===null?'':userInfo.hourRate}`)">
         <span>小时费率(元/小时)</span>
         <p>
           <span>{{userInfo.hourRate}}</span>
           <img src="../../assets/img/arrow.png" alt="">
         </p>
       </div>
-      <!-- <div @click="$router.push('/UserPwd')">
-        <span>修改密码</span>
-        <img src="../../assets/img/arrow.png" alt="">
-      </div>
-      <div>
-        <span>退出登录</span>
-      </div> -->
     </div>
     <transition name="fade">
       <div class="user-set-sex" v-if="showSex" @click.self="showSex=false">
@@ -101,9 +94,9 @@ export default {
     }
   },
   methods:{
-    choiceSex () {
-      this.showSex = true
-    },
+    // choiceSex () {
+    //   this.showSex = true
+    // },
     changeSex (val) {
       this.showSex = false
     }

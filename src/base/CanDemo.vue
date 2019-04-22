@@ -24,17 +24,18 @@ export default {
   },
   watch: {
     infomationList: {
-      handler(val) {
-        let newArr = []
-				val.forEach(v=>{
-          let newObj = {}
-          let newDay = new Date(v.showDate).getDate()
-					newObj['date'] = this.format(new Date(), newDay)
-					newObj['className'] = "mark1"
-					newArr.push(newObj)
-        })
-        this.arr = newArr
-
+      handler(newval,oldval) {
+        if (newval !== oldval) {
+          let newArr = []
+          newval.forEach(v=>{
+            let newObj = {}
+            let newDay = new Date(v.showDate).getDate()
+            newObj['date'] = this.format(v.showDate, newDay)
+            newObj['className'] = "mark1"
+            newArr.push(newObj)
+          })
+          this.arr = newArr
+        }
       },
       immediate: true
     }
@@ -52,7 +53,15 @@ export default {
     },
     //左右点击切换月份
     changeDate(data) {
-      this.$emit('changeDate',data.replace(/\//g, '-'))
+      let newMonth = new Date().getMonth()
+      if (data.split('/')[1] !== newMonth) {
+        this.arr2 = []
+        this.arr2.push(data.split('/')[0]+'-'+data.split('/')[1] + '-'+1)
+        this.$emit('changeDate',data.replace(/\//g, '-'),true)
+      } else {
+        this.arr2 = []
+        this.$emit('changeDate',data.replace(/\//g, '-'),false)
+      }
     },
     format(date, index) {
       date = new Date(date);

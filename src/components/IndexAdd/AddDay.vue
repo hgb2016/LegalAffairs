@@ -285,9 +285,12 @@ export default {
     },
     close_Sale(data) {
       this.showSale = false;
-      if (data.name !== "") {
+      if (data) {
         this.projectTitle = data.name;
         this.projectUid = data.id;
+      } else {
+        this.projectTitle = ''
+        this.projectUid = ''
       }
     },
     close_Friends(data) {

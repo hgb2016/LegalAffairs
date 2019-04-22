@@ -2,6 +2,11 @@
   <div class="addproject" :style="rightTransition" @click.self="closeSale">
 		
     <div class="addproject-sale">
+			<div class="addproject-sale-header">
+				<p></p>
+				<h4>我的项目</h4>
+				<p style="color:#0c7dff" @click="closeSale">确定</p>
+			</div>
 			<ul>
 				<li v-for="(item,index) in projectLists" :key="index" @click="choiceProject(item.projectName,item.projectId)">
 					<span v-if="item.projectId !== proId">{{item.projectName}}</span>
@@ -60,10 +65,14 @@ export default {
 			}
 		},
 		closeSale () {
-			let newObj = {}
-			newObj['name'] = this.proName
-			newObj['id'] = this.proId
-			this.$emit('close_Sale',newObj)
+			if (this.proId !== '') {
+				let newObj = {}
+				newObj['name'] = this.proName
+				newObj['id'] = this.proId
+				this.$emit('close_Sale',newObj)
+			} else {
+				this.$emit('close_Sale')
+			}
 		}
 	},
 	watch: {
@@ -107,10 +116,25 @@ export default {
 		.f-d-f;
 		.f-fd-c;
 		position: relative;
+		&-header {
+			background-color: #fff;
+			width: 80%;
+			position: fixed;
+			top: 0px;
+			border-bottom: 1px solid #ededed;
+			padding: 10px 15px;
+			.f-d-f;
+			.f-fd-r;
+			.f-ai-c;
+			.f-jc-sb;
+			p {
+				font-size: 15px;
+			}
+		}
 		ul {
 			.f-d-f;
 			.f-fd-c;
-			padding-bottom:38px;
+			padding:38px 0;
 			li {
 				height:50px;
 				border-top:1px solid #e5e5e5;
