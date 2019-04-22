@@ -78,7 +78,7 @@ export default {
         this.seeLists = data.data
         data.data.forEach(m => {
           this.contactlist.forEach((v,index)=>{
-            if (v.workUserId === m.userId) {
+            if (v.userId === m.workUserId) {
               this.contactlist.splice(index,1)
             }
           })
