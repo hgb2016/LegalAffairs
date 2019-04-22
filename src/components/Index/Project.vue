@@ -142,8 +142,7 @@ export default {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
     this.getProjectList();
-    this.cur_page=2;
-    this.getProjectList();
+
   },
   computed: {},
   methods: {
@@ -194,6 +193,7 @@ export default {
       });
       if (!data.error) {
         this.markCustomer = 0;
+        this.projectList=[],
         this.totalPages = data.totalPages;
         data.data.map(item => {
           this.projectList.push(item);
