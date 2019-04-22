@@ -164,7 +164,7 @@ export default {
   &-list {
     .f-d-f;
     .f-fd-c;
-    padding-top:50px;
+    padding-top:38px;
     .items {
       .f-d-f;
       .f-fd-c;

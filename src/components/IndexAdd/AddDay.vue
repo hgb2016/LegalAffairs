@@ -118,6 +118,7 @@
       v-model="pickerVisible"
       type="datetime"
       ref="picker"
+      :visibleItemCount="3"
       @confirm="closeTimePicker"
     ></mt-datetime-picker>
     <mt-datetime-picker
@@ -125,6 +126,7 @@
       type="datetime"
       ref="pickerEnd"
       @confirm="closeTimePickerEnd"
+      :visibleItemCount="3"
     ></mt-datetime-picker>
     <error-remind
       v-if="showRemind"

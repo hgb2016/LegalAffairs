@@ -41,12 +41,14 @@
       v-model="pickerVisible"
       type="date"
       ref="picker"
+			:visibleItemCount="3"
       @confirm="closeTimePicker"
     ></mt-datetime-picker>
     <mt-datetime-picker
       v-model="pickerVisibleEnd"
       type="date"
       ref="pickerEnd"
+			:visibleItemCount="3"	
       @confirm="closeTimePickerEnd"
     ></mt-datetime-picker>
 		<error-remind
