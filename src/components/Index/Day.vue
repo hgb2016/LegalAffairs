@@ -98,13 +98,17 @@ export default {
 			}
 			return date.getFullYear() + '-' + month + '-' + day 
 		},
-		changeDate (data) {
+		changeDate (data,status) {
 			this.ExhibitionLists = []
 			this.infomationList = []
 			this.sevenDay = []
 			this.beginTime = this.getCurrentMonthFirst(data)
 			this.endTime = this.getCurrentMonthLast(data)
-			this.getMyCalendar()
+			if (status === true) {
+				this.getMyCalendar(true,data)
+			} else {
+				this.getMyCalendar(false,'')
+			}
 			this.getMyCalendarD()
 		},
 		clickDateDefault(time) {
@@ -171,7 +175,7 @@ export default {
 			var d = new Date().getDate()<= 9?'0'+new Date().getDate():new Date().getDate();
 			return y + "-" + m + "-" + d
     },
-		async getMyCalendar() {
+		async getMyCalendar(status,timeStr) {
       const { data } = await postHttp.post("/Calendar/getMyCalendar", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
@@ -189,11 +193,20 @@ export default {
           }
         });
 				this.infomationList = data.data;
-				data.data.forEach(m =>{
-					if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],this.defaultDate())) {
-						this.ExhibitionLists.push(m)
-					}
-				})
+				if (status === false) {
+					data.data.forEach(m =>{
+						if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],this.defaultDate())) {
+							this.ExhibitionLists.push(m)
+						}
+					})
+				} else {
+					let twotimeStr = timeStr.split('-')[0]+'-'+timeStr.split('-')[1] + '-'+'01'
+					data.data.forEach(m =>{
+						if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],twotimeStr)) {
+							this.ExhibitionLists.push(m)
+						}
+					})
+				}
       } else {
         alert(data.message);
       }
@@ -216,7 +229,7 @@ export default {
 	created () {
 		this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
-		this.getMyCalendar();
+		this.getMyCalendar(false,'');
 		this.getMyCalendarD()
 	}
 }

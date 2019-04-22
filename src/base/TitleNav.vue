@@ -1,13 +1,14 @@
 <template>
 <div class="title-nav">
 	<img @click="$router.go(-1)" src="../assets/img/back.png" alt="">
+	<h4>{{title !== ''?title:'编辑'}}</h4>
 	<span></span>
 </div>
 </template>
 
 <script>
 export default {
-
+props:['title']
 }
 </script>
 
@@ -27,6 +28,9 @@ export default {
 	z-index:9998;
 	border-bottom:1px solid #e5e5e5;
 	img {
+		width:20px;
+	}
+	span {
 		width:20px;
 	}
 }

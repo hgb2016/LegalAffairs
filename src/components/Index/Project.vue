@@ -200,10 +200,9 @@ export default {
 .Project {
   width: 100%;
   &-header {
-    margin-top: 60px;
     background: #fff;
     position: fixed;
-    top: 0px;
+    top:60px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -233,8 +232,7 @@ export default {
 
   &-sort {
     font-size: 14px;
-    margin-top: 100px;
-    padding: 5px 20px;
+    padding: 105px 20px 5px;
     border-bottom: 1px solid #ededed;
     border-top: 1px solid #ededed;
     .f-d-f;
@@ -249,7 +247,6 @@ export default {
       }
       span {
         border-right: 1px solid #ededed;
-
         .f-d-f;
         .f-fd-r;
         .f-ai-c;
@@ -288,7 +285,7 @@ export default {
     }
   }
   &-list {
-    margin-bottom: 50px;
+    padding-bottom: 60px;
     width: 100%;
     &-item {
       &-r {
