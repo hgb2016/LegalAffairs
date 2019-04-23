@@ -155,6 +155,7 @@ export default {
 					newArr.push(m)
 				}
 			})
+      console.log(newArr)
 			this.ExhibitionLists = newArr
     },
     getDates(currentTime) {//JS获取当前周从星期一到星期天的日期
@@ -175,6 +176,15 @@ export default {
         endTime:this.endTime
       });
       if (!data.error) {
+        data.data.forEach(v => {
+          let currentdate = new Date()
+					let vDate = new Date(v.endTime.replace(/\//g, '-'))
+          if (currentdate>vDate) {
+            v.markTime = true
+          } else {
+            v.markTime = false
+          }
+        });
         this.infomationList = data.data;
 				data.data.forEach(m =>{
 					if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],this.defaultDate())) {

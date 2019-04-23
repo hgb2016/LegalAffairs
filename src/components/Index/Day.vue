@@ -151,6 +151,7 @@ export default {
 					newArr.push(m)
 				}
 			})
+			console.log(newArr)
 			this.ExhibitionLists = newArr
 		},
 		nowInDateBetwen(d1, d2, date) {
