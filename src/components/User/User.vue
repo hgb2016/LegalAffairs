@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="user-list">
-		<admin-list></admin-list>
+		<admin-list :email="email"></admin-list>
 	</div>
 </div>
 </template>
@@ -41,6 +41,9 @@ export default {
 		},
 		headUrl () {
 			return this.$store.getters.getUserInfo.headUrl
+		},
+		email () {
+			return this.$store.getters.getUserInfo.email
 		}
 	},
 	methods: {

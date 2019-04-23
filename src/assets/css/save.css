@@ -40,6 +40,7 @@
     -webkit-tap-highlight-color:rgba(0,0,0,0);
     color:#666;
     -webkit-appearance: none;
+    resize: none;
   }
   a,
   span,

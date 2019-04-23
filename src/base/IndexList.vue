@@ -145,10 +145,12 @@ export default {
             padding-bottom: 4px;
             span {
               color: #000;
-              font-size: 12px;
+              font-size: 14px;
             }
             span + span {
               color:#333;
+              font-size: 12px;
+              margin-top:2px;
             }
           }
         }

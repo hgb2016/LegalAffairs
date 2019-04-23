@@ -175,7 +175,7 @@ export default {
     },
 	},
 	created () {
-
+		this.email = this.$route.query.email
 	}
 }
 </script>
