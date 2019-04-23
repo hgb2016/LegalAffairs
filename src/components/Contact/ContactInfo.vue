@@ -40,6 +40,7 @@
     </div>
     <div class="ContactInfo-calendarinfo">
       <h4>最近日程</h4>
+      <img v-show="userCalInfo.length==0" src="../../assets/img/anpai.png"  alt="">
       <div class="ContactInfo-calendarinfo-list" v-for="(item, index) in userCalInfo" :key="index">
         <p>{{item.beginTime}}</p>
         <span v-for="(childItem, index) in item.calendarlist" :key="index">{{childItem.titleShow}}</span>
@@ -112,7 +113,12 @@ export default {
   &-calendarinfo {
     padding-bottom: 40px;
     width: 100%;
+    img{
+      margin-top: 10px;
+      width: 100%;
+    }
     h4 {
+
       margin-top: 10px;
       margin-left: 20px;
     }
@@ -121,6 +127,8 @@ export default {
       border-bottom: 1px solid #ededed;
       padding: 10px 0px;
       p {
+        font-size: 15px;
+        font-weight: bold;
         margin-left: 30px;
       }
       span {
@@ -128,6 +136,9 @@ export default {
         .f-fd-c;
         margin-top: 7px;
         margin-left: 40px;
+        margin-right: 40px;
+        padding: 3px 0px;
+        border-bottom: 1px #eeddee solid;
       }
     }
   }

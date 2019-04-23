@@ -59,7 +59,7 @@ export default {
     this.title = this.$route.meta.title
     this.navName = this.$route.path;
     this.login();
-  }
+  },
 };
 </script>
 

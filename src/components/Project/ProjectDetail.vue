@@ -97,7 +97,13 @@ export default {
   },
   methods: {
     exportProject() {
-      this.$router.push(`/ExportDay?projectId=${this.projectId}`);
+      this.$router.push({
+        path: "/ExportDay",
+        query: {
+          projectId: this.projectId,
+          projectName: this.projectInfo.projectName
+        }
+      });
     },
     isDelete() {
       MessageBox.confirm("确定删除此项目?").then(action => {

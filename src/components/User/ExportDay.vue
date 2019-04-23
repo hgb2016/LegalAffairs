@@ -1,6 +1,9 @@
 <template>
   <div class="export">
 		<div class="export-day">
+			<div class="export-day-nav" v-show="projectName" style="padding-bottom:10px">
+				<span>项目：{{projectName}}</span>
+			</div>
 			<div class="export-day-nav">
 				<span>选择导出那个时间段的日程</span>
 			</div>
@@ -70,6 +73,7 @@ export default {
 		return {
 			beginTime:'未选择',
 			endTime:'未选择',
+			projectName:"",
 			pickerVisible: new Date(),
 			pickerVisibleEnd: new Date(),
 			showRemind:false,
@@ -175,8 +179,12 @@ export default {
     },
 	},
 	created () {
-		this.email = this.$route.query.email
-	}
+		this.email = this.$store.getters.getUserInfo.email;
+		if (this.$route.query.projectName) {
+				this.projectName=this.$route.query.projectName
+		}
+	},
+
 }
 </script>
 

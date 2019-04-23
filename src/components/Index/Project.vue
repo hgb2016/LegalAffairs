@@ -14,7 +14,7 @@
         </div>
         <div class="Project-sort-item" @click="isstatus=!isstatus">
           <span>
-            <p>所有</p>
+            <p>{{casestatus_show}}</p>
             <i :class="isstatus? 'up':'down'"></i>
           </span>
         </div>
@@ -58,12 +58,29 @@
         >
           <div>
             <img :src="childItem.headUrl" alt>
+            <span></span>
+          </div>
+          <div>
+            <p>{{childItem.createUserName }}&nbsp;&nbsp; {{childItem.beginTime}} - {{childItem.endTime}}</p>
+            <h5>{{childItem.title}}</h5>
+            <p style="color:#0c7dff">{{childItem.hourNum}}小时</p>
+          </div>
+          <!-- <div>
+            <img :src="childItem.headUrl" alt>
             <p>{{childItem.createUserName }}</p>
             <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
           </div>
+      
           <h5>{{childItem.title}}</h5>
-          <p>{{childItem.hourNum}}小时</p>
-          <span></span>
+          <p>{{childItem.hourNum}}小时</p> 
+          <span></span>-->
+        </div>
+        <div
+          @click="goProjectDetail(item.projectId)"
+          v-show="item.isUp && item.calenderList.length==3"
+          class="Project-list-more"
+        >
+          <p>更多>></p>
         </div>
       </div>
       <h6>{{lowupdate}}</h6>
@@ -142,7 +159,6 @@ export default {
     this.loginUserId = window.localStorage.getItem("loginUserId");
     this.logintoken = window.localStorage.getItem("logintoken");
     this.getProjectList();
-
   },
   computed: {},
   methods: {
@@ -193,8 +209,7 @@ export default {
       });
       if (!data.error) {
         this.markCustomer = 0;
-        this.projectList=[],
-        this.totalPages = data.totalPages;
+        (this.projectList = []), (this.totalPages = data.totalPages);
         data.data.map(item => {
           this.projectList.push(item);
         });
@@ -234,9 +249,8 @@ export default {
             casestatus: this.casestatus,
             order: this.caseOrder
           });
-           console.log(data)
+          console.log(data);
           if (!data.error) {
-           
             this.markCustomer = 0;
             data.data.map(item => {
               this.projectList.push(item);
@@ -384,18 +398,31 @@ export default {
       }
     }
     &-childItem {
-      .f-d-f;
-      .f-fd-c;
       font-size: 14px;
-      padding: 10px 20px 10px 30px;
+      padding: 10px 20px 0px 30px;
+      .f-d-f;
+      .f-fd-r;
+      img {
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+      }
+
       div {
         .f-d-f;
-        .f-fd-r;
-        .f-ai-c;
-        img {
-          border-radius: 50%;
-          height: 20px;
-          width: 20px;
+        .f-fd-c;
+        span {
+          margin-top: 5px;
+          margin-left: 10px;
+          background: #ededed;
+          width: 1px;
+          height: 100%;
+        }
+        h5 {
+          font-weight: bold;
+          margin-top: 5px;
+          margin-left: 10px;
+          margin-bottom: 5px;
         }
         p {
           margin-top: 0px;
@@ -404,24 +431,64 @@ export default {
           margin-left: 10px;
         }
       }
-      h5 {
-        font-weight: bold;
-        margin-top: 5px;
-        margin-left: 30px;
+      div + div {
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ededed;
       }
-      p {
-        color: #0c7dff;
-        margin-top: 5px;
-        font-size: 12px;
-        margin-left: 30px;
-      }
-      span {
-        margin-top: 10px;
-        height: 0.5px;
-        background-color: #ededed;
-        margin-left: 30px;
-      }
+     
     }
+     &-more {
+        margin-left: 50px;
+        margin-right: 20px;
+        p {
+          padding-top: 5px;
+          padding-bottom: 20px;
+          width: 100%;
+          text-align: right;
+          color: #0c7dff;
+          font-size: 13px;
+        }
+      }
+    // &-childItem {
+    //   .f-d-f;
+    //   .f-fd-c;
+    //   font-size: 14px;
+    //   padding: 10px 20px 10px 30px;
+    //   div {
+    //     .f-d-f;
+    //     .f-fd-r;
+    //     .f-ai-c;
+    //     img {
+    //       border-radius: 50%;
+    //       height: 20px;
+    //       width: 20px;
+    //     }
+    //     p {
+    //       margin-top: 0px;
+    //       color: #333;
+    //       font-size: 12px;
+    //       margin-left: 10px;
+    //     }
+    //   }
+    //   h5 {
+    //     font-weight: bold;
+    //     margin-top: 5px;
+    //     margin-left: 30px;
+    //   }
+    //   p {
+    //     color: #0c7dff;
+    //     margin-top: 5px;
+    //     font-size: 12px;
+    //     margin-left: 30px;
+    //   }
+    //   span {
+    //     margin-top: 10px;
+    //     height: 0.5px;
+    //     background-color: #ededed;
+    //     margin-left: 30px;
+    //   }
+    // }
   }
   &-add {
     position: fixed;

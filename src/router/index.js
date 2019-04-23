@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import postHttp from "../assets/js/postHttp.js";
+import urljs from '../assets/js/getCode.js'
 import Index from '@/components/Index/Index'
 import Day from '@/components/Index/Day'
 import ContactList from '@/components/Index/ContactList'
@@ -35,7 +37,7 @@ const router = new Router({
       name: 'ExportDay',
       component: ExportDay,
       meta: {
-        title:'导出日程'
+        title: '导出日程'
       }
     },
     {
@@ -51,7 +53,7 @@ const router = new Router({
       name: 'Feedback',
       component: Feedback,
       meta: {
-        title:'反馈意见'
+        title: '反馈意见'
       }
     },
     {
@@ -59,7 +61,7 @@ const router = new Router({
       name: 'WhoSee',
       component: WhoSee,
       meta: {
-        title:'谁可以看我的工作'
+        title: '谁可以看我的工作'
       }
     },
     {
@@ -67,16 +69,16 @@ const router = new Router({
       name: 'AddPro',
       component: AddPro,
       meta: {
-        title:'新建项目'
+        title: '新建项目'
       }
     },
-    
+
     {
       path: '/UserInput',
       name: 'UserInput',
       component: UserInput,
       meta: {
-        title:''
+        title: ''
       }
     },
     {
@@ -84,7 +86,7 @@ const router = new Router({
       name: 'DayDetails',
       component: DayDetails,
       meta: {
-        title:'日程详情'
+        title: '日程详情'
       }
     },
     {
@@ -92,7 +94,7 @@ const router = new Router({
       name: 'CustomerDetails',
       component: CustomerDetails,
       meta: {
-        title:'客户详情'
+        title: '客户详情'
       }
     },
     {
@@ -100,7 +102,7 @@ const router = new Router({
       name: 'ToolBar',
       component: ToolBar,
       meta: {
-        title:'工具'
+        title: '工具'
       }
     },
     {
@@ -108,7 +110,7 @@ const router = new Router({
       name: 'AddDay',
       component: AddDay,
       meta: {
-        title:'添加日程'
+        title: '添加日程'
       }
     },
     {
@@ -116,7 +118,7 @@ const router = new Router({
       name: 'MyCustomer',
       component: MyCustomer,
       meta: {
-        title:'我的客户'
+        title: '我的客户'
       }
     },
     {
@@ -124,7 +126,7 @@ const router = new Router({
       name: 'AddCustomer',
       component: AddCustomer,
       meta: {
-        title:'添加客户'
+        title: '添加客户'
       }
     },
     {
@@ -132,7 +134,7 @@ const router = new Router({
       name: 'UserPhone',
       component: UserPhone,
       meta: {
-        title:'绑定手机号'
+        title: '绑定手机号'
       }
     },
     {
@@ -140,7 +142,7 @@ const router = new Router({
       name: 'UserPwd',
       component: UserPwd,
       meta: {
-        title:'修改密码'
+        title: '修改密码'
       }
     },
     {
@@ -209,11 +211,31 @@ const router = new Router({
     }
   ]
 })
-
+// router.beforeEach(async (to, from, next) => {
+//   // to and from are both route objects. must call `next`.
+//   let logintoken = window.localStorage.getItem('logintoken');
+//   //已存在用户信息直接进入页面
+//   if (logintoken) {
+//     next()
+//     return
+//   }
+//   const codes = urljs.getQueryString('code')
+//   const { data } = await postHttp.post("/User/wxLogin", {
+//     code: codes
+//   });
+//   if (!data.error) {
+//     window.localStorage.setItem("logintoken", data.data.logintoken);
+//     window.localStorage.setItem("loginUserId", data.data.loginUserId);
+//     window.localStorage.setItem('loginHeadUrl', data.data.loginHeadUrl)
+//     router.push("/");
+//   } else {
+//     window.location.href = urljs.getUrl("/");
+//   }
+// });
 router.afterEach((transition) => {
   let title;
   if (transition.meta.title === '') {
-    title = '编辑'+ transition.query.title
+    title = '编辑' + transition.query.title
   } else {
     title = transition.meta.title
   }
