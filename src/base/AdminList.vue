@@ -55,6 +55,7 @@
 
 <script>
 export default {
+	props:['email'],
 	methods:{
 		goMyCustomer () {
 			this.$router.push('MyCustomer')
@@ -63,7 +64,7 @@ export default {
 			this.$router.push('WhoSee')
 		},
 		goExportDay () {
-			this.$router.push('/ExportDay')
+			this.$router.push(`/ExportDay?email=${this.email===null?'':this.email}`)
 		},
 		goShare () {},
 		goSuggestion () {

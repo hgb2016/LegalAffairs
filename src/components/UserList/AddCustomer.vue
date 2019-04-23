@@ -28,7 +28,10 @@
 					</div>
 					<div>
 						<p>描述</p>
-						<input type="text" placeholder="请输入描述" v-model="clientRemark">
+					</div>
+					<div>
+						<textarea name="" id="" rows="5" v-model="clientRemark" placeholder="请输入描述"></textarea>
+						<!-- <input type="text" placeholder="请输入描述" v-model="clientRemark"> -->
 					</div>
 				</div>
 			</transition>
@@ -497,12 +500,11 @@ export default {
       .f-fd-c;
       height: auto;
       div {
-        height: 50px;
-        width: 100%;
+				width: 100%;
+				padding:12px 8px;
         .f-d-f;
         .f-jc-sb;
         .f-ai-c;
-        padding: 0 0px 0 8px;
         p {
           color: #666;
           font-size: 14px;
@@ -511,7 +513,12 @@ export default {
           text-align: right;
           font-size: 14px;
           color: #333;
-        }
+				}
+				textarea {
+					width:100%;
+					color:#333;
+					font-size:14px;
+				}
       }
     }
     .cist {
