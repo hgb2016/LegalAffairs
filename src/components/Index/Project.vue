@@ -65,15 +65,6 @@
             <h5>{{childItem.title}}</h5>
             <p style="color:#0c7dff">{{childItem.hourNum}}小时</p>
           </div>
-          <!-- <div>
-            <img :src="childItem.headUrl" alt>
-            <p>{{childItem.createUserName }}</p>
-            <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
-          </div>
-      
-          <h5>{{childItem.title}}</h5>
-          <p>{{childItem.hourNum}}小时</p> 
-          <span></span>-->
         </div>
         <div
           @click="goProjectDetail(item.projectId)"

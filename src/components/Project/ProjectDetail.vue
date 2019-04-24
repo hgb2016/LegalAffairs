@@ -310,19 +310,32 @@ export default {
         }
       }
     }
-    &-childItem {
-      .f-d-f;
-      .f-fd-c;
+     &-childItem {
       font-size: 14px;
-      padding: 10px 20px 10px 30px;
+      padding: 10px 20px 0px 30px;
+      .f-d-f;
+      .f-fd-r;
+      img {
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+      }
+
       div {
         .f-d-f;
-        .f-fd-r;
-        .f-ai-c;
-        img {
-          border-radius: 50%;
-          height: 20px;
-          width: 20px;
+        .f-fd-c;
+        span {
+          margin-top: 5px;
+          margin-left: 10px;
+          background: #ededed;
+          width: 1px;
+          height: 100%;
+        }
+        h5 {
+          font-weight: bold;
+          margin-top: 5px;
+          margin-left: 10px;
+          margin-bottom: 5px;
         }
         p {
           margin-top: 0px;
@@ -331,23 +344,12 @@ export default {
           margin-left: 10px;
         }
       }
-      h5 {
-        font-weight: bold;
-        margin-top: 5px;
-        margin-left: 30px;
+      div + div {
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ededed;
       }
-      p {
-        color: #0c7dff;
-        margin-top: 5px;
-        font-size: 12px;
-        margin-left: 30px;
-      }
-      span {
-        margin-top: 10px;
-        height: 0.5px;
-        background-color: #ededed;
-        margin-left: 30px;
-      }
+     
     }
   }
   &-add {
