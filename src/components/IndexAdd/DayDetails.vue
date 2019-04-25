@@ -7,8 +7,7 @@
 		</div>	
 		<div class="day-details-twoTime">
 			<div class="during">
-				<!-- <div class="during-start" @click="getStart" v-if="dayInfo.beginTime"> -->
-				<div class="during-start" v-if="dayInfo.beginTime">
+				<div class="during-start" @click="getStart" v-if="dayInfo.beginTime">
 				<!-- <div class="during-start" v-if="dayInfo.beginTime"> -->
 					<span>开始</span>
 					<p>{{dayInfo.beginTime.split(' ')[1]}}</p>
@@ -82,7 +81,7 @@
 				修改
 			</button>
 		</div>
-		<!-- <mt-datetime-picker
+		<mt-datetime-picker
 			v-model="pickerVisible"
 			type="datetime"
 			ref="picker"
@@ -93,7 +92,7 @@
 			type="datetime"
 			ref="pickerEnd"
 			@confirm="closeTimePickerEnd">
-		</mt-datetime-picker> -->
+		</mt-datetime-picker>
 		<error-remind  v-if="showRemind" @Close_errorMind="showRemind = false" :errorRemind="errorRemind"></error-remind>
     <div class="add" >
       <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
@@ -106,6 +105,8 @@ import icon_checkempty from "@/assets/img/icon_checkempty.png";
 import check_green from "@/assets/img/check_green.png";
 import ErrorRemind from "base/ErrorRemind.vue";
 import postHttp from "../../assets/js/postHttp.js";
+import { MessageBox } from 'mint-ui';
+
 export default {
   components: {
     ErrorRemind

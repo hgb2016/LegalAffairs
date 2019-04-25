@@ -165,7 +165,7 @@ export default {
     }
   }
   &-sale {
-    margin-top: 40px;
+    padding-top: 40px;
     width: 80%;
     height: 100%;
     background-color: #fff;

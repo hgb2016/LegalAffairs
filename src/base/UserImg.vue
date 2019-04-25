@@ -28,7 +28,7 @@ export default {
 	background:#fff;
 	padding:0 20px;
 	top:0px;
-	z-index:9999;
+	z-index:9990;
 	.f-d-f;
 	.f-fd-r;
 	.f-ai-c;

@@ -7,21 +7,11 @@ import store from './store'
 import { DatetimePicker } from 'mint-ui';
 import { Search } from 'mint-ui';
 import { Loadmore } from 'mint-ui';
-import { MessageBox } from 'mint-ui';
-
-
-
-import weekSlider from 'v-week-slider'
-
-Vue.use(weekSlider)
-import 'mint-ui/lib/style.css'
-
 
 import 'mint-ui/lib/style.css'
 
 
 Vue.component(Loadmore.name, Loadmore);
-Vue.component(MessageBox.name,MessageBox)
 Vue.component(DatetimePicker.name, DatetimePicker);
 Vue.component(Search.name, Search);
 Vue.config.productionTip = false

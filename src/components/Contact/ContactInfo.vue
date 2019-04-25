@@ -40,23 +40,24 @@
     </div>
     <div class="ContactInfo-calendarinfo">
       <h4>最近日程</h4>
+      <img v-show="userCalInfo.length==0" src="../../assets/img/anpai.png" alt>
       <div class="ContactInfo-calendarinfo-list" v-for="(item, index) in userCalInfo" :key="index">
         <p>{{item.beginTime}}</p>
         <span v-for="(childItem, index) in item.calendarlist" :key="index">{{childItem.titleShow}}</span>
       </div>
     </div>
-      <button class="delete_btn" @click="isDelete()">删除好友</button>
-  
+    <button class="delete_btn" @click="isDelete()">删除好友</button>
   </div>
 </template>
 
 <script>
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
-import { MessageBox } from 'mint-ui';
+import { MessageBox } from "mint-ui";
+import axios from 'axios';
 export default {
   components: {
-    calendarList,
+    calendarList
   },
   data() {
     return {
@@ -67,8 +68,8 @@ export default {
   },
   created() {
     this.userInfo = this.$route.query.userinfo;
-    console.log(this.userInfo);
     this.getFriendCalendar();
+    
   },
   methods: {
     async getFriendCalendar() {
@@ -83,13 +84,12 @@ export default {
         alert(data.message);
       }
     },
-    isDelete(){
-      MessageBox.confirm('确定删除此好友?').then(action => {
+    isDelete() {
+      MessageBox.confirm("确定删除此好友?").then(action => {
         this.deleteFriend();
       });
     },
     async deleteFriend() {
-   
       const { data } = await postHttp.post("/Calendar/getFriendCalendar", {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken: window.localStorage.getItem("logintoken"),
@@ -100,7 +100,9 @@ export default {
       } else {
         alert(data.message);
       }
-    }
+    },
+
+    
   }
 };
 </script>
@@ -112,6 +114,10 @@ export default {
   &-calendarinfo {
     padding-bottom: 40px;
     width: 100%;
+    img {
+      margin-top: 10px;
+      width: 100%;
+    }
     h4 {
       margin-top: 10px;
       margin-left: 20px;
@@ -121,6 +127,8 @@ export default {
       border-bottom: 1px solid #ededed;
       padding: 10px 0px;
       p {
+        font-size: 15px;
+        font-weight: bold;
         margin-left: 30px;
       }
       span {
@@ -128,13 +136,16 @@ export default {
         .f-fd-c;
         margin-top: 7px;
         margin-left: 40px;
+        margin-right: 40px;
+        padding: 3px 0px;
+        border-bottom: 1px #eeddee solid;
       }
     }
   }
   &-userInfo {
     width: 100%;
     &-head {
-      padding-top: 70px;
+      margin-top: 70px;
       width: 100%;
       .f-d-f;
       .f-fd-c;
@@ -179,7 +190,7 @@ export default {
     }
   }
 }
-.delete_btn{
+.delete_btn {
   background: red;
   position: fixed;
   bottom: 0;
@@ -187,6 +198,5 @@ export default {
   height: 35px;
   font-size: 14px;
   color: white;
-    
 }
 </style>

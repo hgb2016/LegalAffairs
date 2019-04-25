@@ -26,7 +26,7 @@ export default {
   top: 0;
   width: 100%;
   height: 100vh;
-  z-index: 1000;
+  z-index: 9991;
   p {
     color: #fff;
     font-size: 16px;

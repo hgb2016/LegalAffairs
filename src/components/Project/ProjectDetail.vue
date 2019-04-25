@@ -37,7 +37,12 @@
           <span>
             <p>项目日程</p>
           </span>
-          <img width="30px" src="../../assets/img/banbenjieshao (1).png" alt>
+          <img
+            @click="exportProject()"
+            width="30px"
+            src="../../assets/img/banbenjieshao (1).png"
+            alt
+          >
         </div>
       </div>
     </div>
@@ -60,7 +65,7 @@
       <button @click="isDelete()">删除项目</button>
       <button @click="editProject()">修改项目</button>
     </div>
-    <div class="Project-add" >
+    <div class="Project-add">
       <img src="../../assets/img/qianshu.png" @click="isEdit=!isEdit" alt>
       <img @click="goAddDay()" src="../../assets/img/icon_add.png" alt>
     </div>
@@ -71,7 +76,7 @@
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
 import ErrorRemind from "base/ErrorRemind.vue";
-import { MessageBox } from 'mint-ui';
+import { MessageBox } from "mint-ui";
 export default {
   components: {
     calendarList,
@@ -81,7 +86,7 @@ export default {
     return {
       projectId: "",
       projectInfo: {},
-      isEdit:false,
+      isEdit: false
     };
   },
   created() {
@@ -91,8 +96,17 @@ export default {
     this.getProjectDetail();
   },
   methods: {
-      isDelete(){
-      MessageBox.confirm('确定删除此项目?').then(action => {
+    exportProject() {
+      this.$router.push({
+        path: "/ExportDay",
+        query: {
+          projectId: this.projectId,
+          projectName: this.projectInfo.projectName
+        }
+      });
+    },
+    isDelete() {
+      MessageBox.confirm("确定删除此项目?").then(action => {
         this.deleteProject();
       });
     },
@@ -113,7 +127,7 @@ export default {
       const { data } = await postHttp.post("/Project/getProjectInfo", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
-        projectId: this.projectId
+        projectId: this.projectId,
       });
       if (!data.error) {
         this.projectInfo = data.data;
@@ -296,19 +310,32 @@ export default {
         }
       }
     }
-    &-childItem {
-      .f-d-f;
-      .f-fd-c;
+     &-childItem {
       font-size: 14px;
-      padding: 10px 20px 10px 30px;
+      padding: 10px 20px 0px 30px;
+      .f-d-f;
+      .f-fd-r;
+      img {
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+      }
+
       div {
         .f-d-f;
-        .f-fd-r;
-        .f-ai-c;
-        img {
-          border-radius: 50%;
-          height: 20px;
-          width: 20px;
+        .f-fd-c;
+        span {
+          margin-top: 5px;
+          margin-left: 10px;
+          background: #ededed;
+          width: 1px;
+          height: 100%;
+        }
+        h5 {
+          font-weight: bold;
+          margin-top: 5px;
+          margin-left: 10px;
+          margin-bottom: 5px;
         }
         p {
           margin-top: 0px;
@@ -317,23 +344,12 @@ export default {
           margin-left: 10px;
         }
       }
-      h5 {
-        font-weight: bold;
-        margin-top: 5px;
-        margin-left: 30px;
+      div + div {
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ededed;
       }
-      p {
-        color: #0c7dff;
-        margin-top: 5px;
-        font-size: 12px;
-        margin-left: 30px;
-      }
-      span {
-        margin-top: 10px;
-        height: 0.5px;
-        background-color: #ededed;
-        margin-left: 30px;
-      }
+     
     }
   }
   &-add {
@@ -343,11 +359,11 @@ export default {
     position: fixed;
     bottom: 100px;
     right: 40px;
-  
+
     img {
       margin-top: 15px;
-       width: 28px;
-       height: 28px;
+      width: 28px;
+      height: 28px;
     }
   }
 }
