@@ -46,6 +46,7 @@ export default {
   methods: {
     //选中某天
     clickDay(data) {
+      this.arr2=[]
       this.$emit('choiceDayLists',data)
     },
     //跳到了本月

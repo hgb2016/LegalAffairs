@@ -212,41 +212,41 @@ const router = new Router({
     }
   ]
 })
-router.beforeEach(async (to, from, next) => {
-  // to and from are both route objects. must call `next`.
+// router.beforeEach(async (to, from, next) => {
+//   // to and from are both route objects. must call `next`.
  
-  let logintoken = window.localStorage.getItem('logintoken');
-  //已存在用户信息直接进入页面
-  if (logintoken) {
-    next()
-    return
-  }
-  const codes = urljs.getQueryString('code')
-  axios.defaults.headers["Authorization"] =
-  "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
-  axios
-  .post(
-    "http://m.niuer.cn/ChatbotLaw/wxLogin",
-    {code:codes},
-    {
-      'Content-Type': 'application/json; charset=UTF-8',
-    }
-  )
-  .then(function(response) {
-    if (!response.data.error) {
-      window.localStorage.setItem("logintoken", response.data.data.logintoken);
-      window.localStorage.setItem("loginUserId", response.data.data.loginUserId);
-      window.localStorage.setItem('loginHeadUrl', response.data.data.loginHeadUrl)
-      router.push('/')
-    } else {
-      window.location.href = urljs.getUrl("/");
-    }
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
+//   let logintoken = window.localStorage.getItem('logintoken');
+//   //已存在用户信息直接进入页面
+//   if (logintoken) {
+//     next()
+//     return
+//   }
+//   const codes = urljs.getQueryString('code')
+//   axios.defaults.headers["Authorization"] =
+//   "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
+//   axios
+//   .post(
+//     "http://m.niuer.cn/ChatbotLaw/wxLogin",
+//     {code:codes},
+//     {
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     }
+//   )
+//   .then(function(response) {
+//     if (!response.data.error) {
+//       window.localStorage.setItem("logintoken", response.data.data.logintoken);
+//       window.localStorage.setItem("loginUserId", response.data.data.loginUserId);
+//       window.localStorage.setItem('loginHeadUrl', response.data.data.loginHeadUrl)
+//       router.push('/')
+//     } else {
+//       window.location.href = urljs.getUrl("/");
+//     }
+//   })
+//   .catch(function(error) {
+//     console.log(error);
+//   });
   
-});
+// });
 router.afterEach((transition) => {
   let title;
   if (transition.meta.title === '') {
