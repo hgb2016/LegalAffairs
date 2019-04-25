@@ -54,7 +54,7 @@
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
 import { MessageBox } from "mint-ui";
-import axios from 'axios';
+
 export default {
   components: {
     calendarList
