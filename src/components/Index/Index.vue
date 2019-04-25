@@ -40,6 +40,9 @@ import CanDemo from "base/CanDemo";
 import IndexList from "base/IndexList";
 import postHttp from "../../assets/js/postHttp.js";
 import { formatDatetime } from '../../assets/js/sort.js'
+import urljs from "../../assets/js/getCode.js";
+import axios from "axios";
+
 function currentThird () {
 	let date1 = new Date();
 	let date2 = new Date(date1);
@@ -140,15 +143,11 @@ export default {
           new Date().getMinutes() <= 9
             ? "0" + new Date().getMinutes()
             : new Date().getMinutes();
-        let sec =
-          new Date().getSeconds() <= 9
-            ? "0" + new Date().getSeconds()
-            : new Date().getSeconds();
         return y + "-" + m + "-" + d + " " + hour + ":" + min;
     },
     choiceTime (data,index) {
       this.idx = index
-			this.clickSelection = this.clickDateDefault(data)
+			this.clickSelection = this.clickDateDefault(data.replace(/-/g,'/'))
 			let newArr = []
 			this.infomationList.forEach(m =>{
 				if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],data)) {
@@ -254,6 +253,47 @@ export default {
         alert(data.message);
       }
     }
+  },
+  beforeRouteEnter(to, from, next){
+    let logintoken = window.localStorage.getItem("logintoken");
+    //已存在用户信息直接进入页面
+    if (logintoken) {
+      next();
+      return;
+    }
+    const codes = urljs.getQueryString("code");
+    axios.defaults.headers["Authorization"] =
+      "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
+    axios
+      .post(
+        "http://m.niuer.cn/ChatbotLaw/wxLogin",
+        { code: codes },
+        {
+          "Content-Type": "application/json; charset=UTF-8"
+        }
+      )
+      .then(function(response) {
+        if (!response.data.error) {
+          window.localStorage.setItem(
+            "logintoken",
+            response.data.data.logintoken
+          );
+          window.localStorage.setItem(
+            "loginUserId",
+            response.data.data.loginUserId
+          );
+          window.localStorage.setItem(
+            "loginHeadUrl",
+            response.data.data.loginHeadUrl
+          );
+          this.$router.push("/");
+        } else {
+          window.location.href = urljs.getUrl("/");
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 };
 </script>
