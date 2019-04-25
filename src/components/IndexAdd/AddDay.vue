@@ -590,7 +590,7 @@ export default {
     } else {
       if(this.$route.query.projectId){
           this.projectUid=this.$route.query.projectId;
-          this.projectTitle=this.$route.query.projectName;
+          this.projectTitle=this.$route.query.projectName;  
       }
       if (this.$route.query.clickDate) {
         this.startTime = this.clickDateDefault(this.$route.query.clickDate)

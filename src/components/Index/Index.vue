@@ -7,7 +7,7 @@
       <div v-for="(item, index) in toolList" :key="index">
         <a :href="item.url">
           <img :src="item.actionNewPic" alt>
-		    </a>
+        </a>
         <span>{{item.actionName}}</span>
       </div>
       <div @click="goToolBar">
@@ -39,35 +39,48 @@
 import CanDemo from "base/CanDemo";
 import IndexList from "base/IndexList";
 import postHttp from "../../assets/js/postHttp.js";
-import { formatDatetime } from '../../assets/js/sort.js'
-function currentThird () {
-	let date1 = new Date();
-	let date2 = new Date(date1);
+import urljs from "../../assets/js/getCode.js";
+import axios from "axios";
+import { formatDatetime } from "../../assets/js/sort.js";
+function currentThird() {
+  let date1 = new Date();
+  let date2 = new Date(date1);
   date2.setDate(date1.getDate() + 14);
-  return formatDatetime(date2)
+  return formatDatetime(date2);
 }
-function getDates() {//JS获取当前周从星期一到星期天的日期
-  let currentTime = new Date()
-    var timesStamp = currentTime.getTime();
-    var currenDay = currentTime.getDay();
-    var newdates =[];
-    for (var i = 0; i < 7; i++) {
-      var dates ={};
-      dates['status'] = false
-      dates['time'] = new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-')
-      newdates.push(dates);
+function getDates() {
+  //JS获取当前周从星期一到星期天的日期
+  let currentTime = new Date();
+  var timesStamp = currentTime.getTime();
+  var currenDay = currentTime.getDay();
+  var newdates = [];
+  for (var i = 0; i < 7; i++) {
+    var dates = {};
+    dates["status"] = false;
+    dates["time"] = new Date(
+      timesStamp + 24 * 60 * 60 * 1000 * (i - ((currenDay + 6) % 7))
+    )
+      .toLocaleDateString()
+      .replace(/\//g, "-");
+    newdates.push(dates);
+  }
+  newdates.forEach((v, index) => {
+    if (v.time.split("-")[2] <= 9) {
+      v.time =
+        v.time.split("-")[0] +
+        "-" +
+        v.time.split("-")[1] +
+        "-" +
+        "0" +
+        v.time.split("-")[2];
     }
-    newdates.forEach((v,index)=>{
-      if (v.time.split('-')[2] <= 9) {
-        v.time = v.time.split('-')[0] + '-'+ v.time.split('-')[1]+'-'+'0' + v.time.split('-')[2]
-      }
-    })
-  return newdates
+  });
+  return newdates;
 }
 export default {
   components: {
     CanDemo,
-    IndexList,
+    IndexList
   },
   data() {
     return {
@@ -75,16 +88,16 @@ export default {
       logintoken: "",
       toolList: [],
       bannerList: [],
-      beginTime:formatDatetime(new Date()-7*24*3600*1000),
-      endTime:currentThird(),
-      infomationList:[],
-      mark:true,
-      default_date:'2019-04-20',
-      weekLanguages:['一', '二', '三', '四', '五', '六',"日"],
-      sevenDay:getDates(),
-      idx:-1,
-      clickSelection:'',
-      ExhibitionLists:[]
+      beginTime: formatDatetime(new Date() - 7 * 24 * 3600 * 1000),
+      endTime: currentThird(),
+      infomationList: [],
+      mark: true,
+      default_date: "2019-04-20",
+      weekLanguages: ["一", "二", "三", "四", "五", "六", "日"],
+      sevenDay: getDates(),
+      idx: -1,
+      clickSelection: "",
+      ExhibitionLists: []
     };
   },
   created() {
@@ -94,117 +107,184 @@ export default {
     this.getBannerList();
     this.getMyCalendar();
     this.getMyCalendarD();
-    this.getDates(new Date())
-    this.defaultDD()
+    this.getDates(new Date());
+    this.defaultDD();
   },
+  beforeRouteEnter(to, from, next) {
+    let logintoken = window.localStorage.getItem("logintoken");
+    //已存在用户信息直接进入页面
+    if (logintoken) {
+      next();
+      return;
+    }
+    const codes = urljs.getQueryString("code");
+    this.autoLogin(codes);
+  },
+
   methods: {
-    goAddDay () {
-			if (this.clickSelection === '') {
-				this.$router.push('/AddDay')
-			} else {
-				this.$router.push(`/AddDay?clickDate=${this.clickSelection}`)
-			}
-		},
-    defaultDD () {
-      this.sevenDay.forEach((v,index) =>{
-        if (v.time.split('-')[2] === this.defaultDate().split('-')[2]) {
-          this.idx = index
+    async autoLogin(codes) {
+      axios.defaults.headers["Authorization"] =
+        "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
+      axios
+        .post(
+          "http://m.niuer.cn/ChatbotLaw/wxLogin",
+          { code: codes },
+          {
+            "Content-Type": "application/json; charset=UTF-8"
+          }
+        )
+        .then(function(response) {
+          if (!response.data.error) {
+            window.localStorage.setItem(
+              "logintoken",
+              response.data.data.logintoken
+            );
+            window.localStorage.setItem(
+              "loginUserId",
+              response.data.data.loginUserId
+            );
+            window.localStorage.setItem(
+              "loginHeadUrl",
+              response.data.data.loginHeadUrl
+            );
+            this.$router.push("/");
+          } else {
+            window.location.href = urljs.getUrl("/");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    goAddDay() {
+      if (this.clickSelection === "") {
+        this.$router.push("/AddDay");
+      } else {
+        this.$router.push(`/AddDay?clickDate=${this.clickSelection}`);
+      }
+    },
+    defaultDD() {
+      this.sevenDay.forEach((v, index) => {
+        if (v.time.split("-")[2] === this.defaultDate().split("-")[2]) {
+          this.idx = index;
         }
-      })
+      });
     },
     // 默认时间
     defaultDate() {
-			var y = new Date().getFullYear();
-			var m =
-				new Date().getMonth() + 1 <= 9
-					? "0" + (new Date().getMonth() + 1)
-					: new Date().getMonth() + 1;
-			var d = new Date().getDate()<= 9?'0'+new Date().getDate():new Date().getDate();
-			return y + "-" + m + "-" + d
+      var y = new Date().getFullYear();
+      var m =
+        new Date().getMonth() + 1 <= 9
+          ? "0" + (new Date().getMonth() + 1)
+          : new Date().getMonth() + 1;
+      var d =
+        new Date().getDate() <= 9
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      return y + "-" + m + "-" + d;
     },
     clickDateDefault(time) {
       let y = new Date(time).getFullYear();
-        let m =
-          new Date(time).getMonth() + 1 <= 9
-            ? "0" + (new Date(time).getMonth() + 1)
-            : new Date(time).getMonth() + 1;
-        let d =
-          new Date(time).getDate() <= 9
-            ? "0" + new Date(time).getDate()
-            : new Date(time).getDate();
-        let hour =
-          new Date().getHours() <= 9
-            ? "0" + new Date().getHours()
-            : new Date().getHours();
-        let min =
-          new Date().getMinutes() <= 9
-            ? "0" + new Date().getMinutes()
-            : new Date().getMinutes();
-        let sec =
-          new Date().getSeconds() <= 9
-            ? "0" + new Date().getSeconds()
-            : new Date().getSeconds();
-        return y + "-" + m + "-" + d + " " + hour + ":" + min;
+      let m =
+        new Date(time).getMonth() + 1 <= 9
+          ? "0" + (new Date(time).getMonth() + 1)
+          : new Date(time).getMonth() + 1;
+      let d =
+        new Date(time).getDate() <= 9
+          ? "0" + new Date(time).getDate()
+          : new Date(time).getDate();
+      let hour =
+        new Date().getHours() <= 9
+          ? "0" + new Date().getHours()
+          : new Date().getHours();
+      let min =
+        new Date().getMinutes() <= 9
+          ? "0" + new Date().getMinutes()
+          : new Date().getMinutes();
+      let sec =
+        new Date().getSeconds() <= 9
+          ? "0" + new Date().getSeconds()
+          : new Date().getSeconds();
+      return y + "-" + m + "-" + d + " " + hour + ":" + min;
     },
-    choiceTime (data,index) {
-      this.idx = index
-			this.clickSelection = this.clickDateDefault(data)
-			let newArr = []
-			this.infomationList.forEach(m =>{
-				if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],data)) {
-					newArr.push(m)
-				}
-			})
-      console.log(newArr)
-			this.ExhibitionLists = newArr
+    choiceTime(data, index) {
+      this.idx = index;
+      this.clickSelection = this.clickDateDefault(data);
+      let newArr = [];
+      this.infomationList.forEach(m => {
+        if (
+          this.nowInDateBetwen(
+            m.beginTime.split(" ")[0],
+            m.endTime.split(" ")[0],
+            data
+          )
+        ) {
+          newArr.push(m);
+        }
+      });
+      console.log(newArr);
+      this.ExhibitionLists = newArr;
     },
-    getDates(currentTime) {//JS获取当前周从星期一到星期天的日期
+    getDates(currentTime) {
+      //JS获取当前周从星期一到星期天的日期
       var timesStamp = currentTime.getTime();
       var currenDay = currentTime.getDay();
       var dates = [];
       for (var i = 0; i < 7; i++) {
-        dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-'));
+        dates.push(
+          new Date(
+            timesStamp + 24 * 60 * 60 * 1000 * (i - ((currenDay + 6) % 7))
+          )
+            .toLocaleDateString()
+            .replace(/\//g, "-")
+        );
       }
     },
-    dateClickhandler (data) {
-    },
+    dateClickhandler(data) {},
     async getMyCalendar() {
       const { data } = await postHttp.post("/Calendar/getMyCalendar", {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
-        beginTime:this.beginTime,
-        endTime:this.endTime
+        beginTime: this.beginTime,
+        endTime: this.endTime
       });
       if (!data.error) {
         data.data.forEach(v => {
-          let currentdate = new Date()
-					let vDate = new Date(v.endTime.replace(/\//g, '-'))
-          if (currentdate>vDate) {
-            v.markTime = true
+          let currentdate = new Date();
+          let vDate = new Date(v.endTime.replace(/\//g, "-"));
+          if (currentdate > vDate) {
+            v.markTime = true;
           } else {
-            v.markTime = false
+            v.markTime = false;
           }
         });
         this.infomationList = data.data;
-				data.data.forEach(m =>{
-					if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],this.defaultDate())) {
-						this.ExhibitionLists.push(m)
-					}
-				})
+        data.data.forEach(m => {
+          if (
+            this.nowInDateBetwen(
+              m.beginTime.split(" ")[0],
+              m.endTime.split(" ")[0],
+              this.defaultDate()
+            )
+          ) {
+            this.ExhibitionLists.push(m);
+          }
+        });
       } else {
         alert(data.message);
       }
     },
     nowInDateBetwen(d1, d2, date) {
-      var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
-      var dateEnd = new Date(d2.replace(/-/g, "/"));//将-转化为/，使用new Date
-      var dateNow = new Date(date.replace(/-/g, "/"));//将-转化为/，使用new Date
-      var beginDiff = dateNow.getTime() - dateBegin.getTime();//时间差的毫秒数
-      var beginDayDiff = Math.floor(beginDiff / (24 * 3600 * 1000));//计算出相差天数
-      var endDiff = dateEnd.getTime() - dateNow.getTime();//时间差的毫秒数
-      var endDayDiff = Math.floor(endDiff / (24 * 3600 * 1000));//计算出相差天数
-      if (endDayDiff >= 0 && beginDayDiff >= 0) {//已过期
-        return true
+      var dateBegin = new Date(d1.replace(/-/g, "/")); //将-转化为/，使用new Date
+      var dateEnd = new Date(d2.replace(/-/g, "/")); //将-转化为/，使用new Date
+      var dateNow = new Date(date.replace(/-/g, "/")); //将-转化为/，使用new Date
+      var beginDiff = dateNow.getTime() - dateBegin.getTime(); //时间差的毫秒数
+      var beginDayDiff = Math.floor(beginDiff / (24 * 3600 * 1000)); //计算出相差天数
+      var endDiff = dateEnd.getTime() - dateNow.getTime(); //时间差的毫秒数
+      var endDayDiff = Math.floor(endDiff / (24 * 3600 * 1000)); //计算出相差天数
+      if (endDayDiff >= 0 && beginDayDiff >= 0) {
+        //已过期
+        return true;
       }
       return false;
     },
@@ -213,18 +293,18 @@ export default {
         loginUserId: this.loginUserId,
         logintoken: this.logintoken,
         userId: this.loginUserId,
-        beginTime:this.beginTime,
-        endTime:this.endTime
+        beginTime: this.beginTime,
+        endTime: this.endTime
       });
       if (!data.error) {
-        console.log(data)
-        data.data.forEach(m=>{
-          this.sevenDay.forEach(v=>{
-            if (m.showDate.split('-')[2] === v.time.split('-')[2]) {
-              v['status'] = true
+        console.log(data);
+        data.data.forEach(m => {
+          this.sevenDay.forEach(v => {
+            if (m.showDate.split("-")[2] === v.time.split("-")[2]) {
+              v["status"] = true;
             }
-          })
-        })
+          });
+        });
       } else {
         alert(data.message);
       }
@@ -289,12 +369,12 @@ export default {
     }
   }
   &-week {
-    width:100%;
+    width: 100%;
     .f-d-f;
     .f-fd-c;
-    border-top:1px solid #e9e9e9;
-    border-bottom:1px solid #e9e9e9;
-    padding:4px 0 18px;
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 4px 0 18px;
     ul {
       .f-d-f;
       li {
@@ -303,20 +383,20 @@ export default {
         .f-ai-c;
         .f-jc-c;
         span {
-          color:#333;
-          font-size:12px;
-          padding:4px;
+          color: #333;
+          font-size: 12px;
+          padding: 4px;
         }
       }
     }
     ul + ul {
-      margin-top:10px; 
+      margin-top: 10px;
       li {
         position: relative;
         .borrdius {
-          background-color: #0D73EA;
+          background-color: #0d73ea;
           border-radius: 50%;
-          color:#fff;
+          color: #fff;
         }
         p {
           position: absolute;

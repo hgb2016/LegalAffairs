@@ -48,7 +48,7 @@
 				</li>
 				<li v-if="dayInfo.projectName">
 					<div>
-						<img class="threeImg" src="../../assets/img/location_2.png" alt="">
+						<img class="threeImg" src="../../assets/img/icon_project.png" alt="">
 						<span>{{dayInfo.projectName}}</span>
 					</div>
 					<!-- <img src="../../assets/img/arrow.png" alt=""> -->
@@ -433,10 +433,7 @@ export default {
 						color:#333;
 						font-size:14px;
 					}
-					.threeImg {
-						width:14px;
-						margin:0 6px;
-					}
+			
 					p{
             padding:4px 0;
             .f-d-f;
