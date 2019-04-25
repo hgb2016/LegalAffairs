@@ -134,7 +134,7 @@ export default {
   &-userInfo {
     width: 100%;
     &-head {
-      margin-top: 70px;
+      padding-top: 70px;
       width: 100%;
       .f-d-f;
       .f-fd-c;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="ContactList-header">
-     <div  class="ContactList-weichat">
+     <div  class="ContactList-weichat" @click="inviteFriends">
        <img src="../../assets/img/icon_weichat.png" alt="">
        <p>微信添加好友</p>
      </div>
@@ -42,6 +42,9 @@ export default {
     this.getNiuFaUser();
   },
   methods: {
+    inviteFriends () {
+      
+    },
     goContactInfo(item) {
       console.log(item);
       this.$router.push({ path: "/ContactInfo", query: { userinfo: item } });
@@ -113,7 +116,7 @@ export default {
   }
 
   &-list {
-    padding: 100px 0px 60px;
+    padding: 200px 0px 60px;
     width: 100%;
     &-item {
       .f-d-f;
