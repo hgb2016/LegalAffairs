@@ -196,17 +196,17 @@ export default {
       }
     },
     nowInDateBetwen(d1, d2, date) {
-        var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
-        var dateEnd = new Date(d2.replace(/-/g, "/"));//将-转化为/，使用new Date
-        var dateNow = new Date(date.replace(/-/g, "/"));//将-转化为/，使用new Date
-        var beginDiff = dateNow.getTime() - dateBegin.getTime();//时间差的毫秒数
-        var beginDayDiff = Math.floor(beginDiff / (24 * 3600 * 1000));//计算出相差天数
-        var endDiff = dateEnd.getTime() - dateNow.getTime();//时间差的毫秒数
-				var endDayDiff = Math.floor(endDiff / (24 * 3600 * 1000));//计算出相差天数
-				if (endDayDiff >= 0 && beginDayDiff >= 0) {//已过期
-					return true
-        }
-        return false;
+      var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
+      var dateEnd = new Date(d2.replace(/-/g, "/"));//将-转化为/，使用new Date
+      var dateNow = new Date(date.replace(/-/g, "/"));//将-转化为/，使用new Date
+      var beginDiff = dateNow.getTime() - dateBegin.getTime();//时间差的毫秒数
+      var beginDayDiff = Math.floor(beginDiff / (24 * 3600 * 1000));//计算出相差天数
+      var endDiff = dateEnd.getTime() - dateNow.getTime();//时间差的毫秒数
+      var endDayDiff = Math.floor(endDiff / (24 * 3600 * 1000));//计算出相差天数
+      if (endDayDiff >= 0 && beginDayDiff >= 0) {//已过期
+        return true
+      }
+      return false;
     },
     async getMyCalendarD() {
       const { data } = await postHttp.post("/Calendar/getMyCalendarData", {

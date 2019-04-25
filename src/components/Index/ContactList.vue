@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="ContactList-header">
-      <div class="ContactList-weichat">
+      <div class="ContactList-weichat" @click="weiChatInvite">
         <img src="../../assets/img/icon_weichat.png" alt>
         <p>微信添加好友</p>
       </div>
@@ -21,6 +21,7 @@
         <p>{{item.userName}} &nbsp; {{item.mobilePhone}}</p>
       </div>
     </div>
+    <share v-if="shareFlag" @ievent='closeShare'></share>
   </div>
 </template>
 
@@ -29,13 +30,18 @@ import postHttp from "../../assets/js/postHttp.js";
 import wx from "weixin-js-sdk";
 import * as API from "../../assets/js/api.js";
 import axios from "axios";
+import share from 'base/share'
 export default {
+  components:{
+    share
+  },
   data() {
     return {
       loginUserId: "",
       logintoken: "",
       contactlist: [],
-      keyword: ""
+      keyword: "",
+      shareFlag:false,
     };
   },
   created() {
@@ -51,6 +57,12 @@ export default {
     );
   },
   methods: {
+    closeShare () {
+      this.shareFlag = false
+    },
+    weiChatInvite () {
+      this.shareFlag = true
+    },
     goContactInfo(item) {
       console.log(item);
       this.$router.push({ path: "/ContactInfo", query: { userinfo: item } });

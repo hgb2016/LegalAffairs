@@ -53,14 +53,14 @@ export default {
     },
     //左右点击切换月份
     changeDate(data) {
-      let newMonth = new Date().getMonth()
-      if (data.split('/')[1] !== newMonth) {
+      let newMonth = new Date().getMonth()+1
+      if (data.split('/')[1] == newMonth) {
+        this.arr2 = []
+        this.$emit('changeDate',data.replace(/\//g, '-'),false)
+      } else {
         this.arr2 = []
         this.arr2.push(data.split('/')[0]+'-'+data.split('/')[1] + '-'+1)
         this.$emit('changeDate',data.replace(/\//g, '-'),true)
-      } else {
-        this.arr2 = []
-        this.$emit('changeDate',data.replace(/\//g, '-'),false)
       }
     },
     format(date, index) {
