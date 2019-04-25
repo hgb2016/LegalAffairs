@@ -90,6 +90,7 @@ export default {
 						page:this.pageNum
 					});
 					if (!data.error) {
+
 						this.markCustomer = 0
 						data.data.map(item => {
 							this.customerList.push(item);
@@ -156,7 +157,7 @@ export default {
 			}
 		}
 		p{
-			color:blue;
+			color:#333;
 			font-size:14px;
 			margin-left: 10px;
 		}

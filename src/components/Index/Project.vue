@@ -5,21 +5,22 @@
         <input @input="handelSearch()" v-model="keyword" type="text" placeholder="请输入项目名称">
         <i></i>
       </div>
-    </div>
-    <div class="Project-sort">
-      <div class="Project-sort-item" @click="issort=!issort">
-        <span>
-          <p>{{sort_name}}</p>
-          <i :class="issort? 'up':'down'"></i>
-        </span>
+      <div class="Project-sort">
+        <div class="Project-sort-item" @click="issort=!issort">
+          <span>
+            <p>{{sort_name}}</p>
+            <i :class="issort? 'up':'down'"></i>
+          </span>
+        </div>
+        <div class="Project-sort-item" @click="isstatus=!isstatus">
+          <span>
+            <p>{{casestatus_show}}</p>
+            <i :class="isstatus? 'up':'down'"></i>
+          </span>
+        </div>
       </div>
-      <div class="Project-sort-item"  @click="isstatus=!isstatus">
-        <span>
-          <p>所有</p>
-          <i :class="isstatus? 'up':'down'"></i>
-        </span>
-      </div>
     </div>
+
     <ul class="Project-sort-select" v-if="issort">
       <li
         @click="handleSelect(item)"
@@ -57,14 +58,23 @@
         >
           <div>
             <img :src="childItem.headUrl" alt>
-            <p>{{childItem.createUserName }}</p>
-            <p>{{childItem.beginTime}} - {{childItem.endTime}}</p>
+            <span></span>
           </div>
-          <h5>{{childItem.title}}</h5>
-          <p>{{childItem.hourNum}}小时</p>
-          <span></span>
+          <div>
+            <p>{{childItem.createUserName }}&nbsp;&nbsp; {{childItem.beginTime}} - {{childItem.endTime}}</p>
+            <h5>{{childItem.title}}</h5>
+            <p style="color:#0c7dff">{{childItem.hourNum}}小时</p>
+          </div>
+        </div>
+        <div
+          @click="goProjectDetail(item.projectId)"
+          v-show="item.isUp && item.calenderList.length==3"
+          class="Project-list-more"
+        >
+          <p>更多>></p>
         </div>
       </div>
+      <h6>{{lowupdate}}</h6>
     </div>
     <div class="Project-add" @click="$router.push('/CreateProject')">
       <img src="../../assets/img/icon_add.png" alt>
@@ -80,11 +90,14 @@ export default {
       projectList: [],
       keyword: "",
       casestatus: "",
-      casestatus_show:"所有",
-      cur_page: "",
+      casestatus_show: "所有",
+      cur_page: 1,
       caseOrder: "",
+      markCustomer: 1,
+      totalPages: 0,
+      lowupdate: "",
       issort: false,
-      isstatus:false,
+      isstatus: false,
       sort_name: "默认",
       navLists: [
         {
@@ -108,7 +121,7 @@ export default {
           selected: false
         }
       ],
-        statusList: [
+      statusList: [
         {
           name: "所有",
           order: "",
@@ -144,12 +157,12 @@ export default {
       item.selected = true;
       this.sort_name = item.name;
       this.issort = false;
-      if(item.name=="默认"){
-          this.caseOrder = item.order;
-      }else{
-         this.caseOrder = item.order + " desc";
+      if (item.name == "默认") {
+        this.caseOrder = item.order;
+      } else {
+        this.caseOrder = item.order + " desc";
       }
-      
+
       this.navLists.forEach(element => {
         if (element.name !== item.name) {
           element.selected = false;
@@ -157,17 +170,15 @@ export default {
       });
       this.getProjectList();
     },
-    handelSearch(){
-        this.cur_page=1;
-        this.casestatus='',
-        this.caseOrder="",
-        this.getProjectList();
+    handelSearch() {
+      this.cur_page = 1;
+      (this.casestatus = ""), (this.caseOrder = ""), this.getProjectList();
     },
-     handlestatus(item) {
+    handlestatus(item) {
       item.selected = true;
       this.casestatus_show = item.name;
       this.isstatus = false;
-      this.casestatus =item.status
+      this.casestatus = item.status;
       this.statusList.forEach(element => {
         if (element.name !== item.name) {
           element.selected = false;
@@ -185,17 +196,78 @@ export default {
         keyword: this.keyword,
         casestatus: this.casestatus,
         order: this.caseOrder,
-        page:this.cur_page
+        page: this.cur_page
       });
       if (!data.error) {
-        this.projectList = data.data;
+        this.markCustomer = 0;
+        (this.projectList = []), (this.totalPages = data.totalPages);
+        data.data.map(item => {
+          this.projectList.push(item);
+        });
+        if (data.totalPages > 1) {
+          this.lowupdate = "加载更多";
+        } else {
+          this.lowupdate = "";
+        }
         this.projectList.forEach(element => {
           this.$set(element, "isUp", false);
         });
       } else {
         alert(data.message);
       }
+    },
+    async customerScroll() {
+      let windowHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+      let scrollY =
+        document.body.scrollTop ||
+        document.documentElement.scrollTop ||
+        window.pageYOffset;
+      if (
+        scrollY + windowHeight === this.$el.getBoundingClientRect().height &&
+        this.markCustomer === 0
+      ) {
+        this.markCustomer = 1;
+        this.cur_page++;
+        if (this.cur_page <= this.totalPages) {
+          const { data } = await postHttp.post("/Project/getProjectList", {
+            loginUserId: window.localStorage.getItem("loginUserId"),
+            logintoken: window.localStorage.getItem("logintoken"),
+            page: this.cur_page,
+            keyword: this.keyword,
+            casestatus: this.casestatus,
+            order: this.caseOrder
+          });
+          console.log(data);
+          if (!data.error) {
+            this.markCustomer = 0;
+            data.data.map(item => {
+              this.projectList.push(item);
+            });
+            this.projectList.forEach(element => {
+              this.$set(element, "isUp", false);
+            });
+            if (this.cur_page < data.totalPages) {
+              this.lowupdate = "加载更多";
+            } else {
+              this.lowupdate = "";
+            }
+          }
+          this.lowupdate = "加载更多";
+        } else {
+          this.lowupdate = "";
+        }
+      }
     }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.customerScroll);
+  },
+  beforeRouteLeave(to, from, next) {
+    window.removeEventListener("scroll", this.customerScroll);
+    next();
   }
 };
 </script>
@@ -207,7 +279,7 @@ export default {
   &-header {
     background: #fff;
     position: fixed;
-    top:60px;
+    top: 60px;
     width: 100%;
     &-search {
       margin: 0px 20px 10px;
@@ -237,7 +309,7 @@ export default {
 
   &-sort {
     font-size: 14px;
-    padding: 105px 20px 5px;
+    padding: 1px 20px 5px;
     border-bottom: 1px solid #ededed;
     border-top: 1px solid #ededed;
     .f-d-f;
@@ -290,6 +362,7 @@ export default {
     }
   }
   &-list {
+    padding-top: 130px;
     padding-bottom: 60px;
     width: 100%;
     &-item {
@@ -316,18 +389,31 @@ export default {
       }
     }
     &-childItem {
-      .f-d-f;
-      .f-fd-c;
       font-size: 14px;
-      padding: 10px 20px 10px 30px;
+      padding: 10px 20px 0px 30px;
+      .f-d-f;
+      .f-fd-r;
+      img {
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+      }
+
       div {
         .f-d-f;
-        .f-fd-r;
-        .f-ai-c;
-        img {
-          border-radius: 50%;
-          height: 20px;
-          width: 20px;
+        .f-fd-c;
+        span {
+          margin-top: 5px;
+          margin-left: 10px;
+          background: #ededed;
+          width: 1px;
+          height: 100%;
+        }
+        h5 {
+          font-weight: bold;
+          margin-top: 5px;
+          margin-left: 10px;
+          margin-bottom: 5px;
         }
         p {
           margin-top: 0px;
@@ -336,24 +422,64 @@ export default {
           margin-left: 10px;
         }
       }
-      h5 {
-        font-weight: bold;
-        margin-top: 5px;
-        margin-left: 30px;
+      div + div {
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ededed;
       }
-      p {
-        color: #0c7dff;
-        margin-top: 5px;
-        font-size: 12px;
-        margin-left: 30px;
-      }
-      span {
-        margin-top: 10px;
-        height: 0.5px;
-        background-color: #ededed;
-        margin-left: 30px;
-      }
+     
     }
+     &-more {
+        margin-left: 50px;
+        margin-right: 20px;
+        p {
+          padding-top: 5px;
+          padding-bottom: 20px;
+          width: 100%;
+          text-align: right;
+          color: #0c7dff;
+          font-size: 13px;
+        }
+      }
+    // &-childItem {
+    //   .f-d-f;
+    //   .f-fd-c;
+    //   font-size: 14px;
+    //   padding: 10px 20px 10px 30px;
+    //   div {
+    //     .f-d-f;
+    //     .f-fd-r;
+    //     .f-ai-c;
+    //     img {
+    //       border-radius: 50%;
+    //       height: 20px;
+    //       width: 20px;
+    //     }
+    //     p {
+    //       margin-top: 0px;
+    //       color: #333;
+    //       font-size: 12px;
+    //       margin-left: 10px;
+    //     }
+    //   }
+    //   h5 {
+    //     font-weight: bold;
+    //     margin-top: 5px;
+    //     margin-left: 30px;
+    //   }
+    //   p {
+    //     color: #0c7dff;
+    //     margin-top: 5px;
+    //     font-size: 12px;
+    //     margin-left: 30px;
+    //   }
+    //   span {
+    //     margin-top: 10px;
+    //     height: 0.5px;
+    //     background-color: #ededed;
+    //     margin-left: 30px;
+    //   }
+    // }
   }
   &-add {
     position: fixed;
@@ -387,8 +513,15 @@ export default {
 .unselect {
   color: #333;
 }
-.ungray{
+.ungray {
   background-color: #999999;
   color: white;
+}
+h6 {
+  width: 100%;
+  text-align: center;
+  line-height: 26px;
+  font-size: 14px;
+  color: #333;
 }
 </style>

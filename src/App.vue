@@ -15,17 +15,21 @@ import TitleNav from "base/TitleNav";
 import Tab from "base/tab";
 import UserImg from "base/UserImg";
 import postHttp from "./assets/js/postHttp.js";
+import ErrorRemind from "base/ErrorRemind.vue";
 export default {
   components: {
     Tab,
     UserImg,
-    TitleNav
+    TitleNav,
+    ErrorRemind
   },
   name: "App",
   data() {
     return {
       navName: "",
-      title:''
+      title:'',
+      errorRemind:'',
+      showRemind:false,
     };
   },
   watch: {
@@ -45,15 +49,17 @@ export default {
         window.localStorage.setItem('logintoken',data.data.logintoken)
         window.localStorage.setItem('loginHeadUrl',data.data.loginHeadUrl)
       } else {
-        alert(data.message);
+        this.errorRemind=data.message
+        this.showRemind=true
+       
       }
     }
   },
   created() {
     this.title = this.$route.meta.title
     this.navName = this.$route.path;
-    this.login();
-  }
+   // this.login();
+  },
 };
 </script>
 

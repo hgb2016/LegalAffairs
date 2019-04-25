@@ -7,7 +7,7 @@ const store = () => new Vuex.Store({
 	state: {
 		loginUserId: window.localStorage.getItem("loginUserId"),
 		logintoken: window.localStorage.getItem("logintoken"),
-		userInfo:{}
+		userInfo: {}
 	},
 	getters: {
 		getUserId(state) {
@@ -16,27 +16,28 @@ const store = () => new Vuex.Store({
 		gettoken(state) {
 			return state.logintoken
 		},
-		getUserInfo (state) {
+		getUserInfo(state) {
 			return state.userInfo
 		}
 	},
 	mutations: {
-		updateUserInfo (state,payload) {
+		updateUserInfo(state, payload) {
 			Vue.set(state, 'userInfo', payload)
 		}
 	},
 	actions: {
 		// 获取用户的信息
-		async getUserInfo (context, payload) {
+		async getUserInfo(context, payload) {
 			const { data } = await postHttp.post("/User/getUserInfo", {
-        loginUserId: payload.loginUserId,
-				logintoken:payload.logintoken,
+				loginUserId: payload.loginUserId,
+				logintoken: payload.logintoken,
 			});
-      if (!data.error) {
-				context.commit('updateUserInfo',data.data)
+			if (!data.error) {
+				context.commit('updateUserInfo', data.data)
+				window.localStorage.setItem("userName",data.data.userName)
 			} else {
-        alert(data.message);
-      }
+				alert(data.message);
+			}
 		}
 	}
 })

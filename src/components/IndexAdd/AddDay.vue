@@ -588,6 +588,10 @@ export default {
 			this.editDays = true
       this.getCalendarInfo(this.$route.query.scheduleId);
     } else {
+      if(this.$route.query.projectId){
+          this.projectUid=this.$route.query.projectId;
+          this.projectTitle=this.$route.query.projectName;
+      }
       if (this.$route.query.clickDate) {
         this.startTime = this.clickDateDefault(this.$route.query.clickDate)
         this.pickerVisible = new Date(this.$route.query.clickDate)
