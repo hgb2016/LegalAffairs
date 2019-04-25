@@ -34,7 +34,6 @@ const store = () => new Vuex.Store({
 			});
 			if (!data.error) {
 				context.commit('updateUserInfo', data.data)
-				window.localStorage.setItem("userName",data.data.userName)
 			} else {
 				alert(data.message);
 			}

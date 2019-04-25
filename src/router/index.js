@@ -30,8 +30,6 @@ import CreateProject from '@/components/Project/CreateProject2'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
-  base: '/fw',
   routes: [
     {
       path: '/ExportDay',
