@@ -15,6 +15,8 @@ import TitleNav from "base/TitleNav";
 import Tab from "base/tab";
 import UserImg from "base/UserImg";
 import postHttp from "./assets/js/postHttp.js";
+import urljs from './assets/js/getCode.js'
+import axios from 'axios';
 import ErrorRemind from "base/ErrorRemind.vue";
 export default {
   components: {
@@ -59,6 +61,41 @@ export default {
     this.title = this.$route.meta.title
     this.navName = this.$route.path;
    // this.login();
+  this.$router.beforeEach(async (to, from, next) => {
+  // to and from are both route objects. must call `next`.
+ 
+  let logintoken = window.localStorage.getItem('logintoken');
+  //已存在用户信息直接进入页面
+  if (logintoken) {
+    next()
+    return
+  }
+  const codes = urljs.getQueryString('code')
+  axios.defaults.headers["Authorization"] =
+  "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
+  axios
+  .post(
+    "http://m.niuer.cn/ChatbotLaw/wxLogin",
+    {code:codes},
+    {
+      'Content-Type': 'application/json; charset=UTF-8',
+    }
+  )
+  .then(function(response) {
+    if (!response.data.error) {
+      window.localStorage.setItem("logintoken", response.data.data.logintoken);
+      window.localStorage.setItem("loginUserId", response.data.data.loginUserId);
+      window.localStorage.setItem('loginHeadUrl', response.data.data.loginHeadUrl)
+      router.push('/')
+    } else {
+      window.location.href = urljs.getUrl("/");
+    }
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+  
+});
   },
 };
 </script>
