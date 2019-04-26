@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import postHttp from "../assets/js/postHttp.js"
-import urljs from '../assets/js/getCode.js'
-import axios from 'axios';
+
 import Index from '@/components/Index/Index'
 import Day from '@/components/Index/Day'
 import ContactList from '@/components/Index/ContactList'
@@ -210,41 +209,7 @@ const router = new Router({
     }
   ]
 })
-router.beforeEach(async (to, from, next) => {
-  // to and from are both route objects. must call `next`.
- 
-  let logintoken = window.localStorage.getItem('logintoken');
-  //已存在用户信息直接进入页面
-  if (logintoken) {
-    next()
-    return
-  }
-  const codes = urljs.getQueryString('code')
-  axios.defaults.headers["Authorization"] =
-  "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";
-  axios
-  .post(
-    "http://m.niuer.cn/ChatbotLaw/wxLogin",
-    {code:codes},
-    {
-      'Content-Type': 'application/json; charset=UTF-8',
-    }
-  )
-  .then(function(response) {
-    if (!response.data.error) {
-      window.localStorage.setItem("logintoken", response.data.data.logintoken);
-      window.localStorage.setItem("loginUserId", response.data.data.loginUserId);
-      window.localStorage.setItem('loginHeadUrl', response.data.data.loginHeadUrl)
-      router.push('/')
-    } else {
-      window.location.href = urljs.getUrl("/");
-    }
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-  
-});
+
 router.afterEach((transition) => {
   let title;
   if (transition.meta.title === '') {

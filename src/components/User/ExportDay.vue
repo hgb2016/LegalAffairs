@@ -179,7 +179,7 @@ export default {
     },
 	},
 	created () {
-		this.email = this.$store.getters.getUserInfo.email;
+		this.email = window.localStorage.getItem('email');
 		if (this.$route.query.projectName) {
 				this.projectName=this.$route.query.projectName
 		}

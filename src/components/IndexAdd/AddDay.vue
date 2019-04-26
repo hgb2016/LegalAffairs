@@ -529,8 +529,8 @@ export default {
         let dayDetails = data.data;
         this.title = dayDetails.title;
         this.startTime = dayDetails.beginTime;
-        this.pickerVisible = new Date(dayDetails.beginTime);
-        this.pickerVisibleEnd = dayDetails.endTime;
+        this.pickerVisible = new Date(dayDetails.beginTime.replace(/-/g,'/'))
+        this.pickerVisibleEnd = new Date(dayDetails.endTime.replace(/-/g,'/'))
         this.timeString = [];
         dayDetails.remindList.forEach(a => {
           this.timeString.push(a.value);
@@ -574,10 +574,6 @@ export default {
           new Date(time).getMinutes() <= 9
             ? "0" + new Date(time).getMinutes()
             : new Date(time).getMinutes();
-        let sec =
-          new Date(time).getSeconds() <= 9
-            ? "0" + new Date(time).getSeconds()
-            : new Date(time).getSeconds();
         return y + "-" + m + "-" + d + " " + hour + ":" + min;
     }
   },
@@ -589,16 +585,17 @@ export default {
       this.getCalendarInfo(this.$route.query.scheduleId);
     } else {
       if(this.$route.query.projectId){
-          this.projectUid=this.$route.query.projectId;
-          this.projectTitle=this.$route.query.projectName;  
+        this.projectUid=this.$route.query.projectId;
+        this.projectTitle=this.$route.query.projectName;
       }
       if (this.$route.query.clickDate) {
-        this.startTime = this.clickDateDefault(this.$route.query.clickDate)
-        this.pickerVisible = new Date(this.$route.query.clickDate)
+        this.startTime = this.clickDateDefault(this.$route.query.clickDate.replace(/-/g,'/'))
+        this.pickerVisible = new Date(this.$route.query.clickDate.replace(/-/g,'/'))
         this.editDays = false			
-        let dateAfter = new Date(new Date(this.$route.query.clickDate).getTime() + 1 * 60 * 60 * 1000);
+        let dateAfter = new Date(new Date(this.$route.query.clickDate.replace(/-/g,'/')).getTime() + 1 * 60 * 60 * 1000);
         this.endTime = this.clickDateDefault(dateAfter);
         this.pickerVisibleEnd = dateAfter;
+        
       } else {
         this.startTime = this.defaultDate()
         this.pickerVisible = new Date();

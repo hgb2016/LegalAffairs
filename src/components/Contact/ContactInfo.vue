@@ -3,7 +3,8 @@
     <div class="ContactInfo-userInfo">
       <div class="ContactInfo-userInfo-head">
         <img :src="userInfo.headUrl" alt>
-        <p>{{userInfo.userName}}</p>
+        <b>{{userInfo.userName}}</b>
+        <p>{{userInfo.showName}}</p>
       </div>
       <ul>
         <li v-if="userInfo.company">
@@ -46,7 +47,16 @@
         <span v-for="(childItem, index) in item.calendarlist" :key="index">{{childItem.titleShow}}</span>
       </div>
     </div>
-    <button class="delete_btn" @click="isDelete()">删除好友</button>
+    <div class="ContactInfo-btn">
+      <button @click="isDelete()">删除好友</button>
+      <button @click="editRemark()">修改备注</button>
+    </div>
+    <error-remind
+      v-if="showRemind"
+      @Close_errorMind="showRemind = false"
+      :errorRemind="errorRemind"
+    ></error-remind>
+    <!-- <button class="delete_btn" @click="isDelete()">删除好友</button> -->
   </div>
 </template>
 
@@ -54,24 +64,53 @@
 import calendarList from "base/CalendarList";
 import postHttp from "../../assets/js/postHttp.js";
 import { MessageBox } from "mint-ui";
-
+import ErrorRemind from "base/ErrorRemind.vue";
 export default {
   components: {
-    calendarList
+    calendarList,
+    ErrorRemind
   },
   data() {
     return {
       userId: "",
       userInfo: "",
-      userCalInfo: []
+      userCalInfo: [],
+      showRemind: false,
+      errorRemind: ""
     };
   },
   created() {
     this.userInfo = this.$route.query.userinfo;
     this.getFriendCalendar();
-    
   },
   methods: {
+    editRemark() {
+      MessageBox.prompt(" ", "修改备注", {
+        inputPlaceholder: "请输入备注名称",
+        inputValue: this.userInfo.userName
+      }).then(({ value, action }) => {
+        this.editFriendRemark(value);
+      });
+    },
+    async editFriendRemark(remark) {
+      const { data } = await postHttp.post("/Index/editFriendRemark", {
+        loginUserId: window.localStorage.getItem("loginUserId"),
+        logintoken: window.localStorage.getItem("logintoken"),
+        id: this.userInfo.id,
+        friendRemark: remark
+      });
+      if (!data.error) {
+        this.userInfo.userName = remark;
+        this.showRemind = true;
+        this.errorRemind = "修改成功";
+        setTimeout(() => {
+          this.showRemind = false;
+          this.errorRemind = "";
+        }, 2000);
+      } else {
+        alert(data.message);
+      }
+    },
     async getFriendCalendar() {
       const { data } = await postHttp.post("/Calendar/getFriendCalendar", {
         loginUserId: window.localStorage.getItem("loginUserId"),
@@ -90,19 +129,23 @@ export default {
       });
     },
     async deleteFriend() {
-      const { data } = await postHttp.post("/Calendar/getFriendCalendar", {
+      const { data } = await postHttp.post("/Index/deleFriend", {
         loginUserId: window.localStorage.getItem("loginUserId"),
         logintoken: window.localStorage.getItem("logintoken"),
-        id: this.userInfo.userId
+        id: this.userInfo.id
       });
       if (!data.error) {
-        this.userCalInfo = data.data;
+          this.showRemind = true;
+          this.errorRemind = "删除成功";
+          setTimeout(() => {
+          this.showRemind = false;
+          this.errorRemind = "";
+           this.$router.go(-1);
+        }, 2000);
       } else {
         alert(data.message);
       }
-    },
-
-    
+    }
   }
 };
 </script>
@@ -111,8 +154,30 @@ export default {
 @import "../../assets/css/flex.less";
 .ContactInfo {
   width: 100%;
+  &-btn {
+    background-color: white;
+    padding: 0 20px 10px;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0px;
+    width: 100vw;
+    .f-d-f;
+    .f-jc-sb;
+    button {
+      width: 40%;
+      height: 100%;
+      background-color: #ccc;
+      text-align: center;
+      line-height: 40px;
+      font-size: 14px;
+      color: #fff;
+    }
+    button + button {
+      background-color: #2d75ee;
+    }
+  }
   &-calendarinfo {
-    padding-bottom: 40px;
+    padding-bottom: 50px;
     width: 100%;
     img {
       margin-top: 10px;
@@ -145,17 +210,24 @@ export default {
   &-userInfo {
     width: 100%;
     &-head {
-      margin-top: 70px;
+      margin-top: 40px;
       width: 100%;
       .f-d-f;
       .f-fd-c;
       .f-ai-c;
       img {
+        margin-top: 30px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
       }
+      b {
+        margin-top: 5px;
+        font-size: 18px;
+      }
       p {
+        font-size: 14px;
+        color: #999999;
         margin-top: 5px;
       }
     }

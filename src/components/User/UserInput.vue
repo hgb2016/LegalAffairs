@@ -79,6 +79,7 @@ export default {
 			if (!data.error) {
 				this.showRemind = true
 				this.errorRemind = '修改成功'
+      
 				setTimeout(()=>{
 					this.$router.go(-1)
 				},2000)
@@ -136,6 +137,7 @@ export default {
 			if (!data.error) {
 				this.showRemind = true
 				this.errorRemind = '修改成功'
+			
 				setTimeout(()=>{
 					this.$router.go(-1)
 				},2000)
@@ -164,6 +166,7 @@ export default {
 				if (!data.error) {
 					this.showRemind = true
 					this.errorRemind = '修改成功'
+					  window.localStorage.setItem('email',this.userInfo.email)
 					setTimeout(()=>{
 						this.$router.go(-1)
 					},2000)

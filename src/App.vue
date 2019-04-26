@@ -52,13 +52,14 @@ export default {
       } else {
         this.errorRemind=data.message
         this.showRemind=true
-       
+        
       }
     }
   },
   created() {
     this.title = this.$route.meta.title
     this.navName = this.$route.path;
+   // this.login();
   },
 };
 </script>

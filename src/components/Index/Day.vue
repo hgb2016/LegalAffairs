@@ -129,10 +129,6 @@ export default {
           new Date().getMinutes() <= 9
             ? "0" + new Date().getMinutes()
             : new Date().getMinutes();
-        let sec =
-          new Date().getSeconds() <= 9
-            ? "0" + new Date().getSeconds()
-            : new Date().getSeconds();
         return y + "-" + m + "-" + d + " " + hour + ":" + min;
     },
 		goAddDay () {
@@ -143,8 +139,9 @@ export default {
 			}
 		},
 		choiceDayLists (data) {
+			console.log(data)
 			let newClick = data.replace(/\//g, '-')
-			this.clickDate = this.clickDateDefault(data.replace(/\//g, '-'))
+			this.clickDate = this.clickDateDefault(data)
 			let newArr = []
 			this.infomationList.forEach(m =>{
 				if (this.nowInDateBetwen(m.beginTime.split(' ')[0],m.endTime.split(' ')[0],newClick)) {
