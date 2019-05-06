@@ -100,17 +100,17 @@ export default {
     this.getDates(new Date())
     this.defaultDD()
   },
-   beforeRouteEnter(to, from, next) {
-    let logintoken = window.localStorage.getItem("logintoken");
-    //已存在用户信息直接进入页面
-    if (logintoken) {
-      next();
-      return;
-    }
-    const codes = urljs.getQueryString("code");
-    this.autoLogin(codes);
-  },
-  methods: {
+  //  beforeRouteEnter(to, from, next) {
+  //   let logintoken = window.localStorage.getItem("logintoken");
+  //   //已存在用户信息直接进入页面
+  //   if (logintoken) {
+  //     next();
+  //     return;
+  //   }
+  //   const codes = urljs.getQueryString("code");
+  //   this.autoLogin(codes);
+  // },
+  methods: {  
       async autoLogin(codes) {
       axios.defaults.headers["Authorization"] =
         "NTEyZDAzYWVmZDFiNWE4ZTEzMzc1YWMwOGUxZjE0ZGU=";

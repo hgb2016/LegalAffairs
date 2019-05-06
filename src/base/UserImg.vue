@@ -10,9 +10,14 @@ export default {
 	props:['title'],
 	data () {
 		return {
-			userImg:window.localStorage.getItem('loginHeadUrl')
+			
 		}
-	}
+	},
+	computed: {
+		userImg(){
+		 return	window.localStorage.getItem('loginHeadUrl')
+		}
+	},
 }
 </script>
 
