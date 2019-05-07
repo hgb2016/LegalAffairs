@@ -44,13 +44,24 @@
       v-model="pickerVisible"
       type="date"
       ref="picker"
+			  year-format="{value}年"
+       month-format="{value}月"
+       date-format="{value}日"
+       hour-format="{value}时"
+       minute-format="{value}分"
 			:visibleItemCount="3"
       @confirm="closeTimePicker"
     ></mt-datetime-picker>
     <mt-datetime-picker
+		 
       v-model="pickerVisibleEnd"
       type="date"
       ref="pickerEnd"
+			  year-format="{value}年"
+       month-format="{value}月"
+       date-format="{value}日"
+       hour-format="{value}时"
+       minute-format="{value}分"
 			:visibleItemCount="3"	
       @confirm="closeTimePickerEnd"
     ></mt-datetime-picker>

@@ -118,6 +118,11 @@
       v-model="pickerVisible"
       type="datetime"
       ref="picker"
+       year-format="{value}年"
+       month-format="{value}月"
+       date-format="{value}日"
+       hour-format="{value}时"
+       minute-format="{value}分"
       :visibleItemCount="3"
       @confirm="closeTimePicker"
     ></mt-datetime-picker>
@@ -125,6 +130,11 @@
       v-model="pickerVisibleEnd"
       type="datetime"
       ref="pickerEnd"
+       year-format="{value}年"
+       month-format="{value}月"
+       date-format="{value}日"
+       hour-format="{value}时"
+       minute-format="{value}分"
       @confirm="closeTimePickerEnd"
       :visibleItemCount="3"
     ></mt-datetime-picker>
