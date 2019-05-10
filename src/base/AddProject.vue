@@ -128,8 +128,7 @@ export default {
   right: -100%;
   transition: right 0.2s;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 9999;
-  overflow: hidden;
+  z-index: 100;
   .f-d-f;
   .f-fd-rr;
   &-sale {
@@ -139,6 +138,7 @@ export default {
     overflow-y: scroll;
     .f-d-f;
     .f-fd-c;
+  
     position: relative;
     &-header {
       background-color: #fff;
@@ -156,7 +156,10 @@ export default {
       }
 		}
 		 &-search {
-      margin: 50px 20px 10px;
+      margin-left: 20px;
+      width: 70%;
+      position: fixed;
+      top: 50px;
       height: 30px;
       border: 1px solid #e5e5e5;
       border-radius: 10px;
@@ -180,14 +183,13 @@ export default {
     ul {
       .f-d-f;
       .f-fd-c;
-      padding: 0px 0 38px;
+      padding:90px 0 10px;
       li {
-        height: 50px;
         border-top: 1px solid #e5e5e5;
         .f-d-f;
         .f-ai-c;
         .f-jc-sb;
-        padding: 0 14px;
+        padding: 14px 14px;
         span {
           font-size: 14px;
           color: 3333;
